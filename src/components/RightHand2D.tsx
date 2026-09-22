@@ -1,96 +1,79 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, type RefObject } from 'react';
 import pointingHandImg from '../assets/pointing_hand.png';
+import { DIR_RIGHT, fingertip, fingertipGap, type HeroRig } from './heroRig';
 
 /**
  * RightHand2D
  * -----------
- * A pure HTML/CSS overlay (NOT inside the R3F Canvas).
- * Positioned at the bottom-right of the hero viewport.
- * Uses Math.atan2 in screen-space to calculate the angle from its anchor
- * (wrist, at the bottom-right corner) to the cursor, then smoothly
- * rotates the image via CSS transform so the index finger always aims
- * at the cursor.
+ * HTML overlay (not inside the Canvas). The photo has the wrist at the
+ * bottom-right and the index finger pointing up-left.
  *
- * The generated image shows a hand entering from the lower-right with
- * the index finger pointing upper-left — roughly at –135° in screen-space
- * atan2 (where Y-down, 0° = right).
+ * Every frame the image is moved so its fingertip lands on the convergence
+ * point (plus the idle gap), and rotated around the fingertip by at most ±12°
+ * towards the cursor — enough to feel alive without breaking the pose.
+ *
+ * The photo has a black background, so `mix-blend-mode: lighten` drops it
+ * onto the starfield.
  */
-export function RightHand2D() {
-  const containerRef = useRef<HTMLDivElement>(null!);
-  const currentAngle = useRef(0);
-  const targetAngle = useRef(0);
+
+// fingertip position inside pointing_hand.png, as a fraction of its size
+const TIP = { x: 0.19, y: 0.195 };
+const MAX_TILT = (12 * Math.PI) / 180;
+// direction the finger points in the photo (wrist → tip)
+const BASE_ANGLE = Math.atan2(-DIR_RIGHT.y, -DIR_RIGHT.x);
+
+export function RightHand2D({ rig }: { rig: RefObject<HeroRig> }) {
+  const imgRef = useRef<HTMLImageElement>(null!);
 
   useEffect(() => {
     let rafId: number;
+    let angle = 0;
 
-    // ---- Mouse tracking ----
-    const onMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return;
-
-      // Anchor = bottom-right corner of the container (≈ the wrist)
-      const rect = containerRef.current.getBoundingClientRect();
-      const anchorX = rect.right - 40;   // slightly inset from edge
-      const anchorY = rect.bottom - 40;
-
-      const dx = e.clientX - anchorX;
-      const dy = e.clientY - anchorY;
-
-      // Screen-space angle (Y-down, 0° = right, CW positive)
-      const mouseAngle = Math.atan2(dy, dx);
-
-      // The image's natural pointing direction ≈ upper-left from its
-      // wrist corner, which is about –135° (–3π/4) in this coord system.
-      const naturalAngle = (-3 * Math.PI) / 4;
-
-      targetAngle.current = mouseAngle - naturalAngle;
-    };
-
-    // ---- Smooth animation loop ----
     const animate = () => {
-      // Shortest-path angular lerp (handles ±π wrapping)
-      let diff = targetAngle.current - currentAngle.current;
-      while (diff > Math.PI) diff -= 2 * Math.PI;
-      while (diff < -Math.PI) diff += 2 * Math.PI;
+      const r = rig.current;
+      const img = imgRef.current;
+      if (r && img) {
+        const size = img.offsetWidth;
+        const p = fingertip(r, DIR_RIGHT, fingertipGap(r, performance.now()));
 
-      currentAngle.current += diff * 0.06;
-
-      if (containerRef.current) {
-        const img = containerRef.current.querySelector('img');
-        if (img) {
-          img.style.transform = `rotate(${currentAngle.current}rad)`;
+        let target = 0;
+        if (!r.still && !r.coarse) {
+          // wrist sits roughly one image-width back along the finger
+          const wx = p.x + DIR_RIGHT.x * size * 0.9;
+          const wy = p.y + DIR_RIGHT.y * size * 0.9;
+          let diff = Math.atan2(r.py - wy, r.px - wx) - BASE_ANGLE;
+          while (diff > Math.PI) diff -= 2 * Math.PI;
+          while (diff < -Math.PI) diff += 2 * Math.PI;
+          target = Math.max(-MAX_TILT, Math.min(MAX_TILT, diff));
         }
-      }
+        angle += (target - angle) * 0.06;
 
+        img.style.transform = `translate(${p.x - TIP.x * size}px, ${p.y - TIP.y * size}px) rotate(${angle}rad)`;
+      }
       rafId = requestAnimationFrame(animate);
     };
 
-    window.addEventListener('mousemove', onMouseMove);
     rafId = requestAnimationFrame(animate);
-
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      cancelAnimationFrame(rafId);
-    };
-  }, []);
+    return () => cancelAnimationFrame(rafId);
+  }, [rig]);
 
   return (
-    <div
-      ref={containerRef}
-      className="absolute bottom-0 right-0 pointer-events-none z-[2]"
-      style={{ width: 600, height: 600 }}
-    >
-      <img
-        src={pointingHandImg}
-        alt=""
-        draggable={false}
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'contain',
-          transformOrigin: '75% 75%',   // roughly where the wrist is
-          willChange: 'transform',
-        }}
-      />
-    </div>
+    <img
+      ref={imgRef}
+      src={pointingHandImg}
+      alt=""
+      draggable={false}
+      className="absolute left-0 top-0 pointer-events-none select-none z-[2] mix-blend-lighten"
+      style={{
+        width: 'clamp(300px, 58vw, 820px)',
+        // the photo is a cropped square — fade the right/bottom edges so the forearm doesn't end in a hard line
+        maskImage: 'linear-gradient(to right, black 70%, transparent 98%), linear-gradient(to bottom, black 70%, transparent 98%)',
+        maskComposite: 'intersect',
+        transformOrigin: `${TIP.x * 100}% ${TIP.y * 100}%`,
+        willChange: 'transform',
+        // start off-screen until the first frame positions it
+        transform: 'translate(200vw, 200vh)',
+      }}
+    />
   );
 }
