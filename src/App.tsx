@@ -10,12 +10,6 @@ import {
   Zap, 
   Trophy, 
   Users, 
-  Calendar, 
-  ArrowRight,
-  Flame,
-  Radio,
-  Gamepad2,
-  Bot,
   Award,
   ChevronRight
 } from 'lucide-react';
@@ -40,37 +34,6 @@ const stats = [
   { label: 'Events & Workshops', value: '40+', icon: Zap, color: 'from-purple-500 to-pink-500' },
   { label: 'Prize Pool', value: '₹12,00,000+', icon: Trophy, color: 'from-amber-400 to-orange-500' },
   { label: 'Participating Colleges', value: '150+', icon: Award, color: 'from-emerald-400 to-teal-500' },
-];
-
-const eventCategories = [
-  {
-    title: 'Robotics & Automation',
-    description: 'High-octane battles in Robo Soccer, Drone Racing League, and Autonomous Bot navigation.',
-    icon: Bot,
-    badge: 'Flagship',
-    gradient: 'from-blue-600/20 to-indigo-600/20 border-blue-500/30'
-  },
-  {
-    title: 'Pro Shows & Comedy Nights',
-    description: 'Star-studded performances featuring top artists, stand-up comedians, and live music acts.',
-    icon: Flame,
-    badge: 'Entertainment',
-    gradient: 'from-purple-600/20 to-pink-600/20 border-purple-500/30'
-  },
-  {
-    title: 'Esports & Gaming',
-    description: 'Intense Dota 2, Valorant, and speed cubing tournaments with massive prize pools.',
-    icon: Gamepad2,
-    badge: 'Gaming',
-    gradient: 'from-emerald-600/20 to-teal-600/20 border-emerald-500/30'
-  },
-  {
-    title: 'Guest Talks & Tech Expo',
-    description: 'Keynotes by industry visionaries, actors, founders, and cutting-edge technical exhibitions.',
-    icon: Radio,
-    badge: 'Knowledge',
-    gradient: 'from-amber-600/20 to-orange-600/20 border-amber-500/30'
-  }
 ];
 
 export const App: React.FC = () => {
@@ -123,70 +86,14 @@ export const App: React.FC = () => {
         </header>
 
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center pt-16 pb-24 overflow-hidden">
+        <section className="relative h-[calc(100svh-5rem)] min-h-[560px] overflow-hidden">
           {/* Lazy loaded 3D WebGL Canvas */}
           <Suspense fallback={<div className="absolute inset-0 bg-neutral-950" />}>
             <HeroScene />
           </Suspense>
 
-          {/* Layered Typography (pointer-events-none so mouse events go to Canvas) */}
-          <div className="max-w-5xl mx-auto text-center space-y-8 relative z-10 px-6 pointer-events-none">
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-neutral-900/90 border border-neutral-800 text-neutral-300 text-xs sm:text-sm shadow-xl backdrop-blur-md pointer-events-auto"
-            >
-              <Calendar className="w-4 h-4 text-indigo-400" />
-              <span className="font-semibold text-white">Annual Technical Fest</span>
-              <span className="text-neutral-500">•</span>
-              <span className="text-indigo-400 font-mono">BITS Hyderabad</span>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight leading-none text-balance"
-            >
-              INNOVATE.{' '}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
-                DISRUPT.
-              </span>{' '}
-              EXCEL.
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg sm:text-2xl text-neutral-400 max-w-3xl mx-auto font-light leading-relaxed drop-shadow-lg"
-            >
-              Experience South India&apos;s premier technical festival featuring robotics battles, coding marathons, celebrity guest talks, pro shows, and gaming leagues.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="pt-6 flex flex-wrap justify-center gap-4 pointer-events-auto"
-            >
-              <a
-                href="#gallery"
-                className="px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 font-bold text-white text-base shadow-2xl shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-[1.03] transition-all flex items-center space-x-3"
-              >
-                <span>View Event Gallery</span>
-                <ArrowRight className="w-5 h-5" />
-              </a>
-
-              <a
-                href="#events"
-                className="px-8 py-4 rounded-2xl bg-neutral-900 border border-neutral-800 hover:border-neutral-700 font-semibold text-neutral-200 text-base hover:bg-neutral-800/60 transition-all"
-              >
-                Explore Verticals
-              </a>
-            </motion.div>
+          <div className="absolute bottom-6 inset-x-0 z-10 text-center font-mono uppercase pointer-events-none space-y-1.5">
+            <p className="text-[9px] sm:text-[10px] tracking-[0.3em] text-neutral-500">BITS Pilani Hyderabad · Scroll to ascend</p>
           </div>
         </section>
 
