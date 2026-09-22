@@ -10,10 +10,6 @@ import {
   Zap, 
   Trophy, 
   Users, 
-  Flame,
-  Radio,
-  Gamepad2,
-  Bot,
   Award,
   ChevronRight
 } from 'lucide-react';
@@ -38,37 +34,6 @@ const stats = [
   { label: 'Events & Workshops', value: '40+', icon: Zap, color: 'from-purple-500 to-pink-500' },
   { label: 'Prize Pool', value: '₹12,00,000+', icon: Trophy, color: 'from-amber-400 to-orange-500' },
   { label: 'Participating Colleges', value: '150+', icon: Award, color: 'from-emerald-400 to-teal-500' },
-];
-
-const eventCategories = [
-  {
-    title: 'Robotics & Automation',
-    description: 'High-octane battles in Robo Soccer, Drone Racing League, and Autonomous Bot navigation.',
-    icon: Bot,
-    badge: 'Flagship',
-    gradient: 'from-blue-600/20 to-indigo-600/20 border-blue-500/30'
-  },
-  {
-    title: 'Pro Shows & Comedy Nights',
-    description: 'Star-studded performances featuring top artists, stand-up comedians, and live music acts.',
-    icon: Flame,
-    badge: 'Entertainment',
-    gradient: 'from-purple-600/20 to-pink-600/20 border-purple-500/30'
-  },
-  {
-    title: 'Esports & Gaming',
-    description: 'Intense Dota 2, Valorant, and speed cubing tournaments with massive prize pools.',
-    icon: Gamepad2,
-    badge: 'Gaming',
-    gradient: 'from-emerald-600/20 to-teal-600/20 border-emerald-500/30'
-  },
-  {
-    title: 'Guest Talks & Tech Expo',
-    description: 'Keynotes by industry visionaries, actors, founders, and cutting-edge technical exhibitions.',
-    icon: Radio,
-    badge: 'Knowledge',
-    gradient: 'from-amber-600/20 to-orange-600/20 border-amber-500/30'
-  }
 ];
 
 export const App: React.FC = () => {
