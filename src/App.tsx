@@ -89,13 +89,11 @@ export const App: React.FC = () => {
         <section className="relative h-[calc(100svh-5rem)] min-h-[560px] overflow-hidden">
           {/* Lazy loaded 3D WebGL Canvas */}
           <Suspense fallback={<div className="absolute inset-0 bg-neutral-950" />}>
-            {/* TODO: hook onPlay up to the teaser modal in a follow-up PR */}
             <HeroScene />
           </Suspense>
 
           <div className="absolute bottom-6 inset-x-0 z-10 text-center font-mono uppercase pointer-events-none space-y-1.5">
-            <p className="text-[10px] sm:text-xs tracking-[0.35em] text-neutral-300">ATMOS '26 · Augmented Ascension</p>
-            <p className="text-[9px] sm:text-[10px] tracking-[0.3em] text-neutral-600">BITS Pilani Hyderabad · @atmos_bitshyd</p>
+            <p className="text-[9px] sm:text-[10px] tracking-[0.3em] text-neutral-500">BITS Pilani Hyderabad · Scroll to ascend</p>
           </div>
         </section>
 
