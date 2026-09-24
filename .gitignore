@@ -33,3 +33,5 @@ design/logo/layers/
 .impeccable/review/
 .playwright-mcp/
 .recording/
+.vercel
+.env*
