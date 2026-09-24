@@ -1,32 +1,23 @@
-# React + TypeScript + Vite
+# ATMOS '26
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Official website of **ATMOS '26**, the technical fest of BITS Pilani, Hyderabad Campus. **Fri 23 – Sun 25 October 2026.**
+*Augmented Ascension: The Transitional Convergence.*
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## Run it
+```bash
+npm install
+npm run dev        # http://localhost:5173
+npm run build      # production build into dist/
+npm run lint
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Before you change anything
+- **[AGENTS.md](AGENTS.md)**: rules for humans and AI agents (Antigravity, Cursor, Copilot). Read it first.
+- **[DESIGN.md](DESIGN.md)**: the visual system (colours, type, motion, do's and don'ts).
+- **[PRODUCT.md](PRODUCT.md)**: audience, facts and what must not be invented.
+- **[design/ASSETS.md](design/ASSETS.md)**: how the logo layers and 3D particle shapes are generated.
+
+The official logo is never redrawn. `python scripts/verify_logo.py` proves the hero's logo layers match `atmos-website.jpg` pixel for pixel, and CI runs it on every pull request.
+
+## Contributing
+Work on a branch, open a pull request into `main`, fill in the template (with desktop and phone screenshots), and wait for CI and a review. Details are in [AGENTS.md → Git workflow](AGENTS.md#git-workflow).
