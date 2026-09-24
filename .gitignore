@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# design working files (regenerable; see design/ASSETS.md)
+design/review/
+design/reels/
+design/incoming/
+design/3d/
+design/logo/debug/
+design/logo/layers/
+.impeccable/review/
+.playwright-mcp/
+.recording/
