@@ -1,6 +1,7 @@
 @import "@fontsource-variable/cinzel";
 @import "@fontsource-variable/archivo/wdth";
 @import "@fontsource/stardos-stencil/latin-700";
+@import "@fontsource/big-shoulders-stencil-display/latin-700";
 @import "tailwindcss";
 
 /* ── ATMOS '26 tokens ─────────────────────────────────────────────
@@ -25,6 +26,7 @@
   --font-cinzel: "Cinzel Variable", "Cinzel", serif;
   /* the reel's "30 DAYS TO GO" face */
   --font-stencil: "Stardos Stencil", "Archivo Variable", serif;
+  --font-display: "Big Shoulders Stencil Display", "Archivo Variable", sans-serif;
   --font-sans: "Archivo Variable", "Archivo", system-ui, sans-serif;
 
   /* text depth: a soft drop like the one under the logo's stone letters, plus a
@@ -210,15 +212,13 @@ html.has-reticle * { cursor: none; }
 html.has-reticle input,
 html.has-reticle textarea { cursor: text; }
 
-/* Boon-scale statements: expanded grotesk caps */
+/* statements: condensed stencil caps, like crate markings in a machine shop */
 @utility display {
-  font-family: var(--font-sans);
-  font-stretch: 104%;
-  @media (width >= 48rem) { font-stretch: 118%; }
-  font-weight: 560;
+  font-family: var(--font-display);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: -0.025em;
-  line-height: 0.92;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
   text-shadow: var(--shadow-text-display);
 }
 
