@@ -78,7 +78,7 @@ export function Hero() {
         style={still ? undefined : { opacity: textOpacity, y: textY }}
       >
         <motion.div {...reveal(2.5)}>
-          <Countdown className="text-[16vw] sm:text-[min(15vw,21svh)]" />
+          <Countdown className="text-[18vw] sm:text-[min(15vw,17svh)]" />
         </motion.div>
 
         <motion.div
