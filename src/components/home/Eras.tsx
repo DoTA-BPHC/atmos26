@@ -64,10 +64,10 @@ export function Eras() {
                 exit={{ opacity: 0, y: -24, filter: 'blur(10px)' }}
                 transition={{ duration: 0.7, ease: EXPO }}
               >
-                <p className="stencil text-[clamp(1.6rem,3vw,2.6rem)] text-brass" style={{ textTransform: 'none' }}>
+                <p className="stencil text-[clamp(1.3rem,2vw,1.8rem)] text-brass" style={{ textTransform: 'none' }}>
                   {era.when}
                 </p>
-                <p className="display mt-3 text-[clamp(2.2rem,6vw,7rem)] text-stone">{era.name}</p>
+                <p className="display mt-3 text-[clamp(2rem,4.2vw,4rem)] text-stone">{era.name}</p>
                 <p className="mt-6 max-w-[34ch] text-[clamp(1.05rem,1.4vw,1.3rem)] leading-relaxed text-stone-dim text-pretty text-lift">
                   {era.line}
                 </p>

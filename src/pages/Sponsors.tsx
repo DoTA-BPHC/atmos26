@@ -15,7 +15,7 @@ export default function Sponsors() {
         <div className="mx-auto grid max-w-[1440px] gap-px bg-stone/12 sm:grid-cols-2 lg:grid-cols-4">
           {STATS.map((s) => (
             <div key={s.label} className="bg-void p-6">
-              <p className="display text-[clamp(2.6rem,4vw,3.8rem)] text-stone">
+              <p className="display text-[clamp(2rem,2.8vw,2.5rem)] text-stone">
                 {'prefix' in s ? s.prefix : ''}
                 {s.value.toLocaleString('en-IN')}
                 {s.suffix}
@@ -32,7 +32,7 @@ export default function Sponsors() {
         <div className="mx-auto max-w-[1440px] space-y-16">
           {SPONSOR_TIERS.map((t) => (
             <div key={t.tier}>
-              <h2 className="display text-[clamp(1.8rem,3vw,2.8rem)] text-stone">{t.tier}</h2>
+              <h2 className="display text-[clamp(1.5rem,2vw,1.9rem)] text-stone">{t.tier}</h2>
               <ul className={`mt-6 grid gap-3 ${t.slots === 1 ? '' : t.slots <= 3 ? 'sm:grid-cols-3' : 'grid-cols-2 sm:grid-cols-4'}`}>
                 {Array.from({ length: t.slots }).map((_, i) => {
                   const s = t.sponsors[i];
@@ -59,7 +59,7 @@ export default function Sponsors() {
 
       <section className="px-4 pb-28 sm:px-8">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-6 border-t border-stone/12 pt-10 md:flex-row md:items-end md:justify-between">
-          <p className="display max-w-[18ch] text-[clamp(2rem,4.5vw,4rem)] text-stone">
+          <p className="display max-w-[18ch] text-[clamp(1.8rem,3vw,2.6rem)] text-stone">
             Put your name <span className="text-brass-hi">on the convergence.</span>
           </p>
           <a href={mail} className="inline-flex h-12 items-center justify-center bg-stone px-7 font-semibold text-void transition-colors hover:bg-brass-hi">

@@ -19,7 +19,7 @@ export function Convergence() {
       aria-labelledby="convergence-title"
     >
       <div className="sticky top-0 flex h-svh items-center justify-center px-4 sm:px-8">
-        <h2 id="convergence-title" className="display max-w-[16ch] text-center text-[clamp(2.3rem,6.4vw,6.2rem)] text-stone">
+        <h2 id="convergence-title" className="display max-w-[16ch] text-center text-[clamp(2rem,4.2vw,4rem)] text-stone">
           <motion.span className="block" {...line(0)}>
             Every era built
           </motion.span>

@@ -16,7 +16,7 @@ export function GalleryStrip() {
   return (
     <ShapeSection pose={{ shape: 'dust', opacity: 0 }} className="relative overflow-hidden py-[14svh]" aria-labelledby="gal-title">
       <div className="mx-auto flex max-w-[1440px] flex-wrap items-end justify-between gap-6 px-4 sm:px-8">
-        <h2 id="gal-title" className="display text-[clamp(2.4rem,5.5vw,5.2rem)] text-stone">
+        <h2 id="gal-title" className="display text-[clamp(2rem,3.6vw,3.4rem)] text-stone">
           Been here <span className="text-brass-hi">before?</span>
         </h2>
         <Link to="/gallery" className="text-[1.05rem] text-stone-dim underline decoration-brass/60 hover:text-stone">

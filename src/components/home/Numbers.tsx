@@ -36,7 +36,7 @@ export function Numbers() {
               transition={{ duration: 1, ease: EXPO, delay: i * 0.05 }}
               className="grid grid-cols-1 items-end gap-2 border-t border-stone/12 py-6 sm:grid-cols-[1fr_auto] md:py-8"
             >
-              <dd className="display order-2 text-[clamp(3.6rem,11vw,10.5rem)] text-stone sm:order-1">
+              <dd className="display order-2 text-[clamp(3rem,7vw,6.8rem)] text-stone sm:order-1">
                 <Figure to={s.value} prefix={'prefix' in s ? s.prefix : ''} suffix={s.suffix} />
               </dd>
               <dt className="text-lift order-1 text-[clamp(1.05rem,1.5vw,1.35rem)] sm:order-2 sm:pb-4 sm:text-right">

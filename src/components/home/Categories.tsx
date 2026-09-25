@@ -25,7 +25,7 @@ export function Categories() {
     >
       <div className="mx-auto max-w-[1440px]">
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <h2 id="cats-title" className="display text-[clamp(2.4rem,5.5vw,5.2rem)] text-stone">
+          <h2 id="cats-title" className="display text-[clamp(2rem,3.6vw,3.4rem)] text-stone">
             Pick your <span className="text-brass-hi">arena</span>
           </h2>
           <Link to="/events" className="text-[1.05rem] text-stone-dim underline decoration-brass/60 hover:text-stone">
@@ -46,7 +46,7 @@ export function Categories() {
                   className="group relative grid grid-cols-[1fr_auto] items-center gap-6 py-6 md:py-8"
                 >
                   <span
-                    className={`display text-[clamp(1.9rem,8vw,7.5rem)] transition-[color,transform] duration-500 ease-out-expo ${
+                    className={`display text-[clamp(1.75rem,4.6vw,4.25rem)] transition-[color,transform] duration-500 ease-out-expo ${
                       hot && !on ? 'text-stone/25' : 'text-stone'
                     } ${on ? 'translate-x-3 text-brass-hi' : ''}`}
                   >

@@ -74,7 +74,7 @@ export function Manifesto() {
         />
 
         <div className="relative mx-auto flex h-full w-full max-w-[1440px] flex-col justify-start px-4 pt-24 sm:px-8 md:justify-center md:pt-0">
-          <h2 id="close-title" className="display text-[clamp(2rem,4.2vw,4.6rem)]">
+          <h2 id="close-title" className="display text-[clamp(1.8rem,3vw,3rem)]">
             {LINES.map((l, i) => (
               <motion.span
                 key={l.t}

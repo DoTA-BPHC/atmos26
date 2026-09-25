@@ -56,7 +56,7 @@ export default function Contact() {
                 className="group grid gap-2 py-7 md:grid-cols-[14rem_1fr] md:items-baseline"
               >
                 <span className="text-stone-mute">{r.label}</span>
-                <span className="display text-[clamp(1.25rem,3.3vw,3.3rem)] normal-case text-stone [hyphens:none] transition-colors duration-300 group-hover:text-brass-hi">
+                <span className="text-[clamp(1.25rem,2.6vw,2.4rem)] font-semibold text-stone [hyphens:none] transition-colors duration-300 group-hover:text-brass-hi">
                   {r.value}
                 </span>
               </a>

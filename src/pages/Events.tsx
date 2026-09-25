@@ -80,7 +80,7 @@ export default function Events() {
                         {e.category}
                       </span>
                     </div>
-                    <h2 className="display mt-5 text-[clamp(1.6rem,2.4vw,2.2rem)] text-stone">{e.title}</h2>
+                    <h2 className="display mt-5 text-[clamp(1.5rem,2vw,1.9rem)] text-stone">{e.title}</h2>
                     <p className="mt-3 text-stone-dim text-pretty">{e.summary}</p>
                     <dl className="mt-5 grid grid-cols-3 border-t border-stone/12 pt-4 text-sm">
                       <div>
@@ -103,7 +103,7 @@ export default function Events() {
           </motion.ul>
 
           <div className="mt-24 flex flex-col items-start gap-6 border-t border-stone/12 pt-10 md:flex-row md:items-center md:justify-between">
-            <p className="display max-w-[20ch] text-[clamp(1.8rem,3.4vw,3rem)] text-stone">
+            <p className="display max-w-[20ch] text-[clamp(1.7rem,2.6vw,2.2rem)] text-stone">
               One pass. <span className="text-brass-hi">Every arena.</span>
             </p>
             <PassesButton />

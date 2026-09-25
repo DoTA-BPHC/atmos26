@@ -12,7 +12,7 @@ export function ProshowTeaser() {
       <img src="/gallery/proshow.jpg" alt="" className="duotone absolute inset-0 -z-10 size-full object-cover opacity-40" />
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,#000_0%,rgb(0_0_0/0.4)_35%,rgb(0_0_0/0.4)_65%,#000_100%)]" />
       <div className="mx-auto max-w-[1440px]">
-        <h2 id="pro-title" className="display text-[clamp(2.4rem,6vw,6rem)] text-stone">
+        <h2 id="pro-title" className="display text-[clamp(2rem,3.9vw,3.9rem)] text-stone">
           Three nights.
           <br />
           <span className="text-brass-hi">Names sealed.</span>
@@ -30,7 +30,7 @@ export function ProshowTeaser() {
               <p className="text-lift text-stone-dim">
                 {p.night} · {p.date}
               </p>
-              <p className="stencil glitch-text text-[clamp(3rem,9vw,8rem)] text-stone" data-text={p.codename}>
+              <p className="stencil glitch-text text-[clamp(2.4rem,5.8vw,5.2rem)] text-stone" data-text={p.codename}>
                 {p.codename}
               </p>
               <p className="text-lift text-stone-dim md:text-right">
