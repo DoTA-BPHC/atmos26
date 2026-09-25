@@ -17,7 +17,7 @@ colors:
 typography:
   countdown:
     fontFamily: "Stardos Stencil, Archivo Variable, serif"
-    fontSize: "min(15vw, 21svh)"
+    fontSize: "min(15vw, 17svh)"
     fontWeight: 700
     lineHeight: 0.9
     letterSpacing: "-0.01em"
@@ -143,7 +143,7 @@ components:
 
 **Creative North Star: "The Countdown Reel, Played at Site Scale"**
 
-The site is the fest's Instagram campaign made navigable. It opens on the countdown reel's end card: the official artwork builds itself layer by layer, then "N DAYS TO GO" lands under it in the reel's stencil with a red glitch. Below that, one field of twelve thousand brass dots turns into each era's machine as you scroll: a pocket watch, a locomotive, a circuit city, a DNA helix, a brain, then two hands, then the logo's ring. Everything sits on pure black. The page is lit by the dots, a single brass-lit phrase per statement, and whatever photo is under the pointer.
+The site is the fest's Instagram campaign made navigable. It opens on the countdown reel's end card: the official artwork builds itself layer by layer, then a live days : hours : minutes : seconds clock lands under it in the reel's stencil, digits rolling like a mechanical counter, with a red glitch. Below that, one field of twelve thousand brass dots turns into each era's machine as you scroll: a pocket watch, a locomotive, a circuit city, a DNA helix, a brain, then two hands, then the logo's ring. Everything sits on pure black. The page is lit by the dots, a single brass-lit phrase per statement, and whatever photo is under the pointer.
 
 Density is low and scale is high. Statements are set in expanded grotesk caps as large as the viewport allows. Lists are full-width hairline rows, not grids of cards. Photos rest in a black-to-brass duotone and get their colour back only when you point at them. The surface is analogue film rather than a HUD: static grain over everything, and projector-gate scratches over the hero and page headers. The world is built to refuse the dark sci-fi HUD kit (mono micro-labels, notched buttons, corner brackets, glow orbs) and the generic fest template (video hero and neon cards).
 
@@ -199,7 +199,7 @@ A black void with brass as the structural ink, stone for reading, teal light hel
 **Character:** The stencil comes straight from the countdown reel and speaks for time and names. The expanded Archivo caps carry statements at poster scale. Plain Archivo handles reading and every control, in sentence case.
 
 ### Hierarchy
-- **Countdown** (Stardos Stencil 700, 16vw on phones and min(15vw, 21svh) above, 0.9 line-height, compressed horizontally to 74%): "29 DAYS TO GO" in the hero. Stone, one line, a glitch every 5–12 s.
+- **Countdown** (Stardos Stencil 700, 18vw on phones and min(15vw, 17svh) above, compressed horizontally to 74%): "27:07:42:19" in the hero, stone digits with stone-mute colons, and "days / hrs / min / sec" under each group in plain Archivo (0.95rem, stone-dim, sentence case). One line, a glitch every 5–12 s.
 - **Stencil** (700, clamp(3rem, 9vw, 8rem), 0.9): proshow codenames, the footer wordmark (clamp(3.4rem, 6vw, 5.5rem)), the 404 title, the nav wordmark (1.35rem), category counts (1.875rem), the preloader percentage. Era years use it in brass at clamp(1.6rem, 3vw, 2.6rem) with the uppercase transform switched off.
 - **Display** (Archivo 560, uppercase, width 104% on phones and 118% from 48rem, -0.025em, 0.92): page titles at clamp(3rem, 11vw, 11rem), stat figures at clamp(3.6rem, 11vw, 10.5rem), category rows at clamp(1.9rem, 8vw, 7.5rem), era names at clamp(2.2rem, 6vw, 7rem).
 - **Headline** (display voice, clamp(2.4rem, 5.5vw, 5.2rem) to clamp(2.4rem, 6vw, 6rem)): section statements, with the closing statement at clamp(2rem, 4.2vw, 4.6rem).
@@ -212,7 +212,7 @@ A black void with brass as the structural ink, stone for reading, teal light hel
 ### Named Rules
 **The Three Voices Rule.** Stencil is for time and names, expanded caps are for statements, and plain Archivo is for reading and controls. Cinzel belongs to the logo and the preloader dial, and nowhere else.
 
-**The Condensed Clock Rule.** The countdown is always the stencil compressed horizontally to 74% on one line, filling close to the full content width.
+**The Condensed Clock Rule.** The countdown is always the stencil compressed horizontally to 74% on one line, filling close to the full content width. Its unit words are counter-scaled so they read at normal proportions.
 
 **The Sentence-Case Controls Rule.** Nav links, buttons and tabs are in sentence case at normal width. Caps are for statements only.
 
@@ -277,7 +277,7 @@ Full-width rows with the category name in display caps at clamp(1.9rem, 8vw, 7.5
 One fixed WebGL layer of 12,000 dots behind the page. Each section declares a pose (shape, position, size, tilt, spin, opacity, plus phone overrides) and takes over the field when it crosses the middle of the viewport. There are eight baked shapes (hands, watch, locomotive, city, DNA, brain, rings, halo) plus procedural dust as the resting state. Transitions ripple: each dot leaves at its own moment, swirls outward mid-flight and settles with a cubic ease-out. At rest, the dots breathe slightly. They are coloured from brass-hi to brass, darkening toward brass-lo with depth, with a roughly 14% sprinkle of teal to signal. On fine pointers the cursor pushes dots aside, and the pushed dots flash toward signal. Sections that need to be read (gallery, proshows) set the field to opacity 0.
 
 ### Countdown (signature)
-The reel's title card, live. It counts whole days to opening in IST and switches to "Day N is live" during the fest and "See you in '27" after it. It is the stencil at 74% width. A red and cyan channel split fires 0.9 s after the hero lands, then every 5–12 s. Each split runs 0.42 s in two steps, with clipped slices offset by 2–4px. The same split runs on hover over proshow codenames and once on the 404 title.
+The reel's title card, live to the second. It counts days, hours, minutes and seconds to opening (09:00 IST on day one) and switches to "Day N is live" during the fest and "See you in '27" after it. It is the stencil at 74% width. Each digit sits in a fixed 0.6em slot and rolls up to its new value (0.55 s, expo-out, 4px blur to sharp); with reduced motion the digits swap in place. Screen readers get one sentence that changes once a day ("27 days to go until ATMOS 2026."), not the ticking digits. A red and cyan channel split fires 0.9 s after the hero lands, then every 5–12 s. Each split runs 0.42 s in two steps, with clipped slices offset by 2–4px. The same split runs on hover over proshow codenames and once on the 404 title.
 
 ### Film scratches (signature)
 A canvas overlay that redraws at 12 fps and pauses when off screen. Each frame draws hairline curves, dust specks and up to two wandering vertical scratches, all in warm white at 12–53% opacity. It covers the hero (density 0.8, opacity 0.8, screen blend) and every page header (density 0.5, opacity 0.6). It is off for reduced motion.
@@ -287,7 +287,7 @@ A canvas overlay that redraws at 12 fps and pauses when off screen. Each frame d
 - **Blur-to-sharp reveal:** statements and page titles rise 0.3–0.5em from a 10px blur to sharp over 1.1 s, with lines staggered 0.1 s. Eras cross-fade the same way over 0.7 s.
 - **Row entrance:** rows rise 30–40px and fade in over 0.9–1 s, staggered 0.05–0.08 s, once each.
 - **Route iris:** a void layer clipped to a circle closes to 75vmax (0.55 s) while a 2px brass ring swells with it. Both then contract to a point to reveal the next page (0.66 s). The first page of a visit skips the iris.
-- **Logo build-up:** the ring draws itself (1.6 s stroke), the vortex spins up, circuits light outward, the two hands glide in, a spark marks where they meet, the letters ripple out from the M, and the taglines wipe in. After that, the layers idle with parallax. The preloader's brass watch case becomes the hero ring.
+- **Logo build-up:** the ring draws itself (1.6 s stroke), the vortex spins up, circuits light outward, the two hands glide in, a spark marks where they meet, the letters ripple out from the M, and the taglines wipe in. After that, the layers idle with parallax, driven by the mouse or, on phones, by device tilt. With a mouse, the hands part as the pointer moves over the ring and close again as it nears the meeting point, sparking on contact. A click or tap inside the ring replays the convergence (hands part, rejoin, spark, letters ripple). Circling the pointer or scrolling stirs the vortex disc, which always settles back to the artwork's pose. The preloader's brass watch case becomes the hero ring.
 - **Reduced motion:** no preloader, no iris, no grain stepping, no scratches, a static hero and near-instant transitions.
 
 ## Do's and Don'ts
