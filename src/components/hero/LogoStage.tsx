@@ -42,10 +42,17 @@ const ringOrigin = (l: { x: number; y: number; w: number; h: number }) =>
 
 const EXPO = [0.16, 1, 0.3, 1] as const;
 
+const clamp = (v: number, m: number) => Math.max(-m, Math.min(m, v));
+const unitVec = (x: number, y: number) => {
+  const l = Math.hypot(x, y) || 1;
+  return { x: x / l, y: y / l };
+};
+
 export function LogoStage({
   play,
   still,
   interactive,
+  fine,
   exit,
   skipRingDraw = false,
   onBuilt,
@@ -54,8 +61,10 @@ export function LogoStage({
   play: boolean;
   /** reduced motion: show the final pose immediately */
   still: boolean;
-  /** pointer parallax */
+  /** parallax, hands, tap and vortex (after the build-up) */
   interactive: boolean;
+  /** mouse available: hands follow it; otherwise tilt drives the parallax */
+  fine: boolean;
   /** 0..1 as the hero scrolls away */
   exit: MotionValue<number>;
   /** the preloader already left a ring in place */
@@ -118,33 +127,181 @@ export function LogoStage({
     run();
   }, [play, still, animate, onBuilt, skipRingDraw]);
 
-  // ---- idle parallax, only after the build-up ----
+  // ---- after the build-up: parallax (pointer or tilt), hands that follow the
+  // pointer, tap to converge again, a vortex you can stir. Everything eases
+  // back to zero, so at rest the layers sit exactly as in the artwork. ----
   useEffect(() => {
     if (!interactive || still) return;
     const root = scope.current;
     const wraps = [...root.querySelectorAll<HTMLElement>('[data-layer]')];
-    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+    const wrap = (n: LayerName) => wraps.find((w) => w.dataset.layer === n)!;
+    const disc = wrap('disc');
+    disc.style.transformOrigin = ringOrigin(layers.find((l) => l.name === 'disc')!);
+    const ht = layers.find((l) => l.name === 'hand_top')!;
+    const hb = layers.find((l) => l.name === 'hand_bottom')!;
+    // each hand parts along the diagonal it flew in on
+    const dirTop = unitVec(-0.42 * ht.w, -0.46 * ht.h);
+    const dirBot = unitVec(0.38 * hb.w, 0.4 * hb.h);
+
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0, visible = true;
+    let over = false, lx = 0, ly = 0, prevX = NaN, prevY = NaN;
+    let gap = 0, leanX = 0, leanY = 0;
+    let armed = true, cooldown = 0;
+    let burstAt = -1, burstFired = false;
+    let theta = 0, omega = 0, lastScroll = window.scrollY;
+    let downX = 0, downY = 0;
+    let tiltBase: { b: number; g: number } | null = null;
+
+    const toLogo = (e: PointerEvent) => {
+      const r = root.getBoundingClientRect();
+      return { x: ((e.clientX - r.left) / r.width) * SIZE, y: ((e.clientY - r.top) / r.height) * SIZE };
+    };
+    const inRing = (x: number, y: number) => Math.hypot(x - RING.cx, y - RING.cy) < RING.r;
+
     const onMove = (e: PointerEvent) => {
+      if (!fine || e.pointerType !== 'mouse') return;
       tx = (e.clientX / window.innerWidth) * 2 - 1;
       ty = (e.clientY / window.innerHeight) * 2 - 1;
+      const p = toLogo(e);
+      over = inRing(p.x, p.y);
+      if (over && !Number.isNaN(prevX)) {
+        // stirring: how far the pointer swept around the ring centre
+        const rx = p.x - RING.cx, ry = p.y - RING.cy;
+        const swept = (rx * (p.y - prevY) - ry * (p.x - prevX)) / (rx * rx + ry * ry + 1e3);
+        omega = clamp(omega + swept * 57.3 * 0.4, 6);
+      }
+      prevX = p.x;
+      prevY = p.y;
+      lx = p.x;
+      ly = p.y;
+      const d = Math.hypot(lx - CONVERGE.x, ly - CONVERGE.y);
+      if (d > 90) armed = true;
+      if (over && armed && d < 55 && performance.now() > cooldown && burstAt < 0) {
+        armed = false;
+        cooldown = performance.now() + 1200;
+        spark.current?.fire();
+      }
     };
-    const loop = () => {
+    const onLeave = () => {
+      over = false;
+      prevX = prevY = NaN;
+    };
+
+    const onTilt = (e: DeviceOrientationEvent) => {
+      if (e.beta == null || e.gamma == null) return;
+      if (!tiltBase) tiltBase = { b: e.beta, g: e.gamma };
+      // the baseline drifts to however the phone is being held
+      tiltBase.b += (e.beta - tiltBase.b) * 0.004;
+      tiltBase.g += (e.gamma - tiltBase.g) * 0.004;
+      tx = clamp((e.gamma - tiltBase.g) / 25, 1);
+      ty = clamp((e.beta - tiltBase.b) / 25, 1);
+    };
+    let tilting = false;
+    const startTilt = () => {
+      if (tilting) return;
+      tilting = true;
+      window.addEventListener('deviceorientation', onTilt);
+    };
+    const ask = (DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<string> }).requestPermission;
+    if (!fine && typeof window.DeviceOrientationEvent !== 'undefined' && !ask) startTilt();
+
+    const onDown = (e: PointerEvent) => {
+      downX = e.clientX;
+      downY = e.clientY;
+    };
+    const onUp = (e: PointerEvent) => {
+      if (Math.hypot(e.clientX - downX, e.clientY - downY) > 8) return;
+      if ((e.target as Element | null)?.closest('a,button,input,textarea,select')) return;
+      const p = toLogo(e);
+      if (!inRing(p.x, p.y) || burstAt >= 0) return;
+      // iOS only hands out tilt after a tap
+      if (!fine && ask && !tilting) ask().then((s) => s === 'granted' && startTilt()).catch(() => {});
+      burstAt = performance.now();
+      burstFired = false;
+      omega = clamp(omega + 7, 6);
+      const letterRipple = (n: LayerName[], delay: number) =>
+        n.forEach((l) =>
+          animate(`[data-layer="${l}"] > * > .l-anim`, { scale: [1, 1.06, 1] }, { duration: 0.7, ease: EXPO, delay: 0.3 + delay }),
+        );
+      letterRipple(['M', 'm_front'], 0);
+      letterRipple(['T', 'O'], 0.08);
+      letterRipple(['A', 'S'], 0.16);
+    };
+
+    const loop = (now: number) => {
       cx += (tx - cx) * 0.06;
       cy += (ty - cy) * 0.06;
-      for (const w of wraps) {
-        const d = DEPTH[w.dataset.layer as LayerName];
-        w.style.transform = `translate3d(${(-cx * d).toFixed(2)}px,${(-cy * d).toFixed(2)}px,0)`;
+
+      // hands: hover opens a gap that closes as the pointer nears the meeting point
+      const d = Math.hypot(lx - CONVERGE.x, ly - CONVERGE.y);
+      const hoverGap = over ? Math.min(1, d / 300) * 26 : 0;
+      leanX += ((over ? clamp((lx - CONVERGE.x) * 0.03, 12) : 0) - leanX) * 0.08;
+      leanY += ((over ? clamp((ly - CONVERGE.y) * 0.03, 12) : 0) - leanY) * 0.08;
+      if (burstAt >= 0) {
+        // tap: part quickly, then glide back together and spark on contact
+        const t = (now - burstAt) / 1000;
+        if (t < 0.3) gap = 40 * (1 - Math.pow(1 - t / 0.3, 3));
+        else if (t < 1.2) gap = 40 * Math.pow(2, -10 * ((t - 0.3) / 0.9));
+        else burstAt = -1;
+        if (t > 0.3 && gap < 4 && !burstFired) {
+          burstFired = true;
+          spark.current?.fire();
+        }
+      } else {
+        gap += (hoverGap - gap) * 0.08;
       }
-      raf = requestAnimationFrame(loop);
+
+      // vortex: stirred by the pointer and by scrolling, always settling back
+      const scrollY = window.scrollY;
+      omega = clamp(omega + (scrollY - lastScroll) * 0.02, 6);
+      lastScroll = scrollY;
+      omega *= 0.93;
+      theta = (theta + omega) * 0.985;
+      if (Math.abs(theta) < 0.01 && Math.abs(omega) < 0.01) theta = omega = 0;
+
+      const k = root.offsetWidth / SIZE; // logo px → local px
+      for (const w of wraps) {
+        const n = w.dataset.layer as LayerName;
+        const depth = DEPTH[n];
+        let x = -cx * depth, y = -cy * depth, extra = '';
+        if (n === 'hand_top') {
+          x += (dirTop.x * gap + leanX) * k;
+          y += (dirTop.y * gap + leanY) * k;
+        } else if (n === 'hand_bottom' || n === 'hand_bottom_back') {
+          x += (dirBot.x * gap + leanX) * k;
+          y += (dirBot.y * gap + leanY) * k;
+        } else if (n === 'disc' && theta) {
+          extra = ` rotate(${theta.toFixed(3)}deg)`;
+        }
+        w.style.transform = `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0)${extra}`;
+      }
+      raf = visible ? requestAnimationFrame(loop) : 0;
     };
+
+    // stop drawing while the hero is scrolled away
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible && !raf) raf = requestAnimationFrame(loop);
+    });
+    io.observe(root);
+
     window.addEventListener('pointermove', onMove, { passive: true });
+    document.addEventListener('pointerleave', onLeave);
+    window.addEventListener('pointerdown', onDown, { passive: true });
+    window.addEventListener('pointerup', onUp);
     raf = requestAnimationFrame(loop);
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
       window.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerleave', onLeave);
+      window.removeEventListener('pointerdown', onDown);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('deviceorientation', onTilt);
       wraps.forEach((w) => (w.style.transform = ''));
+      disc.style.transformOrigin = '';
     };
-  }, [interactive, still, scope]);
+  }, [interactive, fine, still, scope, animate]);
 
   // ---- scroll exit: hands part, letters lift, the ring stays ----
   const topX = useTransform(exit, [0, 1], ['0%', '-16%']);
@@ -218,7 +375,12 @@ export function LogoStage({
   };
 
   return (
-    <div ref={scope} className="relative aspect-square w-full select-none" aria-hidden>
+    <div
+      ref={scope}
+      className="relative aspect-square w-full touch-manipulation select-none"
+      data-cursor={interactive && !still ? 'hot' : undefined}
+      aria-hidden
+    >
       {layers.map((l) => (
         <div
           key={l.name}

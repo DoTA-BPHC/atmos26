@@ -66,7 +66,8 @@ export function Hero() {
         <LogoStage
           play={play}
           still={still}
-          interactive={built && fine}
+          interactive={built}
+          fine={fine}
           exit={scrollYProgress}
           skipRingDraw={intro.handedOff()}
           onBuilt={onBuilt}
