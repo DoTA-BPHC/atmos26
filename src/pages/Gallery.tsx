@@ -53,7 +53,6 @@ export default function Gallery() {
                     className="duotone w-full transition-[filter] duration-700 ease-out-expo group-hover:[filter:none]"
                   />
                 </div>
-                <p className="mt-2 text-stone-dim transition-colors group-hover:text-stone">{g.caption}</p>
               </button>
             </motion.li>
           ))}
@@ -74,8 +73,8 @@ export default function Gallery() {
             onClick={close}
           >
             <div className="flex items-center justify-between px-4 py-4 sm:px-8">
-              <p className="text-stone">
-                {GALLERY[open].caption} <span className="text-stone-mute">· {open + 1} / {GALLERY.length}</span>
+              <p className="text-stone-dim">
+                {open + 1} / {GALLERY.length}
               </p>
               <button type="button" onClick={close} className="flex h-11 items-center gap-2 px-4 text-stone-dim hover:text-stone" autoFocus>
                 <X className="size-5" strokeWidth={1.5} aria-hidden /> Close

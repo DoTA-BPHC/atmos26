@@ -27,17 +27,14 @@ export function GalleryStrip() {
         <motion.ul className="flex w-max gap-4 px-4 sm:gap-6 sm:px-8" style={still ? undefined : { x }}>
           {GALLERY.slice(0, 9).map((g, i) => (
             <li key={g.src} className={`group shrink-0 ${i % 2 ? 'mt-16' : ''}`}>
-              <figure>
-                <div className="overflow-hidden">
-                  <img
-                    src={g.src}
-                    alt={g.caption}
-                    loading="lazy"
-                    className="duotone h-[clamp(240px,42svh,460px)] w-auto object-cover transition-[filter] duration-700 ease-out-expo group-hover:[filter:none]"
-                  />
-                </div>
-                <figcaption className="mt-3 text-stone-dim">{g.caption}</figcaption>
-              </figure>
+              <div className="overflow-hidden">
+                <img
+                  src={g.src}
+                  alt={g.caption}
+                  loading="lazy"
+                  className="duotone h-[clamp(240px,42svh,460px)] w-auto object-cover transition-[filter] duration-700 ease-out-expo group-hover:[filter:none]"
+                />
+              </div>
             </li>
           ))}
         </motion.ul>
