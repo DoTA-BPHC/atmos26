@@ -45,7 +45,7 @@ CI runs all four on every pull request. A red check blocks the merge.
 ## Design rules (from DESIGN.md: read it for the full system)
 - Pure black ground. Text in stone. **One brass-highlighted phrase per statement.** Teal only inside rings or in the dot field. Red (`glitch`) only for the glitch effect.
 - Use the tokens and utilities: `text-stone`, `text-brass-hi`, `display`, `stencil`, `meta`, `text-lift`, `duotone`. **No raw hex colours** and no new fonts.
-- Type: `stencil` (Stardos Stencil) for the countdown, years and codenames. `display` (expanded Archivo caps) for statements. Plain Archivo for reading and controls. Cinzel belongs to the logo only.
+- Type: `stencil` (Stardos Stencil) for the countdown, years and codenames. `display` (Big Shoulders Stencil caps) for statements. Plain Archivo for reading and controls. Cinzel belongs to the logo only.
 - Buttons are plain rectangles: solid stone primary, outlined secondary, sentence case.
 - Photos use `duotone` and get their colour back on hover. **No hover zoom.**
 - Icons come from `lucide-react` (stroke 1.5), never Unicode arrows or emoji.

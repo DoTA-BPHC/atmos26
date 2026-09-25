@@ -28,26 +28,23 @@ typography:
     lineHeight: 0.9
     letterSpacing: "-0.01em"
   display:
-    fontFamily: "Archivo Variable, Archivo, system-ui, sans-serif"
+    fontFamily: "Big Shoulders Stencil Display, Archivo Variable, sans-serif"
     fontSize: "clamp(3rem, 11vw, 11rem)"
-    fontWeight: 560
-    lineHeight: 0.92
-    letterSpacing: "-0.025em"
-    fontVariation: "'wdth' 118"
+    fontWeight: 700
+    lineHeight: 0.95
+    letterSpacing: "0.01em"
   headline:
-    fontFamily: "Archivo Variable, Archivo, system-ui, sans-serif"
-    fontSize: "clamp(2.4rem, 5.5vw, 5.2rem)"
-    fontWeight: 560
-    lineHeight: 0.92
-    letterSpacing: "-0.025em"
-    fontVariation: "'wdth' 118"
+    fontFamily: "Big Shoulders Stencil Display, Archivo Variable, sans-serif"
+    fontSize: "clamp(2rem, 3.6vw, 3.4rem)"
+    fontWeight: 700
+    lineHeight: 0.95
+    letterSpacing: "0.01em"
   title:
-    fontFamily: "Archivo Variable, Archivo, system-ui, sans-serif"
-    fontSize: "clamp(1.6rem, 2.4vw, 2.2rem)"
-    fontWeight: 560
-    lineHeight: 0.92
-    letterSpacing: "-0.025em"
-    fontVariation: "'wdth' 118"
+    fontFamily: "Big Shoulders Stencil Display, Archivo Variable, sans-serif"
+    fontSize: "clamp(1.5rem, 2vw, 1.9rem)"
+    fontWeight: 700
+    lineHeight: 0.95
+    letterSpacing: "0.01em"
   lead:
     fontFamily: "Archivo Variable, Archivo, system-ui, sans-serif"
     fontSize: "clamp(1.05rem, 1.4vw, 1.3rem)"
@@ -145,13 +142,13 @@ components:
 
 The site is the fest's Instagram campaign made navigable. It opens on the countdown reel's end card: the official artwork builds itself layer by layer, then a live days : hours : minutes : seconds clock lands under it in the reel's stencil, digits rolling like a mechanical counter, with a red glitch. Below that, one field of twelve thousand brass dots turns into each era's machine as you scroll: a pocket watch, a locomotive, a circuit city, a DNA helix, a brain, then two hands, then the logo's ring. Everything sits on pure black. The page is lit by the dots, a single brass-lit phrase per statement, and whatever photo is under the pointer.
 
-Density is low and scale is high. Statements are set in expanded grotesk caps as large as the viewport allows. Lists are full-width hairline rows, not grids of cards. Photos rest in a black-to-brass duotone and get their colour back only when you point at them. The surface is analogue film rather than a HUD: static grain over everything, and projector-gate scratches over the hero and page headers. The world is built to refuse the dark sci-fi HUD kit (mono micro-labels, notched buttons, corner brackets, glow orbs) and the generic fest template (video hero and neon cards).
+Density is low and scale is high. Statements are set in condensed stencil caps (Big Shoulders Stencil) at confident but measured sizes; only page titles run poster-scale. Lists are full-width hairline rows, not grids of cards. Photos rest in a black-to-brass duotone and get their colour back only when you point at them. The surface is analogue film rather than a HUD: static grain over everything, and projector-gate scratches over the hero and page headers. The world is built to refuse the dark sci-fi HUD kit (mono micro-labels, notched buttons, corner brackets, glow orbs) and the generic fest template (video hero and neon cards).
 
 The official artwork is the identity, and it is never redrawn. It may be split into its original layers and animated (build-up, idle parallax), but every visible pixel stays identical to `atmos-website.jpg`, and `scripts/verify_logo.py` checks the layers. Dots may trace the ring, but the raster always supplies the logo itself.
 
 **Key Characteristics:**
 - Pure black void. The only light comes from brass dots, stone text and one brass-hi phrase per statement.
-- Three type voices: stencil for time and names, expanded caps for statements, plain Archivo for reading and controls.
+- Three type voices: the reel stencil for time and names, condensed stencil caps for statements, plain Archivo for reading and controls.
 - Photos rest in a brass duotone and regain colour on hover.
 - Film grain everywhere, with projector scratches on the hero and page headers.
 - Rectangular text controls with square corners. The circle belongs only to the ring motif.
@@ -196,21 +193,21 @@ A black void with brass as the structural ink, stone for reading, teal light hel
 **Label Font:** Archivo Variable condensed to 70% width (not a mono face)
 **Logo Font:** Cinzel Variable, used only for the preloader dial numerals, where it echoes the logo's lettering
 
-**Character:** The stencil comes straight from the countdown reel and speaks for time and names. The expanded Archivo caps carry statements at poster scale. Plain Archivo handles reading and every control, in sentence case.
+**Character:** The stencil comes straight from the countdown reel and speaks for time and names. Big Shoulders Stencil caps, condensed and cut like crate markings, carry statements; they sit a step down from poster scale so the page never shouts. Plain Archivo handles reading and every control, in sentence case.
 
 ### Hierarchy
 - **Countdown** (Stardos Stencil 700, 18vw on phones and min(15vw, 17svh) above, compressed horizontally to 74%): "27:07:42:19" in the hero, stone digits with stone-mute colons, and "days / hrs / min / sec" under each group in plain Archivo (0.95rem, stone-dim, sentence case). One line, a glitch every 5–12 s.
 - **Stencil** (700, clamp(3rem, 9vw, 8rem), 0.9): proshow codenames, the footer wordmark (clamp(3.4rem, 6vw, 5.5rem)), the 404 title, the nav wordmark (1.35rem), category counts (1.875rem), the preloader percentage. Era years use it in brass at clamp(1.6rem, 3vw, 2.6rem) with the uppercase transform switched off.
-- **Display** (Archivo 560, uppercase, width 104% on phones and 118% from 48rem, -0.025em, 0.92): page titles at clamp(3rem, 11vw, 11rem), stat figures at clamp(3.6rem, 11vw, 10.5rem), category rows at clamp(1.9rem, 8vw, 7.5rem), era names at clamp(2.2rem, 6vw, 7rem).
-- **Headline** (display voice, clamp(2.4rem, 5.5vw, 5.2rem) to clamp(2.4rem, 6vw, 6rem)): section statements, with the closing statement at clamp(2rem, 4.2vw, 4.6rem).
-- **Title** (display voice, clamp(1.6rem, 2.4vw, 2.2rem)): event card titles and similar in-list headings.
+- **Display** (Big Shoulders Stencil Display 700, uppercase, 0.01em, 0.95): page titles at clamp(3rem, 11vw, 11rem), stat figures at clamp(3rem, 7vw, 6.8rem), category rows at clamp(1.75rem, 4.6vw, 4.25rem), era names at clamp(2rem, 4.2vw, 4rem).
+- **Headline** (display voice, clamp(2rem, 3.6vw, 3.4rem) to clamp(2rem, 4.2vw, 4rem)): section statements, with the closing statement at clamp(1.8rem, 3vw, 3rem).
+- **Title** (display voice, clamp(1.5rem, 2vw, 1.9rem)): event card titles and similar in-list headings.
 - **Lead** (Archivo 400, clamp(1.05rem, 1.4vw, 1.3rem), 1.625): the one plain sentence under a page title, era copy and section intros. Stone-dim, limited to 28–52ch.
 - **Body** (Archivo 400, 1rem, width 100%): card summaries, captions, footer text. Measure up to 60ch.
 - **Control** (Archivo 500–600, 0.95rem, sentence case): buttons, nav links, filter tabs.
 - **Label** (Archivo 650, 0.82rem, width 70%, 0.04em, tabular figures): the era index under the progress bars and the skip link. The uppercase transform is optional (the era index turns it off).
 
 ### Named Rules
-**The Three Voices Rule.** Stencil is for time and names, expanded caps are for statements, and plain Archivo is for reading and controls. Cinzel belongs to the logo and the preloader dial, and nowhere else.
+**The Three Voices Rule.** Stencil is for time and names, condensed stencil caps are for statements, and plain Archivo is for reading and controls. Cinzel belongs to the logo and the preloader dial, and nowhere else.
 
 **The Condensed Clock Rule.** The countdown is always the stencil compressed horizontally to 74% on one line, filling close to the full content width. Its unit words are counter-scaled so they read at normal proportions.
 
@@ -294,7 +291,7 @@ A canvas overlay that redraws at 12 fps and pauses when off screen. Each frame d
 
 ### Do:
 - **Do** set every surface on void (#000) and let brass dots, stone text and one brass-hi phrase carry the light.
-- **Do** use the stencil for time, years, codenames and the wordmark, the expanded Archivo caps (560 weight, 104% width on phones and 118% on desktop) for statements, and plain Archivo in sentence case for reading and controls.
+- **Do** use the stencil for time, years, codenames and the wordmark, Big Shoulders Stencil caps (700 weight, 0.01em tracking) for statements, and plain Archivo in sentence case for reading and controls.
 - **Do** compress the countdown to 74% width on one line.
 - **Do** set lists as full-width rows on stone/12 hairlines, with 24px row padding (32px from 768px), inside the 1440px container.
 - **Do** keep text controls as square-cornered rectangles (primary is a stone fill, secondary is a stone/35 outline, both 48px tall).
@@ -316,3 +313,4 @@ A canvas overlay that redraws at 12 fps and pauses when off screen. Each frame d
 - **Don't** use glitch red outside the channel-split reveal and the preloader's second hand.
 - **Don't** light more than one phrase per statement in brass-hi.
 - **Don't** use Cinzel outside the logo and the preloader dial.
+- **Don't** set statements in wide or extended grotesk caps. It is the stock AI-landing-page look this site replaced.
