@@ -1,28 +1,234 @@
+@import "@fontsource-variable/cinzel";
+@import "@fontsource-variable/archivo/wdth";
+@import "@fontsource/stardos-stencil/latin-700";
+@import "@fontsource/big-shoulders-stencil-display/latin-700";
 @import "tailwindcss";
 
-@layer base {
-  html.lenis, html.lenis body {
-    height: auto;
-  }
+/* ── ATMOS '26 tokens ─────────────────────────────────────────────
+   Pure black void, brass as the only structural ink, teal light that lives
+   inside rings and along traces, stone for reading text, glitch red for
+   reveals only. */
+@theme {
+  --color-void: #000;
+  --color-soot: #0d0c0a;
+  --color-brass: #c9962b;
+  --color-brass-hi: #e8c170;
+  --color-brass-lo: #6b4e16;
+  --color-brass-line: rgb(201 150 43 / 0.28);
+  --color-teal: #2fa3a8;
+  --color-signal: #7ff6ff;
+  --color-stone: #eadbd2;
+  --color-stone-dim: #a8998f;
+  --color-stone-mute: #8f8279;
+  --color-glitch: #e0263a;
 
-  .lenis.lenis-smooth {
-    scroll-behavior: auto !important;
-  }
+  /* Cinzel is the logo's own face: preloader dial only */
+  --font-cinzel: "Cinzel Variable", "Cinzel", serif;
+  /* the reel's "30 DAYS TO GO" face */
+  --font-stencil: "Stardos Stencil", "Archivo Variable", serif;
+  --font-display: "Big Shoulders Stencil Display", "Archivo Variable", sans-serif;
+  --font-sans: "Archivo Variable", "Archivo", system-ui, sans-serif;
 
-  .lenis.lenis-smooth [data-lenis-prevent] {
-    overscroll-behavior: contain;
-  }
+  /* text depth: a soft drop like the one under the logo's stone letters, plus a
+     wide falloff so type stays readable over the dot field and photos */
+  --shadow-text-display: 0.02em 0.05em 0.1em rgb(0 0 0 / 0.9), 0 0.1em 0.7em rgb(0 0 0 / 0.65);
+  --shadow-text-copy: 0 1px 2px rgb(0 0 0 / 0.9), 0 2px 14px rgb(0 0 0 / 0.75);
 
-  .lenis.lenis-stopped {
-    overflow: hidden;
-  }
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-expo: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
 
-  .lenis.lenis-smooth iframe {
-    pointer-events: none;
-  }
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-spin-slow: spin 60s linear infinite;
+  --animate-blink: blink 1s steps(1) infinite;
 
-  body {
-    @apply bg-neutral-950 text-neutral-100 antialiased selection:bg-indigo-500 selection:text-white;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
   }
 }
+
+@layer base {
+  html {
+    background: var(--color-void);
+    color-scheme: dark;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+  .lenis.lenis-stopped { overflow: hidden; }
+  .lenis.lenis-smooth iframe { pointer-events: none; }
+
+  body {
+    background: var(--color-void);
+    color: var(--color-stone);
+    font-family: var(--font-sans);
+    font-stretch: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    caret-color: var(--color-brass);
+    overflow-x: clip;
+  }
+
+  ::selection { background: var(--color-brass); color: var(--color-void); }
+
+  :focus-visible {
+    outline: 1px solid var(--color-signal);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  a { text-underline-offset: 0.25em; text-decoration-thickness: 1px; }
+
+  /* scrollbar in the palette */
+  html { scrollbar-color: var(--color-brass-lo) var(--color-void); scrollbar-width: thin; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--color-void); }
+  ::-webkit-scrollbar-thumb { background: var(--color-brass-lo); border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-brass); }
+
+  img { user-select: none; -webkit-user-drag: none; }
+}
+
+@layer utilities {
+  .tabular { font-variant-numeric: tabular-nums; }
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+  .stencil {
+    font-family: var(--font-stencil);
+    font-weight: 700;
+    text-shadow: var(--shadow-text-display);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.9;
+  }
+  /* condensed label voice, like the handle lettering in the reels */
+  .meta {
+    font-family: var(--font-sans);
+    font-stretch: 70%;
+    font-weight: 650;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* film grain over everything (static SVG noise, animated by stepping its position) */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.2 -0.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.9s steps(6) infinite;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -4%); }
+  60% { transform: translate(-4%, -1%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ── Scanner: circuit ring ── */
+.hero-trace {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: hero-draw 1.6s var(--ease-out-expo) forwards;
+}
+.hero-trace-pulse {
+  stroke-dasharray: 0.08 1;
+  stroke-dashoffset: 0.08;
+  opacity: 0;
+  animation: hero-pulse 3s linear infinite;
+}
+.hero-trace-pad {
+  opacity: 0;
+  animation: hero-fade 0.6s ease-out forwards;
+}
+.hero-vortex { animation: spin 40s linear infinite; }
+
+@keyframes hero-draw { to { stroke-dashoffset: 0; } }
+@keyframes hero-pulse {
+  0% { stroke-dashoffset: 0.08; opacity: 1; }
+  100% { stroke-dashoffset: -1; opacity: 1; }
+}
+@keyframes hero-fade { to { opacity: 1; } }
+
+/* glitch reveal (reel 2): red/teal channel split for a few frames */
+.glitch-text { position: relative; }
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  text-shadow: none;
+}
+.glitch-text::before { color: var(--color-glitch); }
+.glitch-text::after { color: var(--color-signal); }
+.glitch-run::before { animation: glitch-a 0.42s steps(2) 1; }
+.glitch-run::after { animation: glitch-b 0.42s steps(2) 1; }
+@keyframes glitch-a {
+  0% { opacity: 0.9; transform: translate(-4px, 1px); clip-path: inset(10% 0 55% 0); }
+  33% { opacity: 0.9; transform: translate(3px, -1px); clip-path: inset(60% 0 8% 0); }
+  66% { opacity: 0.9; transform: translate(-2px, 0); clip-path: inset(35% 0 40% 0); }
+  100% { opacity: 0; }
+}
+@keyframes glitch-b {
+  0% { opacity: 0.8; transform: translate(4px, -1px); clip-path: inset(50% 0 20% 0); }
+  33% { opacity: 0.8; transform: translate(-3px, 1px); clip-path: inset(5% 0 70% 0); }
+  66% { opacity: 0.8; transform: translate(2px, 0); clip-path: inset(70% 0 5% 0); }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain { animation: none; }
+  .hero-trace,
+  .hero-trace-pad { animation: none; stroke-dashoffset: 0; opacity: 1; }
+  .hero-trace-pulse,
+  .hero-vortex { animation: none; opacity: 0; }
+  .glitch-run::before,
+  .glitch-run::after { animation: none; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* the reticle replaces the arrow for mouse users; text fields keep their caret */
+html.has-reticle,
+html.has-reticle * { cursor: none; }
+html.has-reticle input,
+html.has-reticle textarea { cursor: text; }
+
+/* statements: condensed stencil caps, like crate markings in a machine shop */
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
+  text-shadow: var(--shadow-text-display);
+}
+
+/* reading text that can sit over the dot field or a photo */
+@utility text-lift {
+  text-shadow: var(--shadow-text-copy);
+}
+
+/* photos in the palette: black → brass → stone (filter defined in Layout) */
+.duotone { filter: url(#duotone); }
+
+.glitch-hover:hover .glitch-text::before { animation: glitch-a 0.42s steps(2) 1; }
+.glitch-hover:hover .glitch-text::after { animation: glitch-b 0.42s steps(2) 1; }

@@ -1,0 +1,108 @@
+import { useMemo } from 'react';
+import { useSearchParams } from 'react-router';
+import { LayoutGroup, motion } from 'framer-motion';
+import { PageHeader } from '../components/PageHeader';
+import { PassesButton } from '../components/PassesButton';
+import { CATEGORIES, EVENTS, formatPrize, isCategory, type Category } from '../data/events';
+
+const EXPO = [0.16, 1, 0.3, 1] as const;
+
+export default function Events() {
+  const [params, setParams] = useSearchParams();
+  const raw = params.get('c');
+  const active: Category | 'all' = isCategory(raw) ? raw : 'all';
+  const list = useMemo(() => (active === 'all' ? EVENTS : EVENTS.filter((e) => e.category === active)), [active]);
+  const blurb = CATEGORIES.find((c) => c.id === active)?.blurb;
+
+  const pick = (c: Category | 'all') => {
+    const next = new URLSearchParams(params);
+    if (c === 'all') next.delete('c');
+    else next.set('c', c);
+    setParams(next, { replace: true, preventScrollReset: true });
+  };
+
+  return (
+    <>
+      <PageHeader title="Events">
+        Competitions, workshops and experiences across three days on campus. Fees and prize pools are as
+        announced; days and team sizes are confirmed as each event opens.
+      </PageHeader>
+
+      <section className="px-4 pb-24 sm:px-8" aria-label="Events">
+        <div className="mx-auto max-w-[1440px]">
+          {/* filter */}
+          <LayoutGroup>
+            <div role="tablist" aria-label="Category" className="flex flex-wrap gap-2 border-b border-stone/12 pb-6">
+              {(['all', ...CATEGORIES.map((c) => c.id)] as const).map((c) => {
+                const on = c === active;
+                const label = c === 'all' ? 'All' : CATEGORIES.find((x) => x.id === c)!.label;
+                const n = c === 'all' ? EVENTS.length : EVENTS.filter((e) => e.category === c).length;
+                return (
+                  <button
+                    key={c}
+                    role="tab"
+                    aria-selected={on}
+                    onClick={() => pick(c)}
+                    className={`relative h-11 px-5 text-[0.95rem] font-medium transition-colors ${on ? 'text-void' : 'text-stone-dim hover:text-stone'}`}
+                  >
+                    {on && <motion.span layoutId="evt-pill" className="absolute inset-0 bg-stone" transition={{ duration: 0.5, ease: EXPO }} />}
+                    <span className="relative">
+                      {label} <span className={on ? 'text-void/60' : 'text-stone-mute'}>{n}</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </LayoutGroup>
+          {blurb && <p className="mt-6 max-w-[60ch] text-stone-dim">{blurb}</p>}
+
+          {/* re-mounted per filter: a quick fade-in beats 50 rows animating out */}
+          <ul key={active} className="mt-10 border-b border-stone/12">
+            {list.map((e, i) => {
+              const meta = [
+                active === 'all' && CATEGORIES.find((c) => c.id === e.category)!.label,
+                e.team && `Team size ${e.team}`,
+                e.note,
+              ].filter(Boolean);
+              return (
+                <motion.li
+                  key={e.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: EXPO, delay: Math.min(i, 8) * 0.03 }}
+                  className="group border-t border-stone/12"
+                >
+                  <article className="grid gap-4 py-6 md:grid-cols-[minmax(0,1fr)_26rem] md:items-baseline md:gap-10 md:py-7">
+                    <div>
+                      <h2 className="display text-[clamp(1.4rem,2.2vw,2rem)] text-stone transition-colors duration-500 ease-out-expo group-hover:text-brass-hi">
+                        {e.title}
+                      </h2>
+                      {meta.length > 0 && <p className="mt-2 text-stone-dim">{meta.join(' · ')}</p>}
+                    </div>
+                    <dl className="grid grid-cols-[8rem_minmax(0,1fr)] gap-6 text-[0.95rem]">
+                      <div>
+                        <dt className="text-stone-mute">Prize pool</dt>
+                        <dd className="mt-1 text-stone">{formatPrize(e.prize)}</dd>
+                      </div>
+                      <div>
+                        <dt className="text-stone-mute">Entry</dt>
+                        <dd className="mt-1 text-stone">{e.fee}</dd>
+                      </div>
+                    </dl>
+                  </article>
+                </motion.li>
+              );
+            })}
+          </ul>
+
+          <div className="mt-24 flex flex-col items-start gap-6 border-t border-stone/12 pt-10 md:flex-row md:items-center md:justify-between">
+            <p className="display max-w-[20ch] text-[clamp(1.7rem,2.6vw,2.2rem)] text-stone">
+              One pass. <span className="text-brass-hi">Every arena.</span>
+            </p>
+            <PassesButton />
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

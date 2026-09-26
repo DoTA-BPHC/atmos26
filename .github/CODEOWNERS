@@ -1,0 +1,22 @@
+# Changes to these paths need a review from the design owner.
+# (Takes effect once the owner has write access to DoTA-BPHC/atmos26.)
+
+# the official logo and everything that proves it is untouched
+/atmos-website.jpg              @SunjayVarrunMS
+/public/logo/                   @SunjayVarrunMS
+/src/data/logoLayers.json       @SunjayVarrunMS
+/design/source/                 @SunjayVarrunMS
+/scripts/                       @SunjayVarrunMS
+
+# the design system and the signature pieces
+/src/index.css                  @SunjayVarrunMS
+/src/components/hero/           @SunjayVarrunMS
+/src/components/particles/      @SunjayVarrunMS
+/public/shapes/                 @SunjayVarrunMS
+
+# rules the agents follow
+/DESIGN.md                      @SunjayVarrunMS
+/PRODUCT.md                     @SunjayVarrunMS
+/AGENTS.md                      @SunjayVarrunMS
+/GEMINI.md                      @SunjayVarrunMS
+/.github/                       @SunjayVarrunMS
