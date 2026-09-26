@@ -13,31 +13,31 @@ const ERAS: { when: string; name: string; line: string; pose: ShapePose }[] = [
     when: '1700s',
     name: 'Clockwork',
     line: 'Time made mechanical. Gears taught us to trust a machine to keep count.',
-    pose: { shape: 'watch', x: 0.42, size: 0.78, rx: 0.25, ry: -0.5, spin: 0.12 },
+    pose: { shape: 'watch', x: 0.42, size: 0.78, narrowY: -0.12, narrowSize: 0.58, rx: 0.25, ry: -0.5, spin: 0.12 },
   },
   {
     when: '1800s',
     name: 'Steam',
     line: 'Muscle multiplied. Pistons pulled whole cities across continents.',
-    pose: { shape: 'locomotive', x: 0.4, size: 0.92, rx: 0.2, ry: 0.55, spin: 0.08 },
+    pose: { shape: 'locomotive', x: 0.4, size: 0.92, narrowY: -0.12, narrowSize: 0.58, rx: 0.2, ry: 0.55, spin: 0.08 },
   },
   {
     when: '1950s',
     name: 'Silicon',
     line: 'Logic etched into sand. The circuit board grew into a skyline.',
-    pose: { shape: 'city', x: 0.42, size: 0.95, rx: 0.3, ry: 0.4, spin: 0.08 },
+    pose: { shape: 'city', x: 0.42, size: 0.95, narrowY: -0.12, narrowSize: 0.58, rx: 0.3, ry: 0.4, spin: 0.08 },
   },
   {
     when: '2000s',
     name: 'Genome',
     line: 'Life read like source code, and then rewritten.',
-    pose: { shape: 'dna', x: 0.42, size: 0.95, rz: 0.45, spin: 0.35 },
+    pose: { shape: 'dna', x: 0.42, size: 0.95, narrowY: -0.12, narrowSize: 0.58, rz: 0.45, spin: 0.35 },
   },
   {
     when: '2026',
     name: 'Intelligence',
     line: 'Thought shared with machines. The next hand is the one we build together.',
-    pose: { shape: 'brain', x: 0.56, size: 0.74, rx: 0.15, ry: 1.57, spin: 0.03 },
+    pose: { shape: 'brain', x: 0.56, size: 0.74, narrowY: -0.12, narrowSize: 0.58, rx: 0.15, ry: 1.57, spin: 0.03 },
   },
 ];
 
