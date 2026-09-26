@@ -32,7 +32,7 @@ export const CONTACT = {
 // figures from previous editions
 export const STATS = [
   { value: 30000, suffix: '+', label: 'Footfall', note: 'across three days' },
-  { value: 40, suffix: '+', label: 'Events', note: 'competitions, workshops, talks' },
+  { value: 40, suffix: '+', label: 'Events', note: 'competitions, workshops, experiences' },
   { value: 12, prefix: '₹', suffix: 'L+', label: 'Prize pool', note: 'in lakhs of rupees' },
   { value: 150, suffix: '+', label: 'Colleges', note: 'from across India' },
 ] as const;

@@ -10,11 +10,10 @@ const EXPO = [0.16, 1, 0.3, 1] as const;
 const COVER: Record<string, string> = {
   competitions: '/gallery/robo_soccer.jpg',
   workshops: '/gallery/womenInCode.jpg',
-  talks: '/gallery/actors_guest_talks.jpg',
-  games: '/gallery/puzzle_event.jpg',
+  experiences: '/gallery/puzzle_event.jpg',
 };
 
-// Four giant rows. Hovering one lights it and brings up its photo.
+// One row per category. Hovering one lights it and brings up its photo.
 export function Categories() {
   const [hot, setHot] = useState<string | null>(null);
   return (
