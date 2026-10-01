@@ -1,0 +1,8 @@
+# not needed to build the site
+design/
+.impeccable/
+.playwright-mcp/
+.recording/
+scripts/
+# generated elsewhere, not reviewed or used by the site
+public/eras/

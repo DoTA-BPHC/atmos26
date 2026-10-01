@@ -1,0 +1,4 @@
+{
+  "prompt": "Origin: layer of the official ATMOS '26 artwork (atmos-website.jpg, fest design team). Visible pixels copied unchanged; pixels hidden in the original filled from the team's source layers (design/source) or by polar interpolation/LaMa where no source exists. Built by scripts/logo_layers.py, verified by scripts/verify_logo.py.",
+  "createdAt": "2026-09-24T08:21:33.266Z"
+}
