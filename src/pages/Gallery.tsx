@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
@@ -10,12 +10,17 @@ const EXPO = [0.16, 1, 0.3, 1] as const;
 export default function Gallery() {
   const [open, setOpen] = useState<number | null>(null);
   const lenis = useLenis();
+  const dialog = useRef<HTMLDivElement>(null);
+  // the photo that opened the lightbox gets focus back when it closes
+  const opener = useRef<HTMLElement | null>(null);
   const close = useCallback(() => setOpen(null), []);
   const step = useCallback((d: number) => setOpen((o) => (o === null ? o : (o + d + GALLERY.length) % GALLERY.length)), []);
 
   useEffect(() => {
     if (open === null) {
       lenis?.start();
+      opener.current?.focus();
+      opener.current = null;
       return;
     }
     lenis?.stop();
@@ -23,6 +28,18 @@ export default function Gallery() {
       if (e.key === 'Escape') close();
       if (e.key === 'ArrowRight') step(1);
       if (e.key === 'ArrowLeft') step(-1);
+      // keep Tab inside the lightbox
+      if (e.key !== 'Tab' || !dialog.current) return;
+      const items = [...dialog.current.querySelectorAll<HTMLElement>('button')];
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -43,7 +60,15 @@ export default function Gallery() {
               viewport={{ once: true, margin: '-5% 0px' }}
               transition={{ duration: 0.9, ease: EXPO, delay: (i % 3) * 0.06 }}
             >
-              <button type="button" onClick={() => setOpen(i)} className="group block w-full text-left" aria-label={`Open ${g.caption}`}>
+              <button
+                type="button"
+                onClick={(e) => {
+                  opener.current = e.currentTarget;
+                  setOpen(i);
+                }}
+                className="group block w-full text-left"
+                aria-label={`Open ${g.caption}`}
+              >
                 <div className="overflow-hidden">
                   <motion.img
                     layoutId={`g-${i}`}
@@ -62,6 +87,7 @@ export default function Gallery() {
       <AnimatePresence>
         {open !== null && (
           <motion.div
+            ref={dialog}
             className="fixed inset-0 z-[85] flex flex-col bg-void/95 backdrop-blur-sm"
             role="dialog"
             aria-modal="true"

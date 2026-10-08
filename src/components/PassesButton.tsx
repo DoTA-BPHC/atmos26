@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FEST } from '../data/fest';
+import { CONTACT, FEST } from '../data/fest';
 
 // Passes aren't on sale yet, so the button says so instead of linking nowhere.
 // Set FEST.registration.open + url to turn it into a real link.
@@ -16,7 +16,7 @@ export function PassesButton({ className = '' }: { className?: string }) {
   }
   return (
     <button type="button" className={cls} onClick={() => setPinged(true)} aria-live="polite">
-      {pinged ? 'Passes drop on @atmos_bitshyd' : 'Passes: opening soon'}
+      {pinged ? `Passes drop on ${CONTACT.instagram}` : 'Passes: opening soon'}
     </button>
   );
 }

@@ -35,7 +35,7 @@ export default function Events() {
         <div className="mx-auto max-w-[1440px]">
           {/* filter */}
           <LayoutGroup>
-            <div role="tablist" aria-label="Category" className="flex flex-wrap gap-2 border-b border-stone/12 pb-6">
+            <div role="group" aria-label="Filter by category" className="flex flex-wrap gap-2 border-b border-stone/12 pb-6">
               {(['all', ...CATEGORIES.map((c) => c.id)] as const).map((c) => {
                 const on = c === active;
                 const label = c === 'all' ? 'All' : CATEGORIES.find((x) => x.id === c)!.label;
@@ -43,8 +43,8 @@ export default function Events() {
                 return (
                   <button
                     key={c}
-                    role="tab"
-                    aria-selected={on}
+                    type="button"
+                    aria-pressed={on}
                     onClick={() => pick(c)}
                     className={`relative h-11 px-5 text-[0.95rem] font-medium transition-colors ${on ? 'text-void' : 'text-stone-dim hover:text-stone'}`}
                   >

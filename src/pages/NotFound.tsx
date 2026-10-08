@@ -9,7 +9,12 @@ export default function NotFound() {
   useEffect(() => {
     particles.set({ shape: 'rings', size: 0.9, rx: 0.2, spin: 0.1, opacity: 0.8 });
     const t = setTimeout(() => particles.set({ shape: 'dust', opacity: 0.45, spin: 0.02 }), 1600);
-    return () => clearTimeout(t);
+    const prev = document.title;
+    document.title = 'Page not found · ATMOS ’26';
+    return () => {
+      clearTimeout(t);
+      document.title = prev;
+    };
   }, []);
 
   return (

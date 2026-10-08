@@ -43,7 +43,7 @@ export function Nav() {
         }`}
       >
         <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-6 px-4 sm:px-8">
-          <Link to="/" className="flex items-center" aria-label="ATMOS 2026, home">
+          <Link to="/" className="flex items-center" aria-label="ATMOS ’26, home">
             <span className="stencil text-[1.35rem] text-stone">
               ATMOS <span className="text-brass">’26</span>
             </span>

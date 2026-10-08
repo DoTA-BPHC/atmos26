@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { ArrowLeft, Share2 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
@@ -14,15 +14,6 @@ export default function Event() {
   const { id } = useParams();
   const event = EVENTS.find((e) => e.id === id);
   const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    if (!event) return;
-    const prev = document.title;
-    document.title = `${event.title} · ATMOS ’26`;
-    return () => {
-      document.title = prev;
-    };
-  }, [event]);
 
   if (!event) return <NotFound />;
 
