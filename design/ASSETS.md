@@ -30,7 +30,8 @@ How every shipped asset was made, so it can be regenerated.
 
 ## Other rasters
 - `public/og.jpg`, `public/favicon.png`, `public/apple-touch-icon.png`: made in PIL from the official artwork (+ Stardos Stencil / Archivo for the share card).
-- `public/gallery/*`: past-edition photos supplied by the team.
+- `public/gallery/*`: past-edition photos supplied by the team. `ad_astra.jpg` and `dota_events.jpg` were re-encoded once (Pillow, JPEG q82, progressive, same pixel size, EXIF/XMP/ICC and origin comment kept) because they shipped at 1.5 MB and 505 KB.
+- `public/gallery/*-960.jpg`: 960 px wide copies of the photos wider than 1200 px, for phones and the masonry grid (Pillow, Lanczos, JPEG q80, metadata kept). Listed as `small` in `GALLERY` (`src/data/fest.ts`); a new photo wider than 1200 px should get one too.
 - `public/clubs/*.webp`: organising-club logos from SU Connect's public `club-logos` bucket (as shown on su-connect-bphc.vercel.app/clubs), centre-cropped to 96 px squares on black in PIL. Alchemy is left out because SU Connect shows E-Cell's logo in its place.
 - Every file in `public/` carries its origin in embedded metadata (`impeccable embed-prompt --scan public`).
 

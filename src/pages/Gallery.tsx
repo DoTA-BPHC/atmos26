@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
-import { GALLERY } from '../data/fest';
+import { GALLERY, gallerySrcSet } from '../data/fest';
 import { useLenis } from '../components/SmoothScroll';
 
 const EXPO = [0.16, 1, 0.3, 1] as const;
@@ -73,6 +73,8 @@ export default function Gallery() {
                   <motion.img
                     layoutId={`g-${i}`}
                     src={g.src}
+                    srcSet={gallerySrcSet(g)}
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                     alt={g.caption}
                     width={g.w}
                     height={g.h}

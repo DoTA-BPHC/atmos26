@@ -48,17 +48,22 @@ export const NAV = [
   { to: '/contact', label: 'Contact' },
 ] as const;
 
-// w × h are the files' pixel sizes, so the page can reserve their space before they load
+// w × h are the files' pixel sizes, so the page can reserve their space before they load;
+// `small` is a 960 px wide copy for phones and the masonry grid (see design/ASSETS.md)
 export const GALLERY = [
-  { src: '/gallery/proshow.jpg', caption: 'Proshow night', w: 2048, h: 1366 },
-  { src: '/gallery/robo_soccer.jpg', caption: 'Robo Soccer', w: 1440, h: 1800 },
-  { src: '/gallery/drone_league.jpg', caption: 'Drone League', w: 2048, h: 1638 },
-  { src: '/gallery/tech_expo.jpg', caption: 'Tech Expo', w: 2048, h: 1638 },
-  { src: '/gallery/actors_guest_talks.jpg', caption: 'Guest talks', w: 2048, h: 1536 },
-  { src: '/gallery/ad_astra.jpg', caption: 'Ad Astra', w: 2048, h: 1365 },
-  { src: '/gallery/comedy_night.jpg', caption: 'Comedy night', w: 2048, h: 1365 },
-  { src: '/gallery/dota_events.jpg', caption: 'DoTA events', w: 2048, h: 1365 },
+  { src: '/gallery/proshow.jpg', caption: 'Proshow night', w: 2048, h: 1366, small: '/gallery/proshow-960.jpg' },
+  { src: '/gallery/robo_soccer.jpg', caption: 'Robo Soccer', w: 1440, h: 1800, small: '/gallery/robo_soccer-960.jpg' },
+  { src: '/gallery/drone_league.jpg', caption: 'Drone League', w: 2048, h: 1638, small: '/gallery/drone_league-960.jpg' },
+  { src: '/gallery/tech_expo.jpg', caption: 'Tech Expo', w: 2048, h: 1638, small: '/gallery/tech_expo-960.jpg' },
+  { src: '/gallery/actors_guest_talks.jpg', caption: 'Guest talks', w: 2048, h: 1536, small: '/gallery/actors_guest_talks-960.jpg' },
+  { src: '/gallery/ad_astra.jpg', caption: 'Ad Astra', w: 2048, h: 1365, small: '/gallery/ad_astra-960.jpg' },
+  { src: '/gallery/comedy_night.jpg', caption: 'Comedy night', w: 2048, h: 1365, small: '/gallery/comedy_night-960.jpg' },
+  { src: '/gallery/dota_events.jpg', caption: 'DoTA events', w: 2048, h: 1365, small: '/gallery/dota_events-960.jpg' },
   { src: '/gallery/puzzle_event.jpg', caption: 'Puzzle hunt', w: 800, h: 800 },
   { src: '/gallery/speed_cubing.jpg', caption: 'Speed cubing', w: 800, h: 800 },
-  { src: '/gallery/womenInCode.jpg', caption: 'Women in Code', w: 2048, h: 1366 },
+  { src: '/gallery/womenInCode.jpg', caption: 'Women in Code', w: 2048, h: 1366, small: '/gallery/womenInCode-960.jpg' },
 ] as const;
+
+// srcSet for a gallery photo: its 960 px copy where there is one, then the original
+export const gallerySrcSet = (g: (typeof GALLERY)[number]) =>
+  'small' in g ? `${g.small} 960w, ${g.src} ${g.w}w` : undefined;

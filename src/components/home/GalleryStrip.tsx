@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { GALLERY } from '../../data/fest';
+import { GALLERY, gallerySrcSet } from '../../data/fest';
 import { useReducedMotion } from '../../lib/hooks';
 
 // Past editions in duotone, sliding sideways as you scroll down. Colour comes
@@ -29,6 +29,8 @@ export function GalleryStrip() {
               <div className="overflow-hidden">
                 <img
                   src={g.src}
+                  srcSet={gallerySrcSet(g)}
+                  sizes="(max-width: 640px) 75vw, 700px"
                   alt={g.caption}
                   width={g.w}
                   height={g.h}
