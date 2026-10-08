@@ -48,16 +48,17 @@ export const NAV = [
   { to: '/contact', label: 'Contact' },
 ] as const;
 
+// w × h are the files' pixel sizes, so the page can reserve their space before they load
 export const GALLERY = [
-  { src: '/gallery/proshow.jpg', caption: 'Proshow night' },
-  { src: '/gallery/robo_soccer.jpg', caption: 'Robo Soccer' },
-  { src: '/gallery/drone_league.jpg', caption: 'Drone League' },
-  { src: '/gallery/tech_expo.jpg', caption: 'Tech Expo' },
-  { src: '/gallery/actors_guest_talks.jpg', caption: 'Guest talks' },
-  { src: '/gallery/ad_astra.jpg', caption: 'Ad Astra' },
-  { src: '/gallery/comedy_night.jpg', caption: 'Comedy night' },
-  { src: '/gallery/dota_events.jpg', caption: 'DoTA events' },
-  { src: '/gallery/puzzle_event.jpg', caption: 'Puzzle hunt' },
-  { src: '/gallery/speed_cubing.jpg', caption: 'Speed cubing' },
-  { src: '/gallery/womenInCode.jpg', caption: 'Women in Code' },
+  { src: '/gallery/proshow.jpg', caption: 'Proshow night', w: 2048, h: 1366 },
+  { src: '/gallery/robo_soccer.jpg', caption: 'Robo Soccer', w: 1440, h: 1800 },
+  { src: '/gallery/drone_league.jpg', caption: 'Drone League', w: 2048, h: 1638 },
+  { src: '/gallery/tech_expo.jpg', caption: 'Tech Expo', w: 2048, h: 1638 },
+  { src: '/gallery/actors_guest_talks.jpg', caption: 'Guest talks', w: 2048, h: 1536 },
+  { src: '/gallery/ad_astra.jpg', caption: 'Ad Astra', w: 2048, h: 1365 },
+  { src: '/gallery/comedy_night.jpg', caption: 'Comedy night', w: 2048, h: 1365 },
+  { src: '/gallery/dota_events.jpg', caption: 'DoTA events', w: 2048, h: 1365 },
+  { src: '/gallery/puzzle_event.jpg', caption: 'Puzzle hunt', w: 800, h: 800 },
+  { src: '/gallery/speed_cubing.jpg', caption: 'Speed cubing', w: 800, h: 800 },
+  { src: '/gallery/womenInCode.jpg', caption: 'Women in Code', w: 2048, h: 1366 },
 ] as const;

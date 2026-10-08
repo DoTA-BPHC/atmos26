@@ -46,7 +46,11 @@ function sitePages(): Plugin {
     },
     closeBundle() {
       if (!building) return
-      const html = readFileSync(join(outDir, 'index.html'), 'utf-8')
+      // inner pages don't show the hero, so they skip its logo-layer preloads (~530 KB)
+      const html = readFileSync(join(outDir, 'index.html'), 'utf-8').replace(
+        /\s*<!-- the hero's[^>]*-->(\s*<link rel="preload" as="image"[^>]*>)+/,
+        '',
+      )
       const where = `BITS Pilani, Hyderabad Campus · 23–25 October 2026`
       const paths = ['']
       const page = (path: string, title: string, description: string) => {

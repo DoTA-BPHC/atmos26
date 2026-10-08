@@ -30,7 +30,10 @@ export function GalleryStrip() {
                 <img
                   src={g.src}
                   alt={g.caption}
+                  width={g.w}
+                  height={g.h}
                   loading="lazy"
+                  decoding="async"
                   className="duotone h-[clamp(240px,42svh,460px)] w-auto object-cover transition-[filter] duration-700 ease-out-expo group-hover:[filter:none]"
                 />
               </div>

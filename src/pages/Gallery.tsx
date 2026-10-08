@@ -74,7 +74,10 @@ export default function Gallery() {
                     layoutId={`g-${i}`}
                     src={g.src}
                     alt={g.caption}
+                    width={g.w}
+                    height={g.h}
                     loading="lazy"
+                    decoding="async"
                     className="duotone w-full transition-[filter] duration-700 ease-out-expo group-hover:[filter:none]"
                   />
                 </div>
