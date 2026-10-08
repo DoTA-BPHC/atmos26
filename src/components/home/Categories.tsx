@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CATEGORIES, EVENTS } from '../../data/events';
+import { LINEUP_SEALED } from '../../data/proshows';
 
 const EXPO = [0.16, 1, 0.3, 1] as const;
 
@@ -30,7 +31,12 @@ const ARENAS: Arena[] = [
     count: EVENTS.filter((e) => e.category === c.id).length,
   })),
   { id: 'talks', label: 'Talks', blurb: 'Speakers are revealed closer to the fest.' },
-  { id: 'proshows', label: 'Proshows', blurb: 'Three nights on the main stage. The line-up stays sealed.', to: '/proshows' },
+  {
+    id: 'proshows',
+    label: 'Proshows',
+    blurb: LINEUP_SEALED ? 'Three nights on the main stage. The line-up stays sealed.' : 'Three nights on the main stage.',
+    to: '/proshows',
+  },
 ];
 
 // One row per category. Hovering one lights it and brings up its photo.

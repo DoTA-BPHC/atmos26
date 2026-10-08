@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { PageHeader } from '../components/PageHeader';
-import { PROSHOWS } from '../data/proshows';
+import { LINEUP_SEALED, PROSHOWS } from '../data/proshows';
 import { CONTACT } from '../data/fest';
 
 const EXPO = [0.16, 1, 0.3, 1] as const;
@@ -9,7 +9,12 @@ export default function Proshows() {
   return (
     <>
       <PageHeader floor="intelligence" title="Proshows">
-        Three nights on the main stage. The line-up stays sealed until the team reveals it on{' '}
+        Three nights on the main stage.{' '}
+        {LINEUP_SEALED
+          ? 'The line-up stays sealed until the team reveals it on'
+          : PROSHOWS.every((p) => p.artist)
+            ? 'Timings and updates on'
+            : 'The rest of the line-up is revealed on'}{' '}
         <a href={CONTACT.instagramHref} target="_blank" rel="noreferrer" className="text-stone underline decoration-brass/60">
           {CONTACT.instagram}
         </a>
@@ -28,7 +33,7 @@ export default function Proshows() {
               className="glitch-hover relative overflow-hidden border border-stone/12"
             >
               <img
-                src="/gallery/proshow.jpg"
+                src={p.image ?? '/gallery/proshow.jpg'}
                 alt=""
                 loading="lazy"
                 className="duotone absolute inset-0 size-full object-cover opacity-25 blur-[2px]"

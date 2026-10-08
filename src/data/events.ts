@@ -63,6 +63,10 @@ export interface FestEvent {
   clubs?: ClubSlug[];
   /** the club's 4:3 poster in public/events/, once it arrives; no picture until then */
   image?: string;
+  /** day and time once confirmed, e.g. 'Sat 24 Oct, 10:00'; the page says "day TBA" until then */
+  when?: string;
+  /** one or two plain sentences from the organisers about the event */
+  about?: string;
 }
 
 const LIST: FestEvent[] = [

@@ -1,5 +1,6 @@
-// Artists are unannounced. Each night is a sealed dossier until the reveal;
-// fill in `artist` and `reveal` when the team announces.
+// Artists are unannounced. Each night is a sealed dossier until the reveal:
+// set `artist` (and optionally `image`) when the team announces a night. The
+// home teaser, the Proshows page and its share card all follow this file.
 
 export interface Proshow {
   night: string;
@@ -7,8 +8,11 @@ export interface Proshow {
   codename: string;
   genre: string;
   venue: string;
+  /** the act's name as announced; null keeps the night sealed */
   artist: string | null;
   clue: string;
+  /** the act's own photo in public/proshows/ (WebP ≤ 300 KB); the past-proshow photo until then */
+  image?: string;
 }
 
 export const PROSHOWS: Proshow[] = [
@@ -40,3 +44,6 @@ export const PROSHOWS: Proshow[] = [
     clue: 'The convergence completes.',
   },
 ];
+
+// true until the first act is announced
+export const LINEUP_SEALED = PROSHOWS.every((p) => !p.artist);

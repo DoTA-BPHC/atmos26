@@ -1,10 +1,10 @@
 import { Link } from 'react-router';
 import { motion } from 'framer-motion';
-import { PROSHOWS } from '../../data/proshows';
+import { LINEUP_SEALED, PROSHOWS } from '../../data/proshows';
 
 const EXPO = [0.16, 1, 0.3, 1] as const;
 
-// Three nights as full-width bands, artists sealed until the team announces them.
+// Three nights as full-width bands, artists sealed until src/data/proshows.ts names them.
 export function ProshowTeaser() {
   return (
     <section className="relative overflow-hidden px-4 py-[16svh] sm:px-8" aria-labelledby="pro-title">
@@ -14,7 +14,7 @@ export function ProshowTeaser() {
         <h2 id="pro-title" className="display text-[clamp(2rem,3.9vw,3.9rem)] text-stone">
           Three nights.
           <br />
-          <span className="text-brass-hi">Names sealed.</span>
+          <span className="text-brass-hi">{LINEUP_SEALED ? 'Names sealed.' : 'The line-up.'}</span>
         </h2>
         <ol className="mt-14 border-b border-stone/15">
           {PROSHOWS.map((p, i) => (
@@ -34,7 +34,7 @@ export function ProshowTeaser() {
               </p>
               <p className="text-lift text-stone-dim md:text-right">
                 {p.genre}
-                <span className="block text-brass-hi">Act sealed</span>
+                <span className="block text-brass-hi">{p.artist ?? 'Act sealed'}</span>
               </p>
             </motion.li>
           ))}

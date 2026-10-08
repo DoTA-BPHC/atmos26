@@ -22,7 +22,7 @@ export default function Event() {
     { label: 'Prize pool', value: formatPrize(event.prize) },
     { label: 'Entry', value: event.fee },
     { label: 'Team size', value: event.team ?? 'TBA' },
-    { label: 'When', value: `${FEST.days[0].date}–${FEST.days[2].date} Oct, day TBA` },
+    { label: 'When', value: event.when ?? `${FEST.days[0].date}–${FEST.days[2].date} Oct, day TBA` },
   ];
 
   const share = async () => {
@@ -54,6 +54,8 @@ export default function Event() {
               </div>
             ))}
           </dl>
+
+          {event.about && <p className="mt-10 max-w-[60ch] text-[1.05rem] leading-relaxed text-stone-dim">{event.about}</p>}
 
           {event.clubs && (
             <div className="mt-10">
