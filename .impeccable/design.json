@@ -1,0 +1,497 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-24T00:00:00Z",
+  "title": "Design System: ATMOS '26",
+  "extensions": {
+    "colorMeta": {
+      "void": {
+        "role": "neutral",
+        "displayName": "Void",
+        "canonical": "#000000",
+        "tonalRamp": [
+          "oklch(0% 0 0)",
+          "oklch(8% 0.003 70)",
+          "oklch(15% 0.004 70)",
+          "oklch(25% 0.005 70)",
+          "oklch(40% 0.006 70)",
+          "oklch(60% 0.006 70)",
+          "oklch(80% 0.005 70)",
+          "oklch(95% 0.004 70)"
+        ]
+      },
+      "soot": {
+        "role": "neutral",
+        "displayName": "Soot",
+        "canonical": "#0d0c0a",
+        "tonalRamp": [
+          "oklch(10% 0.004 80)",
+          "oklch(15% 0.005 80)",
+          "oklch(25% 0.006 80)",
+          "oklch(35% 0.007 80)",
+          "oklch(50% 0.007 80)",
+          "oklch(65% 0.006 80)",
+          "oklch(80% 0.005 80)",
+          "oklch(95% 0.004 80)"
+        ]
+      },
+      "brass": {
+        "role": "primary",
+        "displayName": "Reel Brass",
+        "canonical": "#c9962b",
+        "tonalRamp": [
+          "oklch(15% 0.03 78)",
+          "oklch(25% 0.05 78)",
+          "oklch(35% 0.07 78)",
+          "oklch(45% 0.09 78)",
+          "oklch(55% 0.11 78)",
+          "oklch(70% 0.135 78)",
+          "oklch(82% 0.11 80)",
+          "oklch(95% 0.04 82)"
+        ]
+      },
+      "brass-hi": {
+        "role": "primary",
+        "displayName": "Lit Brass",
+        "canonical": "#e8c170",
+        "tonalRamp": [
+          "oklch(15% 0.03 80)",
+          "oklch(25% 0.05 80)",
+          "oklch(35% 0.07 80)",
+          "oklch(45% 0.09 80)",
+          "oklch(55% 0.11 80)",
+          "oklch(70% 0.12 80)",
+          "oklch(83% 0.115 82)",
+          "oklch(95% 0.04 84)"
+        ]
+      },
+      "brass-lo": {
+        "role": "primary",
+        "displayName": "Tarnished Brass",
+        "canonical": "#6b4e16",
+        "tonalRamp": [
+          "oklch(15% 0.03 76)",
+          "oklch(25% 0.05 76)",
+          "oklch(35% 0.06 76)",
+          "oklch(45% 0.08 76)",
+          "oklch(55% 0.1 76)",
+          "oklch(65% 0.11 76)",
+          "oklch(80% 0.09 78)",
+          "oklch(95% 0.03 80)"
+        ]
+      },
+      "brass-line": {
+        "role": "primary",
+        "displayName": "Brass Hairline",
+        "canonical": "rgb(201 150 43 / 0.28)"
+      },
+      "teal": {
+        "role": "secondary",
+        "displayName": "Ring Teal",
+        "canonical": "#2fa3a8",
+        "tonalRamp": [
+          "oklch(15% 0.03 200)",
+          "oklch(25% 0.045 200)",
+          "oklch(35% 0.06 200)",
+          "oklch(45% 0.075 200)",
+          "oklch(55% 0.09 200)",
+          "oklch(65% 0.1 200)",
+          "oklch(80% 0.09 200)",
+          "oklch(95% 0.03 200)"
+        ]
+      },
+      "signal": {
+        "role": "secondary",
+        "displayName": "Signal Cyan",
+        "canonical": "#7ff6ff",
+        "tonalRamp": [
+          "oklch(15% 0.03 200)",
+          "oklch(25% 0.05 200)",
+          "oklch(35% 0.07 200)",
+          "oklch(45% 0.08 200)",
+          "oklch(55% 0.1 200)",
+          "oklch(70% 0.12 200)",
+          "oklch(85% 0.13 200)",
+          "oklch(95% 0.06 200)"
+        ]
+      },
+      "glitch": {
+        "role": "tertiary",
+        "displayName": "Glitch Red",
+        "canonical": "#e0263a",
+        "tonalRamp": [
+          "oklch(15% 0.05 22)",
+          "oklch(25% 0.09 22)",
+          "oklch(35% 0.13 22)",
+          "oklch(45% 0.17 22)",
+          "oklch(58% 0.21 22)",
+          "oklch(65% 0.19 22)",
+          "oklch(80% 0.1 22)",
+          "oklch(95% 0.03 22)"
+        ]
+      },
+      "stone": {
+        "role": "neutral",
+        "displayName": "Stone",
+        "canonical": "#eadbd2",
+        "tonalRamp": [
+          "oklch(15% 0.008 55)",
+          "oklch(25% 0.01 55)",
+          "oklch(35% 0.012 55)",
+          "oklch(45% 0.014 55)",
+          "oklch(55% 0.016 55)",
+          "oklch(65% 0.018 55)",
+          "oklch(80% 0.02 55)",
+          "oklch(90% 0.02 55)"
+        ]
+      },
+      "stone-dim": {
+        "role": "neutral",
+        "displayName": "Dim Stone",
+        "canonical": "#a8998f"
+      },
+      "stone-mute": {
+        "role": "neutral",
+        "displayName": "Mute Stone",
+        "canonical": "#8f8279"
+      }
+    },
+    "typographyMeta": {
+      "countdown": {
+        "displayName": "Countdown",
+        "purpose": "The hero's live 'N DAYS TO GO' in Stardos Stencil, compressed horizontally to 74% (scale-x 0.74), one line, 16vw on phones and min(15vw, 21svh) above."
+      },
+      "stencil": {
+        "displayName": "Stencil",
+        "purpose": "Time and names: proshow codenames, era years (brass, uppercase off), the wordmark, the 404 title, category counts, the preloader percentage."
+      },
+      "display": {
+        "displayName": "Display",
+        "purpose": "Expanded Archivo caps (width 104% on phones, 118% from 48rem) for page titles, stat figures, category rows and era names."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section statements in the display voice, with one brass-hi phrase."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "In-list headings such as event card titles."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "The one plain sentence under a title, and era copy. Stone-dim, 28–52ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Summaries, captions, footer text. Up to 60ch."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Buttons, nav links and tabs, in sentence case."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Condensed Archivo at 70% width with tabular figures for the era index and the skip link. Not a mono face."
+      }
+    },
+    "shadows": [],
+    "surfaces": [
+      {
+        "name": "grain",
+        "value": "fixed SVG fractal noise, opacity 0.05, z 60, stepping 6 positions every 0.9s",
+        "purpose": "Film grain over every page."
+      },
+      {
+        "name": "film-scratches",
+        "value": "canvas at 12fps; hero density 0.8 / opacity 0.8 / screen blend; page headers density 0.5 / opacity 0.6",
+        "purpose": "Projector-gate hairlines, dust and running scratches from the countdown reel."
+      },
+      {
+        "name": "duotone",
+        "value": "SVG filter #duotone: luminance to R[0.01 0.42 0.79 0.92] G[0.01 0.24 0.55 0.86] B[0.01 0.07 0.2 0.8]",
+        "purpose": "Every photo, black to brass to stone. Colour returns on group hover (700ms expo-out)."
+      },
+      {
+        "name": "nav-scrolled",
+        "value": "background rgb(0 0 0 / 0.8); backdrop-filter: blur(12px); border-bottom 1px var(--color-brass-line)",
+        "purpose": "Nav after 24px of scroll."
+      },
+      {
+        "name": "focus",
+        "value": "outline: 1px solid var(--color-signal); outline-offset: 4px; border-radius: 2px",
+        "purpose": "Global keyboard focus."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Every reveal, hover and layout transition."
+      },
+      {
+        "name": "ease-in-out-expo",
+        "value": "cubic-bezier(0.87, 0, 0.13, 1)",
+        "purpose": "The route iris only."
+      },
+      {
+        "name": "ease-in-expo",
+        "value": "cubic-bezier(0.7, 0, 0.84, 0)",
+        "purpose": "Declared exit easing (reserved)."
+      },
+      {
+        "name": "reveal-blur",
+        "value": "opacity 0 to 1, y 0.3–0.5em to 0, blur(10px) to blur(0), 1.1s ease-out-expo, lines staggered 0.1s",
+        "purpose": "Statements and page titles."
+      },
+      {
+        "name": "row-enter",
+        "value": "opacity 0 to 1, y 30–40px to 0, 0.9–1s ease-out-expo, stagger 0.05–0.08s, once",
+        "purpose": "Stats, proshow bands, event cards."
+      },
+      {
+        "name": "route-iris",
+        "value": "void layer clip-path circle 75vmax to 0 with 2px brass ring scaling 1 to 0; close 0.55s, open 0.66s ease-in-out-expo",
+        "purpose": "Between routes. Skipped on the first page of a visit."
+      },
+      {
+        "name": "logo-build",
+        "value": "ring draw 1.6s, then vortex, circuits, hands glide in, spark, letters ripple from the M, taglines wipe; idle layer parallax afterward",
+        "purpose": "Hero intro, handed off from the preloader's brass watch case."
+      },
+      {
+        "name": "glitch-split",
+        "value": "red/cyan pseudo-element channels, clipped slices offset 2–4px, 0.42s steps(2)",
+        "purpose": "Countdown every 5–12s, proshow codenames on hover, 404 once."
+      },
+      {
+        "name": "hover-color",
+        "value": "300ms colour; 500ms ease-out-expo for underlines and row shifts; 700ms for duotone filter",
+        "purpose": "Interactive states."
+      },
+      {
+        "name": "particle-morph",
+        "value": "12,000 dots; per-dot staggered start (35% spread), cubic ease-out, mid-flight outward swirl, idle breathing, cursor push 0.22 with signal flash",
+        "purpose": "The field changes shape whenever a section crosses the viewport's middle."
+      }
+    ],
+    "particlePoses": {
+      "shapes": [
+        "hands",
+        "watch",
+        "locomotive",
+        "city",
+        "dna",
+        "brain",
+        "rings",
+        "halo",
+        "dust"
+      ],
+      "poseFields": [
+        "shape",
+        "x (-1..1)",
+        "y (-1..1)",
+        "size (fraction of smaller viewport side)",
+        "rx",
+        "ry",
+        "rz",
+        "spin (rad/s)",
+        "opacity",
+        "narrowOpacity",
+        "narrowSize",
+        "narrowY"
+      ],
+      "colour": "brass-hi to brass mix, darkening to brass-lo with depth; ~14% of dots teal to signal; cursor flash toward signal",
+      "source": "public/shapes/*.bin baked by scripts/blender/era_shapes.py; halo sampled from the logo ring layer by scripts/halo_points.py"
+    },
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "container",
+        "value": "1440px"
+      }
+    ],
+    "textShadows": {
+      "display": {
+        "token": "--shadow-text-display",
+        "value": "0.02em 0.05em 0.1em rgb(0 0 0 / 0.9), 0 0.1em 0.7em rgb(0 0 0 / 0.65)",
+        "appliesTo": [
+          ".stencil",
+          "display utility"
+        ]
+      },
+      "copy": {
+        "token": "--shadow-text-copy",
+        "value": "0 1px 2px rgb(0 0 0 / 0.9), 0 2px 14px rgb(0 0 0 / 0.75)",
+        "appliesTo": [
+          "text-lift utility: reading copy over dots or photos"
+        ]
+      },
+      "never": [
+        "controls/buttons",
+        "glitch pseudo-elements",
+        "surfaces (no box shadows)"
+      ]
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Solid stone rectangle for the main action, with a drawn stroke arrow in the hero.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Explore events <svg viewBox=\"0 0 24 12\" width=\"20\" aria-hidden=\"true\"><path d=\"M0 6h22M17 1l5 5-5 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/></svg></a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 12px; height: 48px; padding: 0 24px; background: var(--color-stone, #eadbd2); color: var(--color-void, #000); font-family: var(--font-sans, 'Archivo Variable', system-ui, sans-serif); font-size: 0.95rem; font-weight: 600; text-decoration: none; border: 0; border-radius: 0; transition: background-color 300ms; } .ds-btn-primary:hover { background: var(--color-brass-hi, #e8c170); } .ds-btn-primary:focus-visible { outline: 1px solid var(--color-signal, #7ff6ff); outline-offset: 4px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Stone/35 outline rectangle. It currently holds the honest 'Passes: opening soon' state.",
+      "html": "<button type=\"button\" class=\"ds-btn-secondary\">Passes: opening soon</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; justify-content: center; height: 48px; padding: 0 24px; background: transparent; color: var(--color-stone, #eadbd2); font-family: var(--font-sans, 'Archivo Variable', system-ui, sans-serif); font-size: 0.95rem; font-weight: 600; border: 1px solid rgb(234 219 210 / 0.35); border-radius: 0; cursor: pointer; transition: color 300ms, border-color 300ms; } .ds-btn-secondary:hover { border-color: var(--color-brass, #c9962b); color: var(--color-brass-hi, #e8c170); } .ds-btn-secondary:focus-visible { outline: 1px solid var(--color-signal, #7ff6ff); outline-offset: 4px; }"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Stencil wordmark with sentence-case links. A brass underline scales in from the left, and the active link is brass-hi.",
+      "html": "<header class=\"ds-nav\"><span class=\"ds-nav-mark\">ATMOS <b>’26</b></span><nav><a href=\"#\" class=\"ds-nav-link is-active\">Events</a><a href=\"#\" class=\"ds-nav-link\">Proshows</a><a href=\"#\" class=\"ds-nav-link\">Gallery</a><a href=\"#\" class=\"ds-nav-link\">Sponsors</a><a href=\"#\" class=\"ds-nav-link\">Contact</a></nav></header>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 64px; padding: 0 32px; background: rgb(0 0 0 / 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgb(201 150 43 / 0.28); } .ds-nav-mark { font-family: var(--font-stencil, 'Stardos Stencil', serif); font-weight: 700; font-size: 1.35rem; text-transform: uppercase; letter-spacing: -0.01em; color: var(--color-stone, #eadbd2); } .ds-nav-mark b { color: var(--color-brass, #c9962b); font-weight: 700; } .ds-nav nav { display: flex; gap: 36px; } .ds-nav-link { position: relative; padding: 8px 0; font-family: var(--font-sans, 'Archivo Variable', system-ui, sans-serif); font-size: 0.95rem; font-weight: 500; color: var(--color-stone-dim, #a8998f); text-decoration: none; transition: color 300ms; } .ds-nav-link::after { content: ''; position: absolute; left: 0; right: 0; bottom: 2px; height: 1px; background: var(--color-brass, #c9962b); transform: scaleX(0); transform-origin: left; transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-nav-link:hover { color: var(--color-stone, #eadbd2); } .ds-nav-link:hover::after, .ds-nav-link.is-active::after { transform: scaleX(1); } .ds-nav-link.is-active { color: var(--color-brass-hi, #e8c170); } .ds-nav-link:focus-visible { outline: 1px solid var(--color-signal, #7ff6ff); outline-offset: 4px; }"
+    },
+    {
+      "name": "Filter Tabs",
+      "kind": "chip",
+      "refersTo": "tab-active",
+      "description": "Square category tabs with counts. The active tab is a solid stone block.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button class=\"ds-tab is-on\" role=\"tab\" aria-selected=\"true\">All <span>24</span></button><button class=\"ds-tab\" role=\"tab\">Competitions <span>10</span></button><button class=\"ds-tab\" role=\"tab\">Workshops <span>6</span></button></div>",
+      "css": ".ds-tabs { display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: 24px; border-bottom: 1px solid rgb(234 219 210 / 0.12); } .ds-tab { height: 44px; padding: 0 20px; background: transparent; border: 0; border-radius: 0; font-family: var(--font-sans, 'Archivo Variable', system-ui, sans-serif); font-size: 0.95rem; font-weight: 500; color: var(--color-stone-dim, #a8998f); cursor: pointer; transition: color 300ms, background-color 500ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-tab span { color: var(--color-stone-mute, #8f8279); } .ds-tab:hover { color: var(--color-stone, #eadbd2); } .ds-tab.is-on { background: var(--color-stone, #eadbd2); color: var(--color-void, #000); } .ds-tab.is-on span { color: rgb(0 0 0 / 0.6); } .ds-tab:focus-visible { outline: 1px solid var(--color-signal, #7ff6ff); outline-offset: 4px; }"
+    },
+    {
+      "name": "Event Card",
+      "kind": "card",
+      "refersTo": "tag-category",
+      "description": "A duotone 4:3 image with a blurred category tag, a display title, a summary and a facts row on a hairline. It has no container.",
+      "html": "<article class=\"ds-event\"><div class=\"ds-event-img\"><span class=\"ds-event-tag\">competitions</span></div><h3 class=\"ds-event-title\">Robo Soccer</h3><p class=\"ds-event-sum\">Build a bot, field a team, score.</p><dl class=\"ds-event-facts\"><div><dt>Team</dt><dd>2–4</dd></div><div><dt>Prize</dt><dd>TBA</dd></div><div><dt>Day</dt><dd>Fri</dd></div></dl></article>",
+      "css": ".ds-event { max-width: 360px; font-family: var(--font-sans, 'Archivo Variable', system-ui, sans-serif); } .ds-event-img { position: relative; aspect-ratio: 4 / 3; background: linear-gradient(135deg, #0d0c0a, #6b4e16 60%, #c9962b); transition: filter 700ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-event:hover .ds-event-img { filter: saturate(1.4); } .ds-event-tag { position: absolute; left: 12px; top: 12px; padding: 4px 10px; background: rgb(0 0 0 / 0.8); backdrop-filter: blur(8px); font-size: 0.875rem; text-transform: capitalize; color: var(--color-stone-dim, #a8998f); } .ds-event-title { margin: 20px 0 0; font-stretch: 118%; font-weight: 560; text-transform: uppercase; letter-spacing: -0.025em; line-height: 0.92; font-size: clamp(1.6rem, 2.4vw, 2.2rem); color: var(--color-stone, #eadbd2); } .ds-event-sum { margin: 12px 0 0; color: var(--color-stone-dim, #a8998f); } .ds-event-facts { display: grid; grid-template-columns: repeat(3, 1fr); margin: 20px 0 0; padding-top: 16px; border-top: 1px solid rgb(234 219 210 / 0.12); font-size: 0.875rem; } .ds-event-facts dt { color: var(--color-stone-mute, #8f8279); } .ds-event-facts dd { margin: 0; color: var(--color-stone, #eadbd2); }"
+    },
+    {
+      "name": "Footer Card",
+      "kind": "card",
+      "refersTo": "card-footer",
+      "description": "The one boxed container: soot/60 with a stone/12 border and lucide arrow rows.",
+      "html": "<div class=\"ds-fcard\"><a href=\"#\">Events <svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 7h10v10\"/><path d=\"M7 17 17 7\"/></svg></a><a href=\"#\">Proshows <svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 7h10v10\"/><path d=\"M7 17 17 7\"/></svg></a></div>",
+      "css": ".ds-fcard { max-width: 380px; padding: 32px; background: rgb(13 12 10 / 0.6); border: 1px solid rgb(234 219 210 / 0.12); border-radius: 0; font-family: var(--font-sans, 'Archivo Variable', system-ui, sans-serif); } .ds-fcard a { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; color: var(--color-stone-dim, #a8998f); text-decoration: none; transition: color 300ms; } .ds-fcard a + a { border-top: 1px solid rgb(234 219 210 / 0.1); } .ds-fcard a svg { color: var(--color-brass, #c9962b); } .ds-fcard a:hover { color: var(--color-stone, #eadbd2); } .ds-fcard a:focus-visible { outline: 1px solid var(--color-signal, #7ff6ff); outline-offset: 4px; }"
+    },
+    {
+      "name": "Category Row",
+      "kind": "custom",
+      "description": "A full-width hairline row with a display-caps name and a stencil count. Hovering lights the row and dims the others.",
+      "html": "<ul class=\"ds-rows\"><li><a href=\"#\"><span class=\"ds-row-name\">Competitions</span><span class=\"ds-row-n\">10</span></a></li><li><a href=\"#\"><span class=\"ds-row-name\">Workshops</span><span class=\"ds-row-n\">06</span></a></li><li><a href=\"#\"><span class=\"ds-row-name\">Talks</span><span class=\"ds-row-n\">04</span></a></li></ul>",
+      "css": ".ds-rows { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid rgb(234 219 210 / 0.12); } .ds-rows li { border-top: 1px solid rgb(234 219 210 / 0.12); } .ds-rows a { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; padding: 24px 0; text-decoration: none; } .ds-row-name { font-family: var(--font-sans, 'Archivo Variable', system-ui, sans-serif); font-stretch: 118%; font-weight: 560; text-transform: uppercase; letter-spacing: -0.025em; line-height: 0.92; font-size: clamp(1.9rem, 6vw, 4.5rem); color: var(--color-stone, #eadbd2); transition: color 500ms cubic-bezier(0.16, 1, 0.3, 1), transform 500ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-row-n { font-family: var(--font-stencil, 'Stardos Stencil', serif); font-weight: 700; font-size: 1.875rem; color: var(--color-stone, #eadbd2); } .ds-rows:hover .ds-row-name { color: rgb(234 219 210 / 0.25); } .ds-rows a:hover .ds-row-name, .ds-rows a:focus-visible .ds-row-name { color: var(--color-brass-hi, #e8c170); transform: translateX(12px); } .ds-rows a:focus-visible { outline: 1px solid var(--color-signal, #7ff6ff); outline-offset: 4px; }"
+    },
+    {
+      "name": "Stencil Countdown",
+      "kind": "custom",
+      "description": "The reel's title card, compressed to 74% width. It fires a red and cyan channel split on hover in this preview (on a timer in the product).",
+      "html": "<p class=\"ds-count\" data-text=\"29 DAYS TO GO\">29 DAYS TO GO</p>",
+      "css": ".ds-count { position: relative; margin: 0; font-family: var(--font-stencil, 'Stardos Stencil', serif); font-weight: 700; text-transform: uppercase; letter-spacing: -0.01em; line-height: 0.9; font-size: 5rem; white-space: nowrap; color: var(--color-stone, #eadbd2); transform: scaleX(0.74); transform-origin: center; } .ds-count::before, .ds-count::after { content: attr(data-text); position: absolute; inset: 0; opacity: 0; pointer-events: none; } .ds-count::before { color: var(--color-glitch, #e0263a); } .ds-count::after { color: var(--color-signal, #7ff6ff); } .ds-count:hover::before { animation: ds-ga 0.42s steps(2) 1; } .ds-count:hover::after { animation: ds-gb 0.42s steps(2) 1; } @keyframes ds-ga { 0% { opacity: .9; transform: translate(-4px,1px); clip-path: inset(10% 0 55% 0); } 33% { opacity: .9; transform: translate(3px,-1px); clip-path: inset(60% 0 8% 0); } 66% { opacity: .9; transform: translate(-2px,0); clip-path: inset(35% 0 40% 0); } 100% { opacity: 0; } } @keyframes ds-gb { 0% { opacity: .8; transform: translate(4px,-1px); clip-path: inset(50% 0 20% 0); } 33% { opacity: .8; transform: translate(-3px,1px); clip-path: inset(5% 0 70% 0); } 66% { opacity: .8; transform: translate(2px,0); clip-path: inset(70% 0 5% 0); } 100% { opacity: 0; } }"
+    },
+    {
+      "name": "Menu Toggle",
+      "kind": "button",
+      "refersTo": "menu-toggle",
+      "description": "The only circular control, a 44px ring echoing the logo, with two offset hairlines.",
+      "html": "<button type=\"button\" class=\"ds-menu\" aria-label=\"Open menu\"><span></span><span></span></button>",
+      "css": ".ds-menu { display: inline-flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 5px; width: 44px; height: 44px; padding: 0 14px; background: transparent; border: 1px solid rgb(201 150 43 / 0.28); border-radius: 9999px; color: var(--color-stone, #eadbd2); cursor: pointer; transition: border-color 300ms; } .ds-menu span { display: block; height: 1px; width: 16px; background: currentColor; } .ds-menu span + span { width: 11px; } .ds-menu:hover { border-color: var(--color-brass, #c9962b); } .ds-menu:focus-visible { outline: 1px solid var(--color-signal, #7ff6ff); outline-offset: 4px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Countdown Reel, Played at Site Scale",
+    "overview": "The site is the fest's Instagram campaign made navigable. It opens on the countdown reel's end card: the official artwork builds itself layer by layer, then \"N DAYS TO GO\" lands under it in the reel's stencil with a red glitch. Below that, one field of twelve thousand brass dots turns into each era's machine as you scroll: a pocket watch, a locomotive, a circuit city, a DNA helix, a brain, then two hands, then the logo's ring. Everything sits on pure black. The page is lit by the dots, a single brass-lit phrase per statement, and whatever photo is under the pointer.\n\nDensity is low and scale is high. Statements are set in expanded grotesk caps as large as the viewport allows. Lists are full-width hairline rows, not grids of cards. Photos rest in a black-to-brass duotone and get their colour back only when you point at them. The surface is analogue film rather than a HUD: static grain over everything, and projector-gate scratches over the hero and page headers. The world is built to refuse the dark sci-fi HUD kit (mono micro-labels, notched buttons, corner brackets, glow orbs) and the generic fest template (video hero and neon cards).\n\nThe official artwork is the identity, and it is never redrawn. It may be split into its original layers and animated (build-up, idle parallax), but every visible pixel stays identical to `atmos-website.jpg`, and `scripts/verify_logo.py` checks the layers. Dots may trace the ring, but the raster always supplies the logo itself.",
+    "keyCharacteristics": [
+      "Pure black void. The only light comes from brass dots, stone text and one brass-hi phrase per statement.",
+      "Three type voices: stencil for time and names, expanded caps for statements, plain Archivo for reading and controls.",
+      "Photos rest in a brass duotone and regain colour on hover.",
+      "Film grain everywhere, with projector scratches on the hero and page headers.",
+      "Rectangular text controls with square corners. The circle belongs only to the ring motif.",
+      "Motion is expo-out: blur-to-sharp reveals, one iris wipe between routes, particles that swirl between Blender shapes."
+    ],
+    "rules": [
+      {
+        "name": "The One Lit Phrase Rule",
+        "body": "Each statement gets exactly one brass-hi phrase, and the rest stays stone. If two phrases are lit, neither is.",
+        "section": "colors"
+      },
+      {
+        "name": "The Teal Lives Inside Rings Rule",
+        "body": "Teal only appears inside the dot field or inside a ring (the preloader dial, the mobile menu). A teal glow floating on its own is an orb, and orbs are outside this world.",
+        "section": "colors"
+      },
+      {
+        "name": "The Red Is a Glitch Rule",
+        "body": "Glitch red only shows for the few frames of a channel split or on the preloader's second hand. It is never a fill, a border or a status colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The Three Voices Rule",
+        "body": "Stencil is for time and names, expanded caps are for statements, and plain Archivo is for reading and controls. Cinzel belongs to the logo and the preloader dial, and nowhere else.",
+        "section": "typography"
+      },
+      {
+        "name": "The Condensed Clock Rule",
+        "body": "The countdown is always the stencil compressed horizontally to 74% on one line, filling close to the full content width.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sentence-Case Controls Rule",
+        "body": "Nav links, buttons and tabs are in sentence case at normal width. Caps are for statements only.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Void Rule",
+        "body": "Surfaces never lift. If something needs to come forward, it gets brighter (stone to brass-hi) or gets its colour back. It never casts a shadow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Ring Is the Only Curve Rule",
+        "body": "If it isn't a ring, it's a rectangle. A rounded button or pill tab borrows a curve that belongs to the logo.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do set every surface on void (#000) and let brass dots, stone text and one brass-hi phrase carry the light.",
+      "Do use the stencil for time, years, codenames and the wordmark, the expanded Archivo caps (560 weight, 104% width on phones and 118% on desktop) for statements, and plain Archivo in sentence case for reading and controls.",
+      "Do compress the countdown to 74% width on one line.",
+      "Do set lists as full-width rows on stone/12 hairlines, with 24px row padding (32px from 768px), inside the 1440px container.",
+      "Do keep text controls as square-cornered rectangles (primary is a stone fill, secondary is a stone/35 outline, both 48px tall).",
+      "Do pass every photo through the duotone filter and return its colour on hover over 700ms.",
+      "Do give each new section a particle pose, and set the field to opacity 0 where text needs the whole stage.",
+      "Do use the expo-out easing for reveals and hovers, blur-to-sharp for statements, and the iris for route changes only.",
+      "Do use lucide icons at 1.5 stroke (16px inline, 20–24px for lightbox controls), in brass or the current text colour, where an icon is needed.",
+      "Do keep the official artwork pixel-identical. Animate its original layers and verify them with scripts/verify_logo.py."
+    ],
+    "donts": [
+      "Don't redraw, retrace, upscale or recolour the logo. Dots may form the ring, but the raster supplies the logo.",
+      "Don't use monospace or tracked micro-labels. The only small label is condensed Archivo at 70% width.",
+      "Don't notch, chamfer or bracket buttons and panels, or add HUD corner blocks.",
+      "Don't add kickers or eyebrow labels above headings. A statement stands alone, with an optional plain sentence under it.",
+      "Don't scale or zoom images on hover. Colour returning is the hover.",
+      "Don't use typed arrow or icon glyphs (→, ↗, ×). Use lucide icons or a drawn SVG stroke.",
+      "Don't round text controls or use pill tabs. Curves belong to the ring motif (iris, reticle, menu toggle).",
+      "Don't add drop shadows or glow orbs. Teal glows only inside a ring.",
+      "Don't use glitch red outside the channel-split reveal and the preloader's second hand.",
+      "Don't light more than one phrase per statement in brass-hi.",
+      "Don't use Cinzel outside the logo and the preloader dial."
+    ]
+  }
+}
