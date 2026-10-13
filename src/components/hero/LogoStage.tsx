@@ -1,7 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { motion, useAnimate, useTransform, type MotionValue } from 'framer-motion';
 import manifest from '../../data/logoLayers.json';
-import { ConvergenceSpark, type SparkHandle } from './ConvergenceSpark';
 
 /**
  * LogoStage
@@ -12,8 +11,8 @@ import { ConvergenceSpark, type SparkHandle } from './ConvergenceSpark';
  * were ever generated.
  *
  * Build-up: ring draws itself → vortex spins up → circuits light outwards →
- * the two hands glide in from their corners → a spark where they converge →
- * the letters ripple out from the M → taglines wipe in.
+ * the two hands glide in from their corners and meet → the letters ripple out
+ * from the M → taglines wipe in.
  */
 
 type LayerName =
@@ -82,7 +81,6 @@ export function LogoStage({
   onBuilt?: () => void;
 }) {
   const [scope, animate] = useAnimate<HTMLDivElement>();
-  const spark = useRef<SparkHandle>(null);
   const built = useRef(false);
 
   // pre-intro poses for transforms (framer owns transforms, so set them through it
@@ -121,8 +119,6 @@ export function LogoStage({
       animate(q('hand_bottom_back'), handIn, { duration: 1.6, ease: EXPO, delay: 1.0 });
       await animate(q('hand_bottom'), handIn, { duration: 1.6, ease: EXPO, delay: 1.0 });
 
-      spark.current?.fire();
-
       const letterIn = { opacity: 1, scale: 1, filter: 'blur(0px)', y: 0 };
       const letter = (n: LayerName[], delay: number) =>
         n.forEach((l) => animate(q(l), letterIn, { duration: 0.9, ease: EXPO, delay }));
@@ -138,7 +134,7 @@ export function LogoStage({
   }, [play, still, animate, onBuilt, skipRingDraw]);
 
   // ---- after the build-up: parallax (pointer or tilt), hands that follow the
-  // pointer, tap to converge again, a vortex you can stir. Everything eases
+  // pointer, tap to part them, a vortex you can stir. Everything eases
   // back to zero, so at rest the layers sit exactly as in the artwork. ----
   useEffect(() => {
     if (!interactive || still) return;
@@ -156,8 +152,7 @@ export function LogoStage({
     let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0, visible = true;
     let over = false, lx = 0, ly = 0, prevX = NaN, prevY = NaN;
     let gap = 0, leanX = 0, leanY = 0;
-    let armed = true, cooldown = 0;
-    let burstAt = -1, burstFired = false;
+    let burstAt = -1;
     let theta = 0, omega = 0, lastScroll = window.scrollY;
     let downX = 0, downY = 0;
     let tiltBase: { b: number; g: number } | null = null;
@@ -184,13 +179,6 @@ export function LogoStage({
       prevY = p.y;
       lx = p.x;
       ly = p.y;
-      const d = Math.hypot(lx - CONVERGE.x, ly - CONVERGE.y);
-      if (d > 90) armed = true;
-      if (over && armed && d < 55 && performance.now() > cooldown && burstAt < 0) {
-        armed = false;
-        cooldown = performance.now() + 1200;
-        spark.current?.fire();
-      }
     };
     const onLeave = () => {
       over = false;
@@ -229,7 +217,6 @@ export function LogoStage({
       // iOS only hands out tilt after a tap
       if (!fine && ask && !tilting) ask().then((s) => s === 'granted' && startTilt()).catch(() => {});
       burstAt = performance.now();
-      burstFired = false;
       omega = clamp(omega + 7, 6);
       const letterRipple = (n: LayerName[], delay: number) =>
         n.forEach((l) =>
@@ -250,15 +237,11 @@ export function LogoStage({
       leanX += ((over ? clamp((lx - CONVERGE.x) * 0.03, 12) : 0) - leanX) * 0.08;
       leanY += ((over ? clamp((ly - CONVERGE.y) * 0.03, 12) : 0) - leanY) * 0.08;
       if (burstAt >= 0) {
-        // tap: part quickly, then glide back together and spark on contact
+        // tap: part quickly, then glide back together
         const t = (now - burstAt) / 1000;
         if (t < 0.3) gap = 40 * (1 - Math.pow(1 - t / 0.3, 3));
         else if (t < 1.2) gap = 40 * Math.pow(2, -10 * ((t - 0.3) / 0.9));
         else burstAt = -1;
-        if (t > 0.3 && gap < 4 && !burstFired) {
-          burstFired = true;
-          spark.current?.fire();
-        }
       } else {
         gap += (hoverGap - gap) * 0.08;
       }
@@ -408,7 +391,6 @@ export function LogoStage({
           )}
         </div>
       ))}
-      <ConvergenceSpark ref={spark} x={CONVERGE.x / SIZE} y={CONVERGE.y / SIZE} />
     </div>
   );
 
