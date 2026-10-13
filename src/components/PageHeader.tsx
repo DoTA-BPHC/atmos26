@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { FilmScratches } from './FilmScratches';
 import type { FloorId } from '../world/chambers';
+import { sound } from '../world/sound';
 
 const EXPO = [0.16, 1, 0.3, 1] as const;
 
@@ -33,6 +34,8 @@ export function PageHeader({
     };
   }, [title]);
 
+  // the score plays this page's floor, or rests on pages without one
+  useEffect(() => sound.scene(floor ?? 'rest'), [floor]);
   return (
     <header
       className={`relative overflow-hidden px-4 pb-14 sm:px-8 ${
