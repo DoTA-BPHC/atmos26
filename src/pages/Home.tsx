@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Hero } from '../components/hero/Hero';
 import { Preloader } from '../components/hero/Preloader';
 import { Journey } from '../components/home/Journey';
@@ -9,12 +9,15 @@ import { GalleryStrip } from '../components/home/GalleryStrip';
 import { Manifesto } from '../components/home/Manifesto';
 import { shouldShowPreloader } from '../lib/intro';
 import { PHONE } from '../world/quality';
+import { sound } from '../world/sound';
 
 // the ascent's world: the heavy part of the page, fetched after the hero
 const World = lazy(() => import('../world/World'));
 
 export default function Home() {
   const [boot] = useState(shouldShowPreloader);
+  // the score rests under the hero; the ascent takes over as it rises
+  useEffect(() => sound.scene('rest'), []);
   return (
     <>
       {boot && <Preloader />}

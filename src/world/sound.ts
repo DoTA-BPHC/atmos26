@@ -9,7 +9,11 @@
  *  genome    a struck bell each time a base pair is rewritten
  *  thought   a rising swell through the network, a chime at the apex
  *  summit    a chord as the artwork lands
+ *
+ * Under it all runs the score (music.ts), on every page, not just the ascent.
  */
+
+import { Score, type Scene } from './music';
 
 type Layer = 'clockwork' | 'steam' | 'silicon' | 'genome' | 'intelligence' | 'summit';
 
@@ -45,6 +49,8 @@ class Sound {
   private lastSecond = 0;
   private lastChuff = 0;
   private nextBlip = 0;
+  private score: Score | null = null;
+  private page: Scene = 'rest';
   private onVis = () => {
     if (!this.ctx) return;
     if (document.hidden) this.ctx.suspend();
@@ -95,10 +101,12 @@ class Sound {
     const t = ctx.currentTime;
     this.master.gain.cancelScheduledValues(t);
     this.master.gain.setTargetAtTime(0.9, t, 0.6);
+    this.score!.play();
   }
 
   private stop() {
     if (!this.ctx) return;
+    this.score?.pause();
     const t = this.ctx.currentTime;
     this.master.gain.cancelScheduledValues(t);
     this.master.gain.setTargetAtTime(0, t, 0.25);
@@ -112,6 +120,9 @@ class Sound {
     const Ctx = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     const ctx = new Ctx();
     this.ctx = ctx;
+    // iOS mutes Web Audio on the silent switch unless the page says it's music
+    const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession;
+    if (session) session.type = 'playback';
 
     const comp = ctx.createDynamicsCompressor();
     comp.threshold.value = -18;
@@ -194,7 +205,25 @@ class Sound {
       o.start();
     }
 
+    this.score = new Score(ctx, this.dry, this.wet, () => this.hush());
+    this.score.setPage(this.page);
+
     document.addEventListener('visibilitychange', this.onVis);
+  }
+
+  /** the page's floor, for the score while the ascent isn't on screen */
+  scene(id: Scene) {
+    this.page = id;
+    this.score?.setPage(id);
+  }
+
+  // the ascent has gone quiet (another page, or scrolled past): its drone,
+  // hiss and hum stop reporting, so let them go
+  private hush() {
+    const t = this.ctx!.currentTime;
+    this.droneGain.gain.setTargetAtTime(0, t, 0.6);
+    this.hiss.gain.setTargetAtTime(0, t, 0.3);
+    this.hum.gain.setTargetAtTime(0, t, 0.5);
   }
 
   private impulse(seconds: number) {
@@ -292,6 +321,7 @@ class Sound {
   event(kind: 'flip' | 'fire' | 'land') {
     if (!this.enabled || !this.ctx || this.ctx.state !== 'running') return;
     const t = this.ctx.currentTime + 0.02;
+    if (kind === 'land') this.score?.land();
     if (kind === 'flip' && this.levels.genome > 0.05) {
       const notes = [D * 8, D * 9, D * 10, D * 12, D * 13.5];
       this.bell(t, notes[Math.floor(Math.random() * notes.length)], 0.05 * this.levels.genome);
@@ -315,6 +345,7 @@ class Sound {
     const t = ctx.currentTime;
     for (const k of Object.keys(this.levels) as Layer[]) this.levels[k] = f.layers[k] ?? 0;
     const L = this.levels;
+    this.score?.setWorld(f.presence, f.layers);
 
     this.droneGain.gain.setTargetAtTime(0.07 * f.presence, t, 0.4);
     this.droneFilter.frequency.setTargetAtTime(260 + 1300 * f.progress * f.progress, t, 0.8);
