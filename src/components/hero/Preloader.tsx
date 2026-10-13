@@ -14,6 +14,7 @@ import { intro, markBooted } from '../../lib/intro';
 const RING = manifest.ring;
 const SIZE = manifest.size[0];
 const MIN_MS = 2300;
+const MAX_MS = 4000;
 const ROMAN = ['XII', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI'];
 const EXPO = [0.16, 1, 0.3, 1] as const;
 const IN_OUT = [0.87, 0, 0.13, 1] as const;
@@ -107,11 +108,16 @@ export function Preloader() {
     }
 
     const t0 = performance.now();
+    let last = t0;
     let raf = 0;
     const loop = (now: number) => {
       const cap = Math.min(1, (now - t0) / MIN_MS);
-      const goal = Math.min(target.current, cap);
-      shown.current += (goal - shown.current) * 0.08;
+      // a slow network never holds the page past MAX_MS
+      const goal = now - t0 > MAX_MS ? 1 : Math.min(target.current, cap);
+      // eased by time, not per frame, so a throttled tab doesn't crawl
+      const dt = Math.min(0.5, (now - last) / 1000);
+      last = now;
+      shown.current += (goal - shown.current) * (1 - Math.exp(-dt / 0.2));
       if (goal === 1 && shown.current > 0.995) shown.current = 1;
       setPct(Math.floor(shown.current * 100));
       setSec(Math.floor((now - t0) / 1000));
