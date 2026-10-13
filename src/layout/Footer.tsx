@@ -34,7 +34,7 @@ export function Footer() {
         </div>
 
         <div className={`${card} flex flex-col justify-between gap-10 md:col-span-4`}>
-          <p className="stencil text-[clamp(2.4rem,4vw,3.6rem)] leading-none text-stone">
+          <p className="logo-type text-[clamp(2.2rem,3.6vw,3.2rem)] font-bold tracking-[0.06em] text-stone">
             ATMOS <span className="text-brass">’26</span>
           </p>
           <p className="text-stone-dim">

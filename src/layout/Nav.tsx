@@ -41,7 +41,7 @@ export function Nav() {
       >
         <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-6 px-4 sm:px-8">
           <Link to="/" className="flex items-center" aria-label="ATMOS ’26, home">
-            <span className="stencil text-[1.35rem] text-stone">
+            <span className="logo-type text-[1.3rem] font-bold tracking-[0.06em] text-stone">
               ATMOS <span className="text-brass">’26</span>
             </span>
           </Link>
@@ -52,7 +52,7 @@ export function Nav() {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `group relative py-2 text-[0.95rem] font-medium transition-colors duration-300 ${
+                  `logo-type group relative py-2 text-[0.82rem] font-semibold tracking-[0.2em] transition-colors duration-300 ${
                     isActive ? 'text-brass-hi' : 'text-stone-dim hover:text-stone'
                   }`
                 }

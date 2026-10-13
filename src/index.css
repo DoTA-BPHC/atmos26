@@ -22,7 +22,7 @@
   --color-stone-mute: #8f8279;
   --color-glitch: #e0263a;
 
-  /* Cinzel is the logo's own face: preloader dial only */
+  /* Cinzel is the logo's own face: preloader dial, wordmark and nav */
   --font-cinzel: "Cinzel Variable", "Cinzel", serif;
   /* the reel's "30 DAYS TO GO" face */
   --font-stencil: "Stardos Stencil", "Archivo Variable", serif;
@@ -227,6 +227,14 @@ html[data-lens] .reticle-ring { visibility: hidden; }
   letter-spacing: 0.01em;
   line-height: 0.95;
   text-shadow: var(--shadow-text-display);
+}
+
+/* the logo's own lettering (its taglines are Cinzel caps): the wordmark and the
+   nav; weight and tracking are set where it's used */
+@utility logo-type {
+  font-family: var(--font-cinzel);
+  text-transform: uppercase;
+  line-height: 1;
 }
 
 /* reading text that can sit over the dot field or a photo */

@@ -109,7 +109,7 @@ function MenuLink({ to, label, i }: { to: string; label: string; i: number }) {
         to={to}
         end={to === '/'}
         className={({ isActive }) =>
-          `stencil block py-1 text-[clamp(2.6rem,12vw,4.5rem)] transition-colors ${
+          `logo-type block py-2 text-[clamp(2rem,9vw,3.4rem)] font-semibold tracking-[0.08em] transition-colors ${
             isActive ? 'text-brass' : 'text-stone hover:text-brass-hi'
           }`
         }
