@@ -39,3 +39,6 @@ design/logo/layers/
 # raw Blender exports (packed copies ship; see scripts/blender/world_chambers.py)
 public/world/*.raw.glb
 __pycache__/
+
+# AI hand-off files
+.ai/

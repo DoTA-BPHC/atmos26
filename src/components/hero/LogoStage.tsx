@@ -23,7 +23,17 @@ type LayerName =
 const SIZE = manifest.size[0];
 const RING = manifest.ring;
 const pct = (v: number) => `${(v / SIZE) * 100}%`;
-const layers = manifest.layers as { name: LayerName; x: number; y: number; w: number; h: number }[];
+type Layer = { name: LayerName; x: number; y: number; w: number; h: number };
+const layers = manifest.layers as Layer[];
+
+// framer reads a % translate against each layer's own box, so letters that
+// move together (the M and the sliver of it in front of the fingers) need the
+// same distance in logo pixels, converted per box
+const LETTERS: LayerName[] = ['A', 'T', 'M', 'O', 'S', 'm_front'];
+const M_BOX = layers.find((l) => l.name === 'M')!;
+const ofBox = (logoPx: number, l: Layer) => `${(logoPx * 100) / l.h}%`;
+const LIFT = 0.18 * M_BOX.h;
+const DROP = 0.06 * M_BOX.h;
 
 // where the fingertips meet, in logo pixels
 const CONVERGE = { x: 566, y: 548 };
@@ -88,7 +98,7 @@ export function LogoStage({
     const hb = layers.find((l) => l.name === 'hand_bottom')!;
     const hbb = layers.find((l) => l.name === 'hand_bottom_back')!;
     animate(q('hand_bottom_back'), { x: `${(0.38 * hb.w * 100) / hbb.w}%`, y: `${(0.4 * hb.h * 100) / hbb.h}%` }, { duration: 0 });
-    for (const n of ['A', 'T', 'M', 'O', 'S', 'm_front']) animate(q(n), { y: '6%', scale: 1.35 }, { duration: 0 });
+    for (const l of layers.filter((l) => LETTERS.includes(l.name))) animate(q(l.name), { y: ofBox(DROP, l), scale: 1.35 }, { duration: 0 });
   }, [still, animate]);
 
   // ---- build-up ----
@@ -315,7 +325,6 @@ export function LogoStage({
   const botYBack = useTransform(exit, [0, 1], ['0%', `${(20 * hbBox.h) / hbbBox.h}%`]);
   const fadeLate = useTransform(exit, [0.1, 0.75], [1, 0]);
   const fadeEarly = useTransform(exit, [0, 0.45], [1, 0]);
-  const letterLift = useTransform(exit, [0, 1], ['0%', '-18%']);
   const outerFade = useTransform(exit, [0, 0.6], [1, 0.25]);
 
   const exitStyle = (n: LayerName) => {
@@ -326,8 +335,6 @@ export function LogoStage({
         return { x: botX, y: botY, opacity: fadeLate };
       case 'hand_bottom_back':
         return { x: botXBack, y: botYBack, opacity: fadeLate };
-      case 'A': case 'T': case 'M': case 'O': case 'S': case 'm_front':
-        return { y: letterLift, opacity: fadeEarly };
       case 'tagline_top': case 'tagline_bottom':
         return { opacity: fadeEarly };
       case 'outer':
@@ -388,20 +395,42 @@ export function LogoStage({
           className="absolute will-change-transform"
           style={{ left: pct(l.x), top: pct(l.y), width: pct(l.w), height: pct(l.h) }}
         >
-          <motion.div className="size-full" style={exitStyle(l.name)}>
-            <img
-              src={`/logo/${l.name}.webp`}
-              alt=""
-              draggable={false}
-              decoding="async"
-              fetchPriority={l.name === 'disc' || l.name === 'outer' ? 'high' : 'auto'}
-              className="l-anim block size-full"
-              style={from(l)}
-            />
-          </motion.div>
+          {LETTERS.includes(l.name) ? (
+            <LetterExit box={l} exit={exit} fade={fadeEarly}>
+              {img(l)}
+            </LetterExit>
+          ) : (
+            <motion.div className="size-full" style={exitStyle(l.name)}>
+              {img(l)}
+            </motion.div>
+          )}
         </div>
       ))}
       <ConvergenceSpark ref={spark} x={CONVERGE.x / SIZE} y={CONVERGE.y / SIZE} />
     </div>
+  );
+
+  function img(l: Layer) {
+    return (
+      <img
+        src={`/logo/${l.name}.webp`}
+        alt=""
+        draggable={false}
+        decoding="async"
+        fetchPriority={l.name === 'disc' || l.name === 'outer' ? 'high' : 'auto'}
+        className="l-anim block size-full"
+        style={from(l)}
+      />
+    );
+  }
+}
+
+// every letter lifts the same logo-pixel distance as the hero scrolls away
+function LetterExit({ box, exit, fade, children }: { box: Layer; exit: MotionValue<number>; fade: MotionValue<number>; children: React.ReactNode }) {
+  const y = useTransform(exit, [0, 1], ['0%', ofBox(-LIFT, box)]);
+  return (
+    <motion.div className="size-full" style={{ y, opacity: fade }}>
+      {children}
+    </motion.div>
   );
 }
