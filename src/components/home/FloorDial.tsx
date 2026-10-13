@@ -95,10 +95,10 @@ export function FloorDial({ active }: { active: number }) {
           </ol>
         </div>
       </nav>
-      {/* phones: one hairline that fills as you rise */}
+      {/* phones: one hairline that fills as you rise, just above the thumb bar */}
       <span
         aria-hidden
-        className={`absolute inset-x-0 bottom-0 h-px bg-stone/10 transition-opacity duration-700 lg:hidden ${on ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute inset-x-0 bottom-[calc(3.5rem+env(safe-area-inset-bottom))] h-px bg-stone/10 transition-opacity duration-700 lg:hidden ${on ? 'opacity-100' : 'opacity-0'}`}
       >
         <span ref={fill} className="block h-full origin-left bg-brass" style={{ transform: 'scaleX(0)' }} />
       </span>
