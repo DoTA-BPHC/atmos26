@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import { NAV } from '../data/fest';
 import { useLenis } from '../components/SmoothScroll';
 import { MobileMenu } from './MobileMenu';
+import { BottomNav } from './BottomNav';
 import { SoundToggle } from './SoundToggle';
 import { useWorld } from '../world/store';
 
@@ -94,6 +95,7 @@ export function Nav() {
         </div>
       </header>
       <AnimatePresence>{open && <MobileMenu onClose={() => setOpen(false)} />}</AnimatePresence>
+      <BottomNav hidden={open} />
     </>
   );
 }

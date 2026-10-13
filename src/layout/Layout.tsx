@@ -68,7 +68,9 @@ function Pages() {
         <main id="main">
           <Suspense fallback={<div className="min-h-svh" />}>{outlet}</Suspense>
         </main>
-        <Footer />
+        <div className="pb-[calc(3.5rem+env(safe-area-inset-bottom))] lg:pb-0">
+          <Footer />
+        </div>
         <motion.div
           aria-hidden
           className="pointer-events-none fixed inset-0 z-[75] bg-void"
