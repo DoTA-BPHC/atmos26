@@ -5,7 +5,6 @@ import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, type Plugin } from 'vite'
 import { EVENTS, eventSummary } from './src/data/events.ts'
 import { FEST } from './src/data/fest.ts'
-import { PROSHOWS } from './src/data/proshows.ts'
 import { TITLE_SPONSOR } from './src/data/sponsors.ts'
 
 // the domain index.html is written with; FEST.url replaces it at build time
@@ -59,15 +58,8 @@ function sitePages(): Plugin {
         paths.push(path)
       }
 
-      const artists = PROSHOWS.filter((p) => p.artist).map((p) => p.artist)
       page('events', 'Events · ATMOS ’26', `${EVENTS.length} competitions, workshops and experiences. ${where}.`)
-      page(
-        'proshows',
-        'Proshows · ATMOS ’26',
-        artists.length
-          ? `Three nights on the main stage: ${artists.join(', ')}. ${where}.`
-          : `Three nights on the main stage. The line-up stays sealed until the reveal. ${where}.`,
-      )
+      page('proshows', 'Proshows · ATMOS ’26', `Line-up revealing soon. ${where}.`)
       page('gallery', 'Gallery · ATMOS ’26', 'Photos from past editions of ATMOS, the technical fest of BITS Pilani, Hyderabad Campus.')
       page(
         'sponsors',

@@ -42,7 +42,6 @@ export const STATS = [
 
 export const NAV = [
   { to: '/events', label: 'Events' },
-  { to: '/proshows', label: 'Proshows' },
   { to: '/gallery', label: 'Gallery' },
   { to: '/sponsors', label: 'Sponsors' },
   { to: '/contact', label: 'Contact' },

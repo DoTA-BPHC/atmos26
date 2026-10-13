@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CATEGORIES, EVENTS } from '../../data/events';
-import { LINEUP_SEALED, PROSHOWS } from '../../data/proshows';
 import { STATS } from '../../data/fest';
 import { PassesButton } from '../PassesButton';
 
@@ -23,6 +22,8 @@ interface Arena {
   blurb: string;
   to?: string;
   count?: number;
+  /** what an arena without a count says instead */
+  status?: string;
 }
 
 const ARENAS: Arena[] = [
@@ -32,12 +33,7 @@ const ARENAS: Arena[] = [
     count: EVENTS.filter((e) => e.category === c.id).length,
   })),
   { id: 'talks', label: 'Talks', blurb: 'Speakers are revealed closer to the fest.' },
-  {
-    id: 'proshows',
-    label: 'Proshows',
-    blurb: LINEUP_SEALED ? 'Three nights on the main stage. The line-up stays sealed.' : 'Three nights on the main stage.',
-    to: '/proshows',
-  },
+  { id: 'proshows', label: 'Proshows', blurb: 'Line-up revealing soon.', status: 'TBA' },
 ];
 
 // past editions, counted; the figure glitches once as it lands
@@ -92,7 +88,7 @@ export function Hub() {
       <div className="mx-auto w-full max-w-[1440px]">
         <div className="grid gap-x-10 lg:grid-cols-12">
           {/* Arenas */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-12">
             <div className="flex flex-wrap items-end justify-between gap-6">
               <h2 id="hub-title" className="display text-[clamp(2.4rem,4.4vw,4.4rem)] text-stone">
                 Pick your <span className="text-brass-hi">arena</span>
@@ -115,13 +111,13 @@ export function Hub() {
                     >
                       {c.label}
                     </span>
-                    <span className="text-lift max-w-[26ch] text-right text-stone-dim">
+                    <span className="text-lift max-w-[26ch] text-right text-stone-dim lg:flex lg:max-w-none lg:flex-row-reverse lg:items-baseline lg:gap-8">
                       {c.count === undefined ? (
-                        <span className="block text-xl text-stone">Coming soon</span>
+                        <span className="block text-xl text-stone">{c.status ?? 'Coming soon'}</span>
                       ) : (
                         <span className="stencil block text-2xl text-stone">{String(c.count).padStart(2, '0')}</span>
                       )}
-                      <span className="hidden 2xl:block">{c.blurb}</span>
+                      <span className="hidden lg:block">{c.blurb}</span>
                     </span>
                   </>
                 );
@@ -156,42 +152,6 @@ export function Hub() {
                 )}
               </AnimatePresence>
             </ul>
-          </div>
-
-          {/* Proshows */}
-          <div className="relative isolate mt-12 overflow-hidden border-l border-stone/12 pl-8 lg:col-span-5 lg:mt-0">
-            <img src="/gallery/proshow-960.jpg" alt="" className="duotone absolute inset-0 -z-10 size-full object-cover opacity-30" />
-            <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,#000_0%,rgb(0_0_0/0.4)_35%,rgb(0_0_0/0.4)_65%,#000_100%)]" />
-            <h3 className="display text-[clamp(1.8rem,2.8vw,2.8rem)] text-stone">
-              Three nights.
-              <br />
-              <span className="text-brass-hi">{LINEUP_SEALED ? 'Names sealed.' : 'The line-up.'}</span>
-            </h3>
-            <ol className="mt-6 border-b border-stone/15">
-              {PROSHOWS.map((p, i) => (
-                <motion.li
-                  key={p.night}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-10% 0px' }}
-                  transition={{ duration: 0.9, ease: EXPO, delay: i * 0.08 }}
-                  className="glitch-hover border-t border-stone/15 py-[clamp(0.4rem,1.1svh,0.75rem)]"
-                >
-                  <p className="text-lift text-stone-dim">
-                    {p.night} · {p.date}
-                  </p>
-                  <p className="stencil glitch-text text-[clamp(1.6rem,min(2.6vw,4.4svh),2.6rem)] text-stone" data-text={p.codename}>
-                    {p.codename}
-                  </p>
-                  <p className="text-lift text-stone-dim">
-                    {p.genre} · <span className="text-brass-hi">{p.artist ?? 'Act sealed'}</span>
-                  </p>
-                </motion.li>
-              ))}
-            </ol>
-            <Link to="/proshows" className="mt-6 inline-block text-[1.05rem] text-stone-dim underline decoration-brass/60 hover:text-stone">
-              Proshow details
-            </Link>
           </div>
 
           {/* Bottom row */}

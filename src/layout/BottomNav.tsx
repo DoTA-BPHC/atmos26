@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router';
-import { CalendarDays, Home, Images, Music, Ticket } from 'lucide-react';
+import { CalendarDays, Handshake, Home, Images, Ticket } from 'lucide-react';
 import { CONTACT, FEST } from '../data/fest';
 
 const ITEMS = [
   { to: '/', label: 'Home', Icon: Home },
   { to: '/events', label: 'Events', Icon: CalendarDays },
-  { to: '/proshows', label: 'Proshows', Icon: Music },
   { to: '/gallery', label: 'Gallery', Icon: Images },
+  { to: '/sponsors', label: 'Sponsors', Icon: Handshake },
 ];
 
 // Phones and tablets: the main pages and passes under the thumb. Off on the

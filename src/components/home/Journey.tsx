@@ -381,9 +381,6 @@ function WaysIn({ className = '' }: { className?: string }) {
         <PassesButton />
       </div>
       <p className="mt-5 flex justify-center gap-6 text-[1.05rem]">
-        <Link to="/proshows" className="text-stone-dim underline decoration-brass/60 hover:text-stone">
-          Proshows
-        </Link>
         <Link to="/gallery" className="text-stone-dim underline decoration-brass/60 hover:text-stone">
           Gallery
         </Link>
