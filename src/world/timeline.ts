@@ -7,7 +7,7 @@ import { PHONE } from './quality';
  * camera, the materials, the copy and the sound all read from one place.
  */
 
-export type SegmentId = 'dive' | EraId | 'summit';
+export type SegmentId = 'hero' | 'dive' | EraId | 'summit';
 
 export interface Segment {
   id: SegmentId;
@@ -17,10 +17,14 @@ export interface Segment {
   floor: number;
 }
 
-// a swipe throws a phone a screen or two, so its floors are shorter runs
-const LENGTHS = PHONE ? { dive: 0.7, era: 1.2, summit: 1.5 } : { dive: 1.6, era: 2.4, summit: 2.6 };
+// a swipe throws a phone a screen or two, so its floors are shorter runs;
+// the hero is the camera resting at the top of the shaft while the page opens
+const LENGTHS = PHONE
+  ? { hero: 0.5, dive: 0.4, era: 0.7, summit: 1.0 }
+  : { hero: 0.9, dive: 1.0, era: 1.4, summit: 1.8 };
 
 export const SEGMENTS: Segment[] = [
+  { id: 'hero', vh: LENGTHS.hero, floor: ERAS.length },
   { id: 'dive', vh: LENGTHS.dive, floor: ERAS.length },
   ...ERAS.map((e, i) => ({ id: e.id, vh: LENGTHS.era, floor: i })),
   { id: 'summit', vh: LENGTHS.summit, floor: ERAS.length },
@@ -34,6 +38,12 @@ export const BOUNDS = SEGMENTS.reduce<[number, number][]>((acc, s) => {
   acc.push([start, start + s.vh / TOTAL_VH]);
   return acc;
 }, []);
+
+export const indexOf = (id: SegmentId) => SEGMENTS.findIndex((s) => s.id === id);
+export const boundsOf = (id: SegmentId) => BOUNDS[indexOf(id)];
+
+// the segment of floor i: era i, or the summit above the last era
+export const floorSegment = (i: number) => indexOf(i < ERAS.length ? ERAS[i].id : 'summit');
 
 export function locate(p: number) {
   const clamped = Math.min(0.99999, Math.max(0, p));

@@ -22,11 +22,18 @@ export default function World() {
     // three.js comes with the engine, so the still tier never downloads it
     let engine: Engine | undefined;
     let gone = false;
-    import('./engine').then((m) => {
-      if (!gone) engine = new m.Engine(el, tier, setTier);
-    });
+    const start = () => {
+      import('./engine').then((m) => {
+        if (!gone) engine = new m.Engine(el, tier, setTier);
+      });
+    };
+    // wait for the browser to be idle so the first paint isn't competing
+    const idle = 'requestIdleCallback' in window ? window.requestIdleCallback(start, { timeout: 1500 }) : undefined;
+    const timer = idle === undefined ? window.setTimeout(start, 300) : undefined;
     return () => {
       gone = true;
+      if (idle !== undefined) window.cancelIdleCallback(idle);
+      if (timer !== undefined) window.clearTimeout(timer);
       engine?.dispose();
     };
   }, [tier]);

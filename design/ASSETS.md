@@ -18,6 +18,8 @@ How every shipped asset was made, so it can be regenerated.
 ## Floor stills — `public/world/stills/*.webp`
 - Rendered from the live site, not re-drawn: `http://localhost:5173/?tier=high&capture` at 1600×1000 (capture mode keeps each machine centred), with the page chrome hidden, each floor scrolled to its standing moment (clockwork 0.62, steam 0.6, silicon 0.6, genome 0.62, intelligence 0.6 of its segment). Screenshots via Playwright, resized to 1280×800 and saved as WebP (quality 82) in PIL. Used for reduced motion, devices without WebGL, and inner-page headers there.
 
+Shaft-top stills `top.webp` (1280x800, from a 1600x1000 capture) and `top-portrait.webp` (720x1280): same capture mode, the journey scrolled to progress 0 (the hero pose, camera resting above the top collar). They sit behind the hero logo until the live shaft takes over.
+
 ## Point clouds — `public/shapes/*.bin`
 - `scripts/blender/era_shapes.py` (Blender 5.2, headless: `blender -b --factory-startup -P scripts/blender/era_shapes.py`) models hands (from `design/source/rigged_lowpoly_hand.glb`), pocket watch, locomotive, circuit-board city, DNA, brain and concentric rings procedurally, samples 12,000 surface points each (int16 xyz). Reference GLBs land in `design/3d/`. Only `halo.bin` (the logo's ring, from `scripts/halo_points.py`) is used by the Ascension, for the summit.
 
