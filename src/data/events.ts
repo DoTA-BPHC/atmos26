@@ -328,6 +328,9 @@ export const EVENTS: FestEvent[] = [...LIST].sort(
 
 export const formatPrize = (p: number | null) => (p === null ? '—' : `₹${p.toLocaleString('en-IN')}`);
 
+// entry fee as a number for sorting: Free is 0, '₹250 per 10 min' is 250, TBA sorts last
+export const feeValue = (fee: string) => (fee === 'Free' ? 0 : Number(fee.match(/₹\s*([\d,]+)/)?.[1]?.replace(/,/g, '') ?? Infinity));
+
 // one line for an event's share card and page: prize, entry, organisers
 export function eventSummary(e: FestEvent) {
   const by = e.clubs?.map((c) => CLUBS[c].name).join(' × ');
