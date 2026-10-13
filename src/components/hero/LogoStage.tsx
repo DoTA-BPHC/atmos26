@@ -212,8 +212,10 @@ export function LogoStage({
       tilting = true;
       window.addEventListener('deviceorientation', onTilt);
     };
-    const ask = (DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<string> }).requestPermission;
-    if (!fine && typeof window.DeviceOrientationEvent !== 'undefined' && !ask) startTilt();
+    // insecure pages (http on a LAN) and some in-app browsers have no orientation API at all
+    const orientation = typeof window.DeviceOrientationEvent === 'undefined' ? undefined : window.DeviceOrientationEvent;
+    const ask = (orientation as unknown as { requestPermission?: () => Promise<string> } | undefined)?.requestPermission;
+    if (!fine && orientation && !ask) startTilt();
 
     const onDown = (e: PointerEvent) => {
       downX = e.clientX;
