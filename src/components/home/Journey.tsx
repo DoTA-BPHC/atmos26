@@ -57,7 +57,8 @@ function Pinned() {
   const show = text && seg !== null;
   const canSkip = seg !== null && seg.id !== 'hero' && seg.id !== 'summit';
 
-  // desktop jumps to the hub below the ascent; phones to the end of the run
+  // desktop jumps to the hub below the ascent; phones to the end of the run.
+  // On phones the link sits under the header, clear of the era copy at the bottom
   const skip = () => {
     const el = ref.current;
     if (!el) return;
@@ -132,8 +133,8 @@ function Pinned() {
             >
               {/* phones: the copy sits under the machine, so it gets a dark floor to stand on */}
               <div aria-hidden className="absolute inset-x-0 bottom-0 h-[52svh] bg-linear-to-t from-void via-void/75 to-transparent md:hidden" />
-              {/* wide screens: a soft shade on the copy's side, so drawings behind it stay quiet */}
-              <div aria-hidden className="absolute inset-y-0 left-0 hidden w-[48%] bg-linear-to-r from-void/75 via-void/40 to-transparent md:block" />
+              {/* wide screens: a shade on the copy's side, so busy machines behind it stay quiet */}
+              <div aria-hidden className="absolute inset-y-0 left-0 hidden w-[55%] bg-linear-to-r from-void/90 via-void/60 to-transparent md:block" />
               <div className="relative mx-auto w-full max-w-[1440px]">
                 <div className="max-w-[30rem] md:max-w-[38%]">
                   <p className="stencil text-[clamp(1.4rem,2.2vw,2rem)] text-brass" style={{ textTransform: 'none' }}>
@@ -144,14 +145,14 @@ function Pinned() {
                     {era.line}
                   </p>
                   {eraIndex === 0 && ready && (
-                    <p className="text-lift mt-8 max-w-[34ch] text-[0.95rem] text-stone-mute">
+                    <p className="text-lift mt-8 max-w-[34ch] text-[0.95rem] text-stone-dim">
                       {fine
                         ? 'Move across the machine to see it the way a machine does.'
                         : 'Tap the machine to see it the way a machine does.'}
                     </p>
                   )}
                   {era.id === 'intelligence' && ready && (
-                    <p className="text-lift mt-8 max-w-[34ch] text-[0.95rem] text-stone-mute">
+                    <p className="text-lift mt-8 max-w-[34ch] text-[0.95rem] text-stone-dim">
                       {fine ? 'Click anywhere to send a thought up through it.' : 'Tap to send a thought up through it.'}
                     </p>
                   )}
@@ -167,7 +168,7 @@ function Pinned() {
               key="skip"
               type="button"
               onClick={skip}
-              className="pointer-events-auto absolute bottom-[calc(max(1.5rem,4svh)+3.5rem)] left-4 text-[0.95rem] text-stone-dim underline decoration-brass/60 hover:text-stone sm:left-8 lg:bottom-[max(1.5rem,4svh)]"
+              className="text-lift pointer-events-auto absolute right-4 top-20 text-[0.95rem] text-stone-dim underline decoration-brass/60 hover:text-stone md:bottom-[calc(max(1.5rem,4svh)+3.5rem)] md:left-8 md:right-auto md:top-auto lg:bottom-[max(1.5rem,4svh)]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

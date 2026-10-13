@@ -111,45 +111,53 @@ function HeroBody({ fx, exit, live }: { fx: Fx; exit: MotionValue<number>; live:
         October 2026.
       </h1>
 
-      <motion.div
-        className="relative w-[min(88vw,44svh)] sm:w-[min(62vw,calc(100svh-4rem-15rem))]"
-        style={still ? { maxWidth: LOGO_MAX } : { maxWidth: LOGO_MAX, scale: fx.stageScale, y: fx.stageY }}
-        data-hero-stage
-      >
-        <LogoStage
-          play={play}
-          still={still}
-          interactive={built}
-          fine={fine}
-          exit={exit}
-          skipRingDraw={intro.handedOff()}
-          onBuilt={onBuilt}
-        />
-      </motion.div>
+      {/* the logo and the title sponsor: stacked on phones, side by side with a brass rule from md */}
+      <div className="flex w-full flex-col items-center md:flex-1 md:flex-row md:justify-center md:gap-[clamp(2rem,4vw,4.5rem)] md:pb-36">
+        <motion.div
+          className="relative w-[min(88vw,44svh)] md:w-[min(46vw,calc(100svh-4rem-10rem))]"
+          style={still ? { maxWidth: LOGO_MAX } : { maxWidth: LOGO_MAX, scale: fx.stageScale, y: fx.stageY }}
+          data-hero-stage
+        >
+          <LogoStage
+            play={play}
+            still={still}
+            interactive={built}
+            fine={fine}
+            exit={exit}
+            skipRingDraw={intro.handedOff()}
+            onBuilt={onBuilt}
+          />
+        </motion.div>
 
-      <motion.div
-        className="relative z-10 flex w-full flex-col items-center px-4 text-center sm:px-8"
-        style={still ? undefined : { opacity: fx.copyOpacity, y: fx.copyY }}
-      >
-        {TITLE_SPONSOR && (
-          <motion.a
-            {...reveal(2.4)}
-            href={TITLE_SPONSOR.href}
-            target="_blank"
-            rel="noreferrer"
-            className={`group mt-3 flex flex-col items-center gap-2 sm:mt-[2svh] ${live ? 'pointer-events-auto' : 'pointer-events-none'}`}
-          >
-            <img
-              src={TITLE_SPONSOR.logo}
-              alt={TITLE_SPONSOR.name}
-              width={1192}
-              height={264}
-              className="h-9 w-auto sm:h-[clamp(2.25rem,5svh,2.75rem)]"
-            />
-            <span className="meta text-stone-dim transition-colors duration-300 group-hover:text-stone">Title sponsor</span>
-          </motion.a>
-        )}
-      </motion.div>
+        <motion.div
+          className="relative z-10 flex flex-col items-center px-4 text-center md:flex-row md:gap-[clamp(2rem,4vw,4.5rem)] md:px-0"
+          style={still ? undefined : { opacity: fx.copyOpacity, y: fx.copyY }}
+        >
+          {TITLE_SPONSOR && (
+            <>
+              <motion.span {...reveal(2.3)} aria-hidden className="hidden h-[min(34svh,18rem)] w-px bg-brass/50 md:block" />
+              <motion.a
+                {...reveal(2.4)}
+                href={TITLE_SPONSOR.href}
+                target="_blank"
+                rel="noreferrer"
+                className={`group mt-4 flex flex-col items-center gap-3 md:mt-0 ${live ? 'pointer-events-auto' : 'pointer-events-none'}`}
+              >
+                <img
+                  src={TITLE_SPONSOR.logo}
+                  alt={TITLE_SPONSOR.name}
+                  width={1192}
+                  height={264}
+                  className="h-12 w-auto md:h-[clamp(3rem,min(6vw,10svh),5.5rem)]"
+                />
+                <span className="meta text-stone-dim transition-colors duration-300 group-hover:text-stone md:text-[0.95rem]">
+                  Title sponsor
+                </span>
+              </motion.a>
+            </>
+          )}
+        </motion.div>
+      </div>
 
       <motion.div
         className="absolute inset-x-0 bottom-0 z-10 bg-linear-to-t from-void via-void/85 to-transparent pt-12"
