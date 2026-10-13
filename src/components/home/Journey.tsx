@@ -1,16 +1,19 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import manifest from '../../data/logoLayers.json';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import type { MotionValue } from 'framer-motion';
 import { ERAS } from '../../data/eras';
 import { FEST } from '../../data/fest';
 import { TITLE_SPONSOR } from '../../data/sponsors';
 import { useFinePointer } from '../../lib/hooks';
+import { Hero } from '../hero/Hero';
 import { FloorDial } from './FloorDial';
+import { useLenis } from '../SmoothScroll';
 import { PassesButton } from '../PassesButton';
 import { guessTier, PHONE } from '../../world/quality';
-import { useWorld, world } from '../../world/store';
-import { BOUNDS, SEGMENTS, TOTAL_VH } from '../../world/timeline';
+import { journeyRun, useWorld, world } from '../../world/store';
+import { boundsOf, BOUNDS, SEGMENTS, TOTAL_VH } from '../../world/timeline';
 
 const EXPO = [0.16, 1, 0.3, 1] as const;
 // phones skip the blur: animating a filter over the live world costs frames
@@ -33,6 +36,15 @@ function Pinned() {
   const ref = useRef<HTMLElement>(null);
   const { segment, text, ready, sponsor, landed } = useWorld();
   const fine = useFinePointer();
+  const lenis = useLenis();
+
+  // the hero leaves as the camera starts down from the top of the shaft
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  const heroExit = useSpring(useTransform(scrollYProgress, [0, boundsOf('hero')[1]], [0, 1]), {
+    stiffness: 120,
+    damping: 30,
+    mass: 0.4,
+  });
 
   useEffect(() => {
     world.setJourney(ref.current);
@@ -43,6 +55,18 @@ function Pinned() {
   const eraIndex = seg ? ERAS.findIndex((e) => e.id === seg.id) : -1;
   const era = eraIndex >= 0 ? ERAS[eraIndex] : null;
   const show = text && seg !== null;
+  const canSkip = seg !== null && seg.id !== 'hero' && seg.id !== 'summit';
+
+  // desktop jumps to the hub below the ascent; phones to the end of the run
+  const skip = () => {
+    const el = ref.current;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    const hub = PHONE ? null : document.getElementById('hub');
+    const y = hub ? hub.getBoundingClientRect().top + window.scrollY : top + journeyRun(el);
+    if (lenis) lenis.scrollTo(y, { duration: 1.6 });
+    else window.scrollTo({ top: y });
+  };
 
   return (
     <section ref={ref} className="relative" style={{ height: `${(TOTAL_VH + 1) * 100}svh` }} aria-labelledby="ascent-title">
@@ -62,6 +86,8 @@ function Pinned() {
       ))}
 
       <div data-stage className="pointer-events-none sticky top-0 z-10 h-svh overflow-hidden">
+        <HeroPoster exit={heroExit} />
+        <Hero exit={heroExit} />
         <SummitArtwork />
         <SummitSponsor show={sponsor} />
         <AnimatePresence mode="wait">
@@ -78,7 +104,7 @@ function Pinned() {
           {landed && (
             <motion.div
               key="landed"
-              className="absolute inset-x-0 bottom-[max(2rem,6svh)] px-4 text-center"
+              className="absolute inset-x-0 bottom-[calc(max(2rem,6svh)+3.5rem)] px-4 text-center lg:bottom-[max(2rem,6svh)]"
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
@@ -135,9 +161,50 @@ function Pinned() {
           )}
         </AnimatePresence>
 
+        <AnimatePresence>
+          {canSkip && (
+            <motion.button
+              key="skip"
+              type="button"
+              onClick={skip}
+              className="pointer-events-auto absolute bottom-[calc(max(1.5rem,4svh)+3.5rem)] left-4 text-[0.95rem] text-stone-dim underline decoration-brass/60 hover:text-stone sm:left-8 lg:bottom-[max(1.5rem,4svh)]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              Skip to events
+            </motion.button>
+          )}
+        </AnimatePresence>
+
         <FloorDial active={eraIndex} />
       </div>
     </section>
+  );
+}
+
+/**
+ * The shaft at the hero pose, as a picture: it shows at once, then gives way to
+ * the live world once that has drawn, and goes as the hero leaves.
+ */
+function HeroPoster({ exit }: { exit: MotionValue<number> }) {
+  const { ready } = useWorld();
+  const opacity = useTransform(exit, [0.5, 1], [1, 0]);
+  return (
+    <motion.div aria-hidden className="absolute inset-0" style={{ opacity }}>
+      <motion.div
+        className="absolute inset-0"
+        initial={{ opacity: 1 }}
+        animate={{ opacity: ready ? 0 : 1 }}
+        transition={{ duration: 1.2 }}
+      >
+        <picture>
+          <source media="(orientation: portrait)" srcSet="/world/stills/top-portrait.webp" />
+          <img src="/world/stills/top.webp" alt="" decoding="async" className="absolute inset-0 size-full object-cover" />
+        </picture>
+      </motion.div>
+    </motion.div>
   );
 }
 
