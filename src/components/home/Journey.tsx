@@ -125,13 +125,13 @@ function Pinned() {
           {show && era && (
             <motion.div
               key={era.id}
-              className="absolute inset-x-0 bottom-0 px-4 pb-[max(2.5rem,8svh)] sm:px-8 md:inset-y-0 md:flex md:items-center md:pb-0"
+              className="absolute inset-x-0 bottom-0 px-4 pb-[calc(max(1.5rem,4svh)+3.5rem)] sm:px-8 md:inset-y-0 md:flex md:items-center md:pb-0"
               initial={{ opacity: 0, y: 28, ...SOFT }}
               animate={{ opacity: 1, y: 0, ...SHARP }}
               exit={{ opacity: 0, y: -20, ...SOFT }}
               transition={{ duration: 0.8, ease: EXPO }}
             >
-              {/* phones: the copy sits under the machine, so it gets a dark floor to stand on */}
+              {/* phones: the copy sits under the machine, above the thumb bar, on a dark floor */}
               <div aria-hidden className="absolute inset-x-0 bottom-0 h-[52svh] bg-linear-to-t from-void via-void/75 to-transparent md:hidden" />
               {/* wide screens: a shade on the copy's side, so busy machines behind it stay quiet */}
               <div aria-hidden className="absolute inset-y-0 left-0 hidden w-[55%] bg-linear-to-r from-void/90 via-void/60 to-transparent md:block" />

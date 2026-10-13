@@ -111,10 +111,10 @@ function HeroBody({ fx, exit, live }: { fx: Fx; exit: MotionValue<number>; live:
         October 2026.
       </h1>
 
-      {/* the logo and the title sponsor: stacked on phones, side by side with a brass rule from md */}
-      <div className="flex w-full flex-col items-center md:flex-1 md:flex-row md:justify-center md:gap-[clamp(2rem,4vw,4.5rem)] md:pb-36">
+      {/* the logo and the title sponsor side by side with a brass rule between, centred in the space above the dock */}
+      <div className="flex w-full flex-1 flex-row items-center justify-center gap-3 pb-[19rem] sm:gap-6 md:gap-[clamp(2rem,4vw,4.5rem)] md:pb-36">
         <motion.div
-          className="relative w-[min(88vw,44svh)] md:w-[min(46vw,calc(100svh-4rem-10rem))]"
+          className="relative w-[min(50vw,34svh)] md:w-[min(46vw,calc(100svh-4rem-10rem))]"
           style={still ? { maxWidth: LOGO_MAX } : { maxWidth: LOGO_MAX, scale: fx.stageScale, y: fx.stageY }}
           data-hero-stage
         >
@@ -130,25 +130,25 @@ function HeroBody({ fx, exit, live }: { fx: Fx; exit: MotionValue<number>; live:
         </motion.div>
 
         <motion.div
-          className="relative z-10 flex flex-col items-center px-4 text-center md:flex-row md:gap-[clamp(2rem,4vw,4.5rem)] md:px-0"
+          className="relative z-10 flex flex-row items-center gap-3 text-center sm:gap-6 md:gap-[clamp(2rem,4vw,4.5rem)]"
           style={still ? undefined : { opacity: fx.copyOpacity, y: fx.copyY }}
         >
           {TITLE_SPONSOR && (
             <>
-              <motion.span {...reveal(2.3)} aria-hidden className="hidden h-[min(34svh,18rem)] w-px bg-brass/50 md:block" />
+              <motion.span {...reveal(2.3)} aria-hidden className="h-[min(18svh,8rem)] w-px bg-brass/50 md:h-[min(34svh,18rem)]" />
               <motion.a
                 {...reveal(2.4)}
                 href={TITLE_SPONSOR.href}
                 target="_blank"
                 rel="noreferrer"
-                className={`group mt-4 flex flex-col items-center gap-3 md:mt-0 ${live ? 'pointer-events-auto' : 'pointer-events-none'}`}
+                className={`group flex flex-col items-center gap-2 md:gap-3 ${live ? 'pointer-events-auto' : 'pointer-events-none'}`}
               >
                 <img
                   src={TITLE_SPONSOR.logo}
                   alt={TITLE_SPONSOR.name}
                   width={1192}
                   height={264}
-                  className="h-12 w-auto md:h-[clamp(3rem,min(6vw,10svh),5.5rem)]"
+                  className="h-[clamp(1.5rem,7.5vw,2.25rem)] w-auto md:h-[clamp(3rem,min(6vw,10svh),5.5rem)]"
                 />
                 <span className="meta text-stone-dim transition-colors duration-300 group-hover:text-stone md:text-[0.95rem]">
                   Title sponsor
