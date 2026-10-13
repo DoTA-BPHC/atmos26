@@ -1,6 +1,6 @@
 /**
  * The ascent's sound, synthesised in the browser (no recordings, nothing to
- * license). Off until the visitor turns it on, and the choice is remembered.
+ * license). Off on every visit until the visitor turns it on.
  *
  *  drone     a low pad that opens up as you rise; the future is brighter
  *  clockwork tick and tock on the escapement's own seconds
@@ -58,20 +58,11 @@ class Sound {
   };
 
   constructor() {
+    // older builds remembered "on" and woke the sound on the next visit's first click
     try {
-      this.enabled = localStorage.getItem(KEY) === 'on';
+      localStorage.removeItem(KEY);
     } catch {
-      this.enabled = false;
-    }
-    // a remembered "on" still needs a gesture before audio may start
-    if (this.enabled && typeof window !== 'undefined') {
-      const wake = () => {
-        window.removeEventListener('pointerdown', wake);
-        window.removeEventListener('keydown', wake);
-        if (this.enabled) this.start();
-      };
-      window.addEventListener('pointerdown', wake);
-      window.addEventListener('keydown', wake);
+      /* storage blocked: nothing to clear */
     }
   }
 
@@ -84,11 +75,6 @@ class Sound {
 
   toggle() {
     this.enabled = !this.enabled;
-    try {
-      localStorage.setItem(KEY, this.enabled ? 'on' : 'off');
-    } catch {
-      /* private mode: the choice lasts this visit */
-    }
     if (this.enabled) this.start();
     else this.stop();
     this.subs.forEach((s) => s());

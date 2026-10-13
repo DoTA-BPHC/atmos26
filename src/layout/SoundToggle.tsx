@@ -4,7 +4,7 @@ import { sound } from '../world/sound';
 
 const get = () => sound.enabled;
 
-// Sound for the ascent: off until asked for, and remembered.
+// The site's sound: off on every visit until asked for.
 export function SoundToggle() {
   const on = useSyncExternalStore((fn) => sound.subscribe(fn), get, () => false);
   const Icon = on ? Volume2 : VolumeX;
@@ -13,7 +13,7 @@ export function SoundToggle() {
       type="button"
       onClick={() => sound.toggle()}
       aria-pressed={on}
-      className={`flex h-11 items-center gap-2 px-1 text-[0.95rem] font-medium transition-colors duration-300 ${
+      className={`logo-type flex h-11 items-center gap-2 px-1 text-[0.82rem] font-semibold tracking-[0.2em] transition-colors duration-300 ${
         on ? 'text-brass-hi' : 'text-stone-dim hover:text-stone'
       }`}
     >
