@@ -35,7 +35,7 @@ export const ERAS = [
     when: '2026',
     name: 'Intelligence',
     line: 'Thought shared with machines. The next hand is the one we build together.',
-    scene: 'A cone of brass hoops strung with thousands of wires, rising to a single unit at the top.',
+    scene: 'A brain cast in brass on a turned lab stand, its folds threaded with nerve tracts that carry the signal.',
   },
 ] as const;
 
