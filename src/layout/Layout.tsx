@@ -1,6 +1,6 @@
 import { Suspense, useEffect } from 'react';
 import { useLocation, useOutlet } from 'react-router';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import { SmoothScroll, useLenis, scrollToTarget } from '../components/SmoothScroll';
 import { useReducedMotion } from '../lib/hooks';
 import { Nav } from './Nav';
@@ -15,27 +15,30 @@ let firstPage = true;
 export default function Layout() {
   return (
     <SmoothScroll>
-      <a
-        href="#main"
-        className="meta fixed left-4 top-3 z-[90] -translate-y-20 bg-brass px-3 py-2 text-void focus:translate-y-0"
-      >
-        Skip to content
-      </a>
-      <Nav />
-      <Pages />
-      <Cursor />
-      <div aria-hidden className="grain" />
-      {/* duotone for photos: luminance mapped black → brass → stone */}
-      <svg aria-hidden width="0" height="0" className="absolute">
-        <filter id="duotone" colorInterpolationFilters="sRGB">
-          <feColorMatrix type="matrix" values="0.3 0.59 0.11 0 0  0.3 0.59 0.11 0 0  0.3 0.59 0.11 0 0  0 0 0 1 0" />
-          <feComponentTransfer>
-            <feFuncR type="table" tableValues="0.01 0.42 0.79 0.92" />
-            <feFuncG type="table" tableValues="0.01 0.24 0.55 0.86" />
-            <feFuncB type="table" tableValues="0.01 0.07 0.2 0.8" />
-          </feComponentTransfer>
-        </filter>
-      </svg>
+      {/* reduced motion: framer skips movement (rises, slides, layout) and keeps fades */}
+      <MotionConfig reducedMotion="user">
+        <a
+          href="#main"
+          className="meta fixed left-4 top-3 z-[90] -translate-y-20 bg-brass px-3 py-2 text-void focus:translate-y-0"
+        >
+          Skip to content
+        </a>
+        <Nav />
+        <Pages />
+        <Cursor />
+        <div aria-hidden className="grain" />
+        {/* duotone for photos: luminance mapped black → brass → stone */}
+        <svg aria-hidden width="0" height="0" className="absolute">
+          <filter id="duotone" colorInterpolationFilters="sRGB">
+            <feColorMatrix type="matrix" values="0.3 0.59 0.11 0 0  0.3 0.59 0.11 0 0  0.3 0.59 0.11 0 0  0 0 0 1 0" />
+            <feComponentTransfer>
+              <feFuncR type="table" tableValues="0.01 0.42 0.79 0.92" />
+              <feFuncG type="table" tableValues="0.01 0.24 0.55 0.86" />
+              <feFuncB type="table" tableValues="0.01 0.07 0.2 0.8" />
+            </feComponentTransfer>
+          </filter>
+        </svg>
+      </MotionConfig>
     </SmoothScroll>
   );
 }
@@ -65,7 +68,9 @@ function Pages() {
         <main id="main">
           <Suspense fallback={<div className="min-h-svh" />}>{outlet}</Suspense>
         </main>
-        <Footer />
+        <div className="pb-[calc(3.5rem+env(safe-area-inset-bottom))] lg:pb-0">
+          <Footer />
+        </div>
         <motion.div
           aria-hidden
           className="pointer-events-none fixed inset-0 z-[75] bg-void"

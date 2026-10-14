@@ -18,7 +18,7 @@ import { Rig, type Key } from './rig';
 import { sound } from './sound';
 import { Shaft } from './shaft';
 import { journeyProgress, world } from './store';
-import { beats, BOUNDS, FLOOR, locate, SEGMENTS, smooth, type Beats } from './timeline';
+import { beats, BOUNDS, boundsOf, FLOOR, floorSegment, locate, SEGMENTS, smooth, type Beats } from './timeline';
 
 type LiveTier = Exclude<Tier, 'still'>;
 
@@ -191,19 +191,22 @@ export class Engine {
   private stream(pc: number) {
     if (this.tier === 'high') return;
     this.floors.forEach((f, i) => {
-      if (!f.loaded && pc >= BOUNDS[i][0]) f.load(this.loader).then(this.calm);
+      if (!f.loaded && pc >= BOUNDS[floorSegment(i) - 1][0]) f.load(this.loader).then(this.calm);
     });
   }
 
   private buildKeys(): Key[] {
     const keys: Key[] = [];
     const top = ERAS.length * FLOOR;
-    const [d0, d1] = BOUNDS[0];
+    const [h0] = boundsOf('hero');
+    const [d0, d1] = boundsOf('dive');
+    // the hero: the camera rests where the dive begins
+    keys.push({ p: h0, pos: new THREE.Vector3(0, top + 20, 3.5), look: new THREE.Vector3(0, top - 30, 0) });
     // the dive: from above the top collar, down the whole shaft to 1700
     keys.push({ p: d0, pos: new THREE.Vector3(0, top + 20, 3.5), look: new THREE.Vector3(0, top - 30, 0) });
     keys.push({ p: d0 + (d1 - d0) * 0.62, pos: new THREE.Vector3(0.3, FLOOR * 0.9, 7), look: new THREE.Vector3(0, -2, 0) });
     this.floors.forEach((f, i) => {
-      const [a, b] = BOUNDS[i + 1];
+      const [a, b] = BOUNDS[floorSegment(i)];
       const o = new THREE.Vector3(0, i * FLOOR, 0);
       for (const k of f.spec.camera) {
         keys.push({ p: a + k.t * (b - a), pos: v3(k.pos).add(o), look: v3(k.look).add(o) });
@@ -278,6 +281,8 @@ export class Engine {
       const r = el.getBoundingClientRect();
       const vh = window.innerHeight;
       fade = Math.min(THREE.MathUtils.clamp((vh - r.top) / (vh * 0.85), 0, 1), THREE.MathUtils.clamp(r.bottom / (vh * 0.6), 0, 1));
+      // the world comes up out of black rather than popping in
+      fade *= Math.min(1, this.time / 1.2);
     }
     const opacity = fade.toFixed(3);
     if (opacity !== this.opacity) this.host.style.opacity = this.opacity = opacity;
@@ -301,7 +306,7 @@ export class Engine {
     this.lastP = pc;
     const at = locate(pc);
     const seg = at.segment;
-    const era = seg.id !== 'dive' && seg.id !== 'summit';
+    const era = seg.id !== 'hero' && seg.id !== 'dive' && seg.id !== 'summit';
     const b = beats(at.local);
     const summit = seg.id === 'summit';
     world.set({
@@ -309,6 +314,7 @@ export class Engine {
       text:
         p >= 0 &&
         p <= 1 &&
+        seg.id !== 'hero' &&
         (era ? b.text : summit ? at.local > 0.05 && at.local < 0.3 : at.local > 0.08 && at.local < 0.92),
       // the summit: statement while the ring gathers, then the title sponsor
       // in the empty ring, then the artwork lands in it
@@ -320,13 +326,13 @@ export class Engine {
 
     // each floor's beats from its own slice of the journey; during the dive
     // the eras above the first are glimpsed as dust while you fall past them
-    const diving = seg.id === 'dive' && p >= 0;
+    const diving = (seg.id === 'dive' || seg.id === 'hero') && p >= 0;
     this.floors.forEach((f, i) => {
-      const [a, bb] = BOUNDS[i + 1];
+      const [a, bb] = BOUNDS[floorSegment(i)];
       const t = THREE.MathUtils.clamp((pc - a) / (bb - a), 0, 1);
       if (diving && i > 0) {
         f.setBeats(GLIMPSE);
-        f.u.uSee.value = 0.26 * smooth(0.0, 0.25, at.local);
+        f.u.uSee.value = seg.id === 'hero' ? 0 : 0.26 * smooth(0.0, 0.25, at.local);
         f.group.visible = f.loaded;
         if (f.group.visible) f.update(this.time, dt, { velocity: 0, built: 0 });
       } else {
@@ -422,7 +428,7 @@ export class Engine {
     if (!sound.enabled) return;
     const layers: Record<string, number> = {};
     this.floors.forEach((f, i) => {
-      const [a, b] = BOUNDS[i + 1];
+      const [a, b] = BOUNDS[floorSegment(i)];
       const t = THREE.MathUtils.clamp((pc - a) / (b - a), 0, 1);
       layers[f.spec.id] = f === this.summit ? smooth(0.3, 0.6, t) : smooth(0.05, 0.22, t) * (1 - smooth(0.86, 1, t));
     });

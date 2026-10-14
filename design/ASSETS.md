@@ -18,11 +18,14 @@ How every shipped asset was made, so it can be regenerated.
 ## Floor stills — `public/world/stills/*.webp`
 - Rendered from the live site, not re-drawn: `http://localhost:5173/?tier=high&capture` at 1600×1000 (capture mode keeps each machine centred), with the page chrome hidden, each floor scrolled to its standing moment (clockwork 0.62, steam 0.6, silicon 0.6, genome 0.62, intelligence 0.6 of its segment). Screenshots via Playwright, resized to 1280×800 and saved as WebP (quality 82) in PIL. Used for reduced motion, devices without WebGL, and inner-page headers there.
 
+Shaft-top stills `top.webp` (1280x800, from a 1600x1000 capture) and `top-portrait.webp` (720x1280): same capture mode, the journey scrolled to progress 0 (the hero pose, camera resting above the top collar). They sit behind the hero logo until the live shaft takes over.
+
 ## Point clouds — `public/shapes/*.bin`
 - `scripts/blender/era_shapes.py` (Blender 5.2, headless: `blender -b --factory-startup -P scripts/blender/era_shapes.py`) models hands (from `design/source/rigged_lowpoly_hand.glb`), pocket watch, locomotive, circuit-board city, DNA, brain and concentric rings procedurally, samples 12,000 surface points each (int16 xyz). Reference GLBs land in `design/3d/`. Only `halo.bin` (the logo's ring, from `scripts/halo_points.py`) is used by the Ascension, for the summit.
 
 ## Event images — `public/events/*.webp`
-- Only the clubs' own posters (4:3, WebP ≤ 300 KB), set per event as `image` in `src/data/events.ts`. An event without one shows no picture.
+- Only the events' own posters (WebP ≤ 300 KB, 900 px wide, any height), set per event as `image` in `src/data/events.ts`. An event without one shows no picture.
+- The first eleven (14 Oct) come from the fest's Instagram posts (`instagram.com/p/<code>/media/?size=l`; Finding the Next Signal from @eco_assoc.bphc's collab post). The bottom strip with organisers' names and phone numbers is cropped off (AGENTS.md rule 3), then resized to 900 px wide at WebP quality 80. Chemistry Casino's post is visible only when logged in, so it was saved from the logged-in post page (1350 px original).
 - Generated stand-ins were made once (Z-Image-Turbo, `scripts/events/`) but never shipped; the site no longer falls back to them.
 
 ## Sponsor logos — `public/sponsors/*.webp`
@@ -30,8 +33,9 @@ How every shipped asset was made, so it can be regenerated.
 
 ## Other rasters
 - `public/og.jpg`, `public/favicon.png`, `public/apple-touch-icon.png`: made in PIL from the official artwork (+ Stardos Stencil / Archivo for the share card).
-- `public/gallery/*`: past-edition photos supplied by the team.
-- `public/clubs/*.webp`: organising-club logos from SU Connect's public `club-logos` bucket (as shown on su-connect-bphc.vercel.app/clubs), centre-cropped to 96 px squares on black in PIL. Alchemy is left out because SU Connect shows E-Cell's logo in its place.
+- `public/gallery/*`: past-edition photos supplied by the team. `ad_astra.jpg` and `dota_events.jpg` were re-encoded once (Pillow, JPEG q82, progressive, same pixel size, EXIF/XMP/ICC and origin comment kept) because they shipped at 1.5 MB and 505 KB.
+- `public/gallery/*-960.jpg`: 960 px wide copies of the photos wider than 1200 px, for phones and the masonry grid (Pillow, Lanczos, JPEG q80, metadata kept). Listed as `small` in `GALLERY` (`src/data/fest.ts`); a new photo wider than 1200 px should get one too.
+- `public/clubs/*.webp`: organising-club logos from SU Connect's public `club-logos` bucket (as shown on su-connect-bphc.vercel.app/clubs), centre-cropped to 96 px squares on black in PIL. Alchemy is left out because SU Connect shows E-Cell's logo in its place, and SAE because SU Connect has none.
 - Every file in `public/` carries its origin in embedded metadata (`impeccable embed-prompt --scan public`).
 
 ## Local toolkit

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Engine } from './engine';
+import type { Engine } from './engine';
 import { guessTier, type Tier } from './quality';
 import { world } from './store';
 
@@ -19,8 +19,23 @@ export default function World() {
   useEffect(() => {
     const el = host.current;
     if (!el || tier === 'still') return;
-    const engine = new Engine(el, tier, setTier);
-    return () => engine.dispose();
+    // three.js comes with the engine, so the still tier never downloads it
+    let engine: Engine | undefined;
+    let gone = false;
+    const start = () => {
+      import('./engine').then((m) => {
+        if (!gone) engine = new m.Engine(el, tier, setTier);
+      });
+    };
+    // wait for the browser to be idle so the first paint isn't competing
+    const idle = 'requestIdleCallback' in window ? window.requestIdleCallback(start, { timeout: 1500 }) : undefined;
+    const timer = idle === undefined ? window.setTimeout(start, 300) : undefined;
+    return () => {
+      gone = true;
+      if (idle !== undefined) window.cancelIdleCallback(idle);
+      if (timer !== undefined) window.clearTimeout(timer);
+      engine?.dispose();
+    };
   }, [tier]);
 
   if (tier === 'still') return null;

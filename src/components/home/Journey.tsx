@@ -1,16 +1,19 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import manifest from '../../data/logoLayers.json';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import type { MotionValue } from 'framer-motion';
 import { ERAS } from '../../data/eras';
 import { FEST } from '../../data/fest';
 import { TITLE_SPONSOR } from '../../data/sponsors';
 import { useFinePointer } from '../../lib/hooks';
+import { Hero } from '../hero/Hero';
 import { FloorDial } from './FloorDial';
+import { useLenis } from '../SmoothScroll';
 import { PassesButton } from '../PassesButton';
 import { guessTier, PHONE } from '../../world/quality';
-import { useWorld, world } from '../../world/store';
-import { BOUNDS, SEGMENTS, TOTAL_VH } from '../../world/timeline';
+import { journeyRun, useWorld, world } from '../../world/store';
+import { boundsOf, BOUNDS, SEGMENTS, TOTAL_VH } from '../../world/timeline';
 
 const EXPO = [0.16, 1, 0.3, 1] as const;
 // phones skip the blur: animating a filter over the live world costs frames
@@ -33,6 +36,15 @@ function Pinned() {
   const ref = useRef<HTMLElement>(null);
   const { segment, text, ready, sponsor, landed } = useWorld();
   const fine = useFinePointer();
+  const lenis = useLenis();
+
+  // the hero leaves as the camera starts down from the top of the shaft
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  const heroExit = useSpring(useTransform(scrollYProgress, [0, boundsOf('hero')[1]], [0, 1]), {
+    stiffness: 120,
+    damping: 30,
+    mass: 0.4,
+  });
 
   useEffect(() => {
     world.setJourney(ref.current);
@@ -43,6 +55,19 @@ function Pinned() {
   const eraIndex = seg ? ERAS.findIndex((e) => e.id === seg.id) : -1;
   const era = eraIndex >= 0 ? ERAS[eraIndex] : null;
   const show = text && seg !== null;
+  const canSkip = seg !== null && seg.id !== 'hero' && seg.id !== 'summit';
+
+  // desktop jumps to the hub below the ascent; phones to the end of the run.
+  // On phones the link sits under the header, clear of the era copy at the bottom
+  const skip = () => {
+    const el = ref.current;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    const hub = PHONE ? null : document.getElementById('hub');
+    const y = hub ? hub.getBoundingClientRect().top + window.scrollY : top + journeyRun(el);
+    if (lenis) lenis.scrollTo(y, { duration: 1.6 });
+    else window.scrollTo({ top: y });
+  };
 
   return (
     <section ref={ref} className="relative" style={{ height: `${(TOTAL_VH + 1) * 100}svh` }} aria-labelledby="ascent-title">
@@ -62,6 +87,8 @@ function Pinned() {
       ))}
 
       <div data-stage className="pointer-events-none sticky top-0 z-10 h-svh overflow-hidden">
+        <HeroPoster exit={heroExit} />
+        <Hero exit={heroExit} />
         <SummitArtwork />
         <SummitSponsor show={sponsor} />
         <AnimatePresence mode="wait">
@@ -78,7 +105,7 @@ function Pinned() {
           {landed && (
             <motion.div
               key="landed"
-              className="absolute inset-x-0 bottom-[max(2rem,6svh)] px-4 text-center"
+              className="absolute inset-x-0 bottom-[calc(max(2rem,6svh)+3.5rem)] px-4 text-center lg:bottom-[max(2rem,6svh)]"
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
@@ -98,16 +125,16 @@ function Pinned() {
           {show && era && (
             <motion.div
               key={era.id}
-              className="absolute inset-x-0 bottom-0 px-4 pb-[max(2.5rem,8svh)] sm:px-8 md:inset-y-0 md:flex md:items-center md:pb-0"
+              className="absolute inset-x-0 bottom-0 px-4 pb-[calc(max(1.5rem,4svh)+3.5rem)] sm:px-8 md:inset-y-0 md:flex md:items-center md:pb-0"
               initial={{ opacity: 0, y: 28, ...SOFT }}
               animate={{ opacity: 1, y: 0, ...SHARP }}
               exit={{ opacity: 0, y: -20, ...SOFT }}
               transition={{ duration: 0.8, ease: EXPO }}
             >
-              {/* phones: the copy sits under the machine, so it gets a dark floor to stand on */}
+              {/* phones: the copy sits under the machine, above the thumb bar, on a dark floor */}
               <div aria-hidden className="absolute inset-x-0 bottom-0 h-[52svh] bg-linear-to-t from-void via-void/75 to-transparent md:hidden" />
-              {/* wide screens: a soft shade on the copy's side, so drawings behind it stay quiet */}
-              <div aria-hidden className="absolute inset-y-0 left-0 hidden w-[48%] bg-linear-to-r from-void/75 via-void/40 to-transparent md:block" />
+              {/* wide screens: a shade on the copy's side, so busy machines behind it stay quiet */}
+              <div aria-hidden className="absolute inset-y-0 left-0 hidden w-[55%] bg-linear-to-r from-void/90 via-void/60 to-transparent md:block" />
               <div className="relative mx-auto w-full max-w-[1440px]">
                 <div className="max-w-[30rem] md:max-w-[38%]">
                   <p className="stencil text-[clamp(1.4rem,2.2vw,2rem)] text-brass" style={{ textTransform: 'none' }}>
@@ -118,14 +145,14 @@ function Pinned() {
                     {era.line}
                   </p>
                   {eraIndex === 0 && ready && (
-                    <p className="text-lift mt-8 max-w-[34ch] text-[0.95rem] text-stone-mute">
+                    <p className="text-lift mt-8 max-w-[34ch] text-[0.95rem] text-stone-dim">
                       {fine
                         ? 'Move across the machine to see it the way a machine does.'
                         : 'Tap the machine to see it the way a machine does.'}
                     </p>
                   )}
                   {era.id === 'intelligence' && ready && (
-                    <p className="text-lift mt-8 max-w-[34ch] text-[0.95rem] text-stone-mute">
+                    <p className="text-lift mt-8 max-w-[34ch] text-[0.95rem] text-stone-dim">
                       {fine ? 'Click anywhere to send a thought up through it.' : 'Tap to send a thought up through it.'}
                     </p>
                   )}
@@ -135,9 +162,50 @@ function Pinned() {
           )}
         </AnimatePresence>
 
+        <AnimatePresence>
+          {canSkip && (
+            <motion.button
+              key="skip"
+              type="button"
+              onClick={skip}
+              className="text-lift pointer-events-auto absolute right-4 top-20 text-[0.95rem] text-stone-dim underline decoration-brass/60 hover:text-stone md:bottom-[calc(max(1.5rem,4svh)+3.5rem)] md:left-8 md:right-auto md:top-auto lg:bottom-[max(1.5rem,4svh)]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              Skip to events
+            </motion.button>
+          )}
+        </AnimatePresence>
+
         <FloorDial active={eraIndex} />
       </div>
     </section>
+  );
+}
+
+/**
+ * The shaft at the hero pose, as a picture: it shows at once, then gives way to
+ * the live world once that has drawn, and goes as the hero leaves.
+ */
+function HeroPoster({ exit }: { exit: MotionValue<number> }) {
+  const { ready } = useWorld();
+  const opacity = useTransform(exit, [0.5, 1], [1, 0]);
+  return (
+    <motion.div aria-hidden className="absolute inset-0" style={{ opacity }}>
+      <motion.div
+        className="absolute inset-0"
+        initial={{ opacity: 1 }}
+        animate={{ opacity: ready ? 0 : 1 }}
+        transition={{ duration: 1.2 }}
+      >
+        <picture>
+          <source media="(orientation: portrait)" srcSet="/world/stills/top-portrait.webp" />
+          <img src="/world/stills/top.webp" alt="" decoding="async" className="absolute inset-0 size-full object-cover" />
+        </picture>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -313,9 +381,6 @@ function WaysIn({ className = '' }: { className?: string }) {
         <PassesButton />
       </div>
       <p className="mt-5 flex justify-center gap-6 text-[1.05rem]">
-        <Link to="/proshows" className="text-stone-dim underline decoration-brass/60 hover:text-stone">
-          Proshows
-        </Link>
         <Link to="/gallery" className="text-stone-dim underline decoration-brass/60 hover:text-stone">
           Gallery
         </Link>

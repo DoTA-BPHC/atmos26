@@ -16,8 +16,8 @@ export const FEST = {
     { date: '24', weekday: 'Sat', month: 'Oct' },
     { date: '25', weekday: 'Sun', month: 'Oct' },
   ],
-  // registration isn't open yet; flip this and set the url when it is
-  registration: { open: false, url: '' as string },
+  // registration runs on Flemmingo, the "Registration link" in the fest's Instagram bio
+  registration: { open: true, url: 'https://flemmingo.in/fests/cmv5ldlzu0000lb06f8nmef17' as string },
   coordinates: { lat: 17.5449, lng: 78.5718 },
   // absolute links for share cards; WhatsApp and Instagram ignore relative ones
   url: 'https://atmos26.vercel.app',
@@ -42,22 +42,27 @@ export const STATS = [
 
 export const NAV = [
   { to: '/events', label: 'Events' },
-  { to: '/proshows', label: 'Proshows' },
   { to: '/gallery', label: 'Gallery' },
   { to: '/sponsors', label: 'Sponsors' },
   { to: '/contact', label: 'Contact' },
 ] as const;
 
+// w × h are the files' pixel sizes, so the page can reserve their space before they load;
+// `small` is a 960 px wide copy for phones and the masonry grid (see design/ASSETS.md)
 export const GALLERY = [
-  { src: '/gallery/proshow.jpg', caption: 'Proshow night' },
-  { src: '/gallery/robo_soccer.jpg', caption: 'Robo Soccer' },
-  { src: '/gallery/drone_league.jpg', caption: 'Drone League' },
-  { src: '/gallery/tech_expo.jpg', caption: 'Tech Expo' },
-  { src: '/gallery/actors_guest_talks.jpg', caption: 'Guest talks' },
-  { src: '/gallery/ad_astra.jpg', caption: 'Ad Astra' },
-  { src: '/gallery/comedy_night.jpg', caption: 'Comedy night' },
-  { src: '/gallery/dota_events.jpg', caption: 'DoTA events' },
-  { src: '/gallery/puzzle_event.jpg', caption: 'Puzzle hunt' },
-  { src: '/gallery/speed_cubing.jpg', caption: 'Speed cubing' },
-  { src: '/gallery/womenInCode.jpg', caption: 'Women in Code' },
+  { src: '/gallery/proshow.jpg', caption: 'Proshow night', w: 2048, h: 1366, small: '/gallery/proshow-960.jpg' },
+  { src: '/gallery/robo_soccer.jpg', caption: 'Robo Soccer', w: 1440, h: 1800, small: '/gallery/robo_soccer-960.jpg' },
+  { src: '/gallery/drone_league.jpg', caption: 'Drone League', w: 2048, h: 1638, small: '/gallery/drone_league-960.jpg' },
+  { src: '/gallery/tech_expo.jpg', caption: 'Tech Expo', w: 2048, h: 1638, small: '/gallery/tech_expo-960.jpg' },
+  { src: '/gallery/actors_guest_talks.jpg', caption: 'Guest talks', w: 2048, h: 1536, small: '/gallery/actors_guest_talks-960.jpg' },
+  { src: '/gallery/ad_astra.jpg', caption: 'Ad Astra', w: 2048, h: 1365, small: '/gallery/ad_astra-960.jpg' },
+  { src: '/gallery/comedy_night.jpg', caption: 'Comedy night', w: 2048, h: 1365, small: '/gallery/comedy_night-960.jpg' },
+  { src: '/gallery/dota_events.jpg', caption: 'DoTA events', w: 2048, h: 1365, small: '/gallery/dota_events-960.jpg' },
+  { src: '/gallery/puzzle_event.jpg', caption: 'Puzzle hunt', w: 800, h: 800 },
+  { src: '/gallery/speed_cubing.jpg', caption: 'Speed cubing', w: 800, h: 800 },
+  { src: '/gallery/womenInCode.jpg', caption: 'Women in Code', w: 2048, h: 1366, small: '/gallery/womenInCode-960.jpg' },
 ] as const;
+
+// srcSet for a gallery photo: its 960 px copy where there is one, then the original
+export const gallerySrcSet = (g: (typeof GALLERY)[number]) =>
+  'small' in g ? `${g.small} 960w, ${g.src} ${g.w}w` : undefined;

@@ -2,8 +2,10 @@
 
 Every visible pixel of every layer is copied from atmos-website.jpg. Only
 pixels that are hidden in the original (behind a hand, behind a letter) are
-generated, with LaMa inpainting. scripts/verify_logo.py re-stacks the shipped
-layers and fails if the result differs from the original.
+generated: the vortex is filled around the circle, hidden strokes come from
+the team's own layers, and the fingers behind the M are filled from the skin
+around them. scripts/verify_logo.py re-stacks the shipped layers and fails if
+the result differs from the original.
 
 Inputs:  atmos-website.jpg, design/logo/masks/*.png (from logo_segment.py)
 Outputs: public/logo/*.webp, src/data/logoLayers.json, design/logo/layers/*.png
@@ -15,7 +17,6 @@ from pathlib import Path
 
 import cv2
 import numpy as np
-import torch
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,7 +25,6 @@ MASKS = ROOT / "design/logo/masks"
 WORK = ROOT / "design/logo/layers"
 PUBLIC = ROOT / "public/logo"
 MANIFEST = ROOT / "src/data/logoLayers.json"
-LAMA = Path("D:/atmos-ai/models/lama/big-lama.pt")
 # the design team's own layer exports (3000 px, same framing as the logo)
 SOURCE = ROOT / "design/source"
 
@@ -46,23 +46,26 @@ def load_mask(name: str) -> np.ndarray:
     return cv2.imread(str(MASKS / f"{name}.png"), cv2.IMREAD_GRAYSCALE) > 127
 
 
-class Lama:
-    def __init__(self) -> None:
-        self.model = torch.jit.load(str(LAMA), map_location="cuda").eval()
+def skin_fill(rgb: np.ndarray, hole: np.ndarray, skin: np.ndarray) -> np.ndarray:
+    """Fill a hole inside a hand from the hand's own pixels only.
 
-    def __call__(self, rgb: np.ndarray, hole: np.ndarray) -> np.ndarray:
-        h, w = hole.shape
-        ph, pw = (-h) % 8, (-w) % 8
-        img = np.pad(rgb, ((0, ph), (0, pw), (0, 0)), mode="reflect")
-        m = np.pad(hole.astype(np.float32), ((0, ph), (0, pw)))
-        x = torch.from_numpy(img).permute(2, 0, 1)[None].float().cuda() / 255
-        k = torch.from_numpy(m)[None, None].cuda()
-        with torch.no_grad():
-            y = self.model(x * (1 - k), k)
-        out = (y[0].permute(1, 2, 0).clamp(0, 1).cpu().numpy() * 255).round().astype(np.uint8)[:h, :w]
-        res = rgb.copy()
-        res[hole] = out[hole]
-        return res
+    Everything around the hole that isn't skin (the letter crossing it, the
+    vortex) counts as unknown too, so skin is the only colour the fill can
+    grow from; Navier-Stokes inpainting then carries the finger tones across.
+    """
+    ys, xs = np.nonzero(hole)
+    pad = 60
+    y0, y1 = max(ys.min() - pad, 0), min(ys.max() + pad, hole.shape[0])
+    x0, x1 = max(xs.min() - pad, 0), min(xs.max() + pad, hole.shape[1])
+    unknown = (hole | ~skin)[y0:y1, x0:x1]
+    patch = cv2.inpaint(rgb[y0:y1, x0:x1], unknown.astype(np.uint8), 9, cv2.INPAINT_NS)
+    grain = np.random.default_rng(7).normal(0, 2.2, patch.shape)
+    patch = np.clip(patch.astype(np.float32) + grain, 0, 255).astype(np.uint8)
+    out = rgb.copy()
+    out[y0:y1, x0:x1] = patch
+    res = rgb.copy()
+    res[hole] = out[hole]
+    return res
 
 
 def polar_fill(rgb: np.ndarray, hole: np.ndarray, center, max_r: float) -> np.ndarray:
@@ -124,7 +127,6 @@ def main() -> None:
     luma = cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY)
     yy, xx = np.mgrid[0:H, 0:W]
     radius = np.hypot(xx - RING_C[0], yy - RING_C[1])
-    lama = Lama()
 
     # ---- object masks (visible pixels only) ----
     hand_top = load_mask("hand_top")
@@ -189,9 +191,18 @@ def main() -> None:
     m_front = letters["M"] & enclosed & ~hand_top
     m_front = cv2.morphologyEx(m_front.astype(np.uint8), cv2.MORPH_OPEN, K(1)) > 0
 
-    hand_top_a = hand_top & ~m_front
+    # the M's ink outline and soft edge round that stretch were cut with the hand;
+    # they go with the letter too, so the slice leaves the fist whole when it moves
+    skin = (((hsv[..., 0] <= 25) | (hsv[..., 0] >= 170)) & (hsv[..., 1] > 70) & (hsv[..., 2] > 45))
+    m_slice = m_front | (grow(m_front, 4) & hand_top & ~skin)
+
+    hand_top_a = hand_top & ~m_slice
     hand_bottom_a = hand_bottom & ~hand_top_a
-    hand_top_full = hand_top_a | m_front
+    hand_top_full = hand_top_a | m_slice
+    # only the stretch inside the grip has hand behind it; the bit under the ring
+    # fingertip has none, so the hand layer leaves it out rather than paint skin there
+    _, lab, stats, _ = cv2.connectedComponentsWithStats(m_slice.astype(np.uint8))
+    grip = lab == 1 + np.argmax(stats[1:, cv2.CC_STAT_AREA])
     hand_layers = hand_top_full | hand_bottom_a
     letter_a = {n: m & ~hand_layers for n, m in letters.items()}
     tag_all = np.logical_or.reduce(list(taglines.values()))
@@ -204,8 +215,8 @@ def main() -> None:
     base = np.where(upper[..., None], filled, rgb)
     Image.fromarray(base).save(WORK / "base_filled.png")
 
-    # ---- hands: the fingers behind the M diagonal are hidden, fill them ----
-    ht = lama(rgb, m_front)
+    # ---- hands: the fingers behind the M slice are hidden, fill them from the skin ----
+    ht = skin_fill(rgb, grip, hand_top_a & skin)
 
     # ---- letters: strokes hidden under the hands come from the team's lettering layer ----
     # (visible pixels stay the JPEG's; only covered pixels are taken from the source.
@@ -238,8 +249,8 @@ def main() -> None:
         ("hand_bottom_back", hsrc_rgb, hand_back_alpha, False),
         *[(n, letter_rgb[n], letter_full[n], False) for n in LETTERS],
         ("hand_bottom", rgb, hand_bottom_a, False),
-        ("hand_top", ht, hand_top_full, False),
-        ("m_front", rgb, grow(m_front, 0), False),
+        ("hand_top", ht, hand_top_a | grip, False),
+        ("m_front", rgb, m_slice, False),
         *[(n, rgb, a, False) for n, a in taglines.items()],
     ]
 

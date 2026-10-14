@@ -1,7 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { motion, useAnimate, useTransform, type MotionValue } from 'framer-motion';
 import manifest from '../../data/logoLayers.json';
-import { ConvergenceSpark, type SparkHandle } from './ConvergenceSpark';
 
 /**
  * LogoStage
@@ -12,8 +11,8 @@ import { ConvergenceSpark, type SparkHandle } from './ConvergenceSpark';
  * were ever generated.
  *
  * Build-up: ring draws itself → vortex spins up → circuits light outwards →
- * the two hands glide in from their corners → a spark where they converge →
- * the letters ripple out from the M → taglines wipe in.
+ * the two hands glide in from their corners and meet → the letters ripple out
+ * from the M → taglines wipe in.
  */
 
 type LayerName =
@@ -23,7 +22,17 @@ type LayerName =
 const SIZE = manifest.size[0];
 const RING = manifest.ring;
 const pct = (v: number) => `${(v / SIZE) * 100}%`;
-const layers = manifest.layers as { name: LayerName; x: number; y: number; w: number; h: number }[];
+type Layer = { name: LayerName; x: number; y: number; w: number; h: number };
+const layers = manifest.layers as Layer[];
+
+// framer reads a % translate against each layer's own box, so letters that
+// move together (the M and the sliver of it in front of the fingers) need the
+// same distance in logo pixels, converted per box
+const LETTERS: LayerName[] = ['A', 'T', 'M', 'O', 'S', 'm_front'];
+const M_BOX = layers.find((l) => l.name === 'M')!;
+const ofBox = (logoPx: number, l: Layer) => `${(logoPx * 100) / l.h}%`;
+const LIFT = 0.18 * M_BOX.h;
+const DROP = 0.06 * M_BOX.h;
 
 // where the fingertips meet, in logo pixels
 const CONVERGE = { x: 566, y: 548 };
@@ -72,7 +81,6 @@ export function LogoStage({
   onBuilt?: () => void;
 }) {
   const [scope, animate] = useAnimate<HTMLDivElement>();
-  const spark = useRef<SparkHandle>(null);
   const built = useRef(false);
 
   // pre-intro poses for transforms (framer owns transforms, so set them through it
@@ -88,7 +96,7 @@ export function LogoStage({
     const hb = layers.find((l) => l.name === 'hand_bottom')!;
     const hbb = layers.find((l) => l.name === 'hand_bottom_back')!;
     animate(q('hand_bottom_back'), { x: `${(0.38 * hb.w * 100) / hbb.w}%`, y: `${(0.4 * hb.h * 100) / hbb.h}%` }, { duration: 0 });
-    for (const n of ['A', 'T', 'M', 'O', 'S', 'm_front']) animate(q(n), { y: '6%', scale: 1.35 }, { duration: 0 });
+    for (const l of layers.filter((l) => LETTERS.includes(l.name))) animate(q(l.name), { y: ofBox(DROP, l), scale: 1.35 }, { duration: 0 });
   }, [still, animate]);
 
   // ---- build-up ----
@@ -111,8 +119,6 @@ export function LogoStage({
       animate(q('hand_bottom_back'), handIn, { duration: 1.6, ease: EXPO, delay: 1.0 });
       await animate(q('hand_bottom'), handIn, { duration: 1.6, ease: EXPO, delay: 1.0 });
 
-      spark.current?.fire();
-
       const letterIn = { opacity: 1, scale: 1, filter: 'blur(0px)', y: 0 };
       const letter = (n: LayerName[], delay: number) =>
         n.forEach((l) => animate(q(l), letterIn, { duration: 0.9, ease: EXPO, delay }));
@@ -128,7 +134,7 @@ export function LogoStage({
   }, [play, still, animate, onBuilt, skipRingDraw]);
 
   // ---- after the build-up: parallax (pointer or tilt), hands that follow the
-  // pointer, tap to converge again, a vortex you can stir. Everything eases
+  // pointer, tap to part them, a vortex you can stir. Everything eases
   // back to zero, so at rest the layers sit exactly as in the artwork. ----
   useEffect(() => {
     if (!interactive || still) return;
@@ -146,8 +152,7 @@ export function LogoStage({
     let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0, visible = true;
     let over = false, lx = 0, ly = 0, prevX = NaN, prevY = NaN;
     let gap = 0, leanX = 0, leanY = 0;
-    let armed = true, cooldown = 0;
-    let burstAt = -1, burstFired = false;
+    let burstAt = -1;
     let theta = 0, omega = 0, lastScroll = window.scrollY;
     let downX = 0, downY = 0;
     let tiltBase: { b: number; g: number } | null = null;
@@ -174,13 +179,6 @@ export function LogoStage({
       prevY = p.y;
       lx = p.x;
       ly = p.y;
-      const d = Math.hypot(lx - CONVERGE.x, ly - CONVERGE.y);
-      if (d > 90) armed = true;
-      if (over && armed && d < 55 && performance.now() > cooldown && burstAt < 0) {
-        armed = false;
-        cooldown = performance.now() + 1200;
-        spark.current?.fire();
-      }
     };
     const onLeave = () => {
       over = false;
@@ -202,8 +200,10 @@ export function LogoStage({
       tilting = true;
       window.addEventListener('deviceorientation', onTilt);
     };
-    const ask = (DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<string> }).requestPermission;
-    if (!fine && typeof window.DeviceOrientationEvent !== 'undefined' && !ask) startTilt();
+    // insecure pages (http on a LAN) and some in-app browsers have no orientation API at all
+    const orientation = typeof window.DeviceOrientationEvent === 'undefined' ? undefined : window.DeviceOrientationEvent;
+    const ask = (orientation as unknown as { requestPermission?: () => Promise<string> } | undefined)?.requestPermission;
+    if (!fine && orientation && !ask) startTilt();
 
     const onDown = (e: PointerEvent) => {
       downX = e.clientX;
@@ -217,7 +217,6 @@ export function LogoStage({
       // iOS only hands out tilt after a tap
       if (!fine && ask && !tilting) ask().then((s) => s === 'granted' && startTilt()).catch(() => {});
       burstAt = performance.now();
-      burstFired = false;
       omega = clamp(omega + 7, 6);
       const letterRipple = (n: LayerName[], delay: number) =>
         n.forEach((l) =>
@@ -238,15 +237,11 @@ export function LogoStage({
       leanX += ((over ? clamp((lx - CONVERGE.x) * 0.03, 12) : 0) - leanX) * 0.08;
       leanY += ((over ? clamp((ly - CONVERGE.y) * 0.03, 12) : 0) - leanY) * 0.08;
       if (burstAt >= 0) {
-        // tap: part quickly, then glide back together and spark on contact
+        // tap: part quickly, then glide back together
         const t = (now - burstAt) / 1000;
         if (t < 0.3) gap = 40 * (1 - Math.pow(1 - t / 0.3, 3));
         else if (t < 1.2) gap = 40 * Math.pow(2, -10 * ((t - 0.3) / 0.9));
         else burstAt = -1;
-        if (t > 0.3 && gap < 4 && !burstFired) {
-          burstFired = true;
-          spark.current?.fire();
-        }
       } else {
         gap += (hoverGap - gap) * 0.08;
       }
@@ -315,7 +310,6 @@ export function LogoStage({
   const botYBack = useTransform(exit, [0, 1], ['0%', `${(20 * hbBox.h) / hbbBox.h}%`]);
   const fadeLate = useTransform(exit, [0.1, 0.75], [1, 0]);
   const fadeEarly = useTransform(exit, [0, 0.45], [1, 0]);
-  const letterLift = useTransform(exit, [0, 1], ['0%', '-18%']);
   const outerFade = useTransform(exit, [0, 0.6], [1, 0.25]);
 
   const exitStyle = (n: LayerName) => {
@@ -326,8 +320,6 @@ export function LogoStage({
         return { x: botX, y: botY, opacity: fadeLate };
       case 'hand_bottom_back':
         return { x: botXBack, y: botYBack, opacity: fadeLate };
-      case 'A': case 'T': case 'M': case 'O': case 'S': case 'm_front':
-        return { y: letterLift, opacity: fadeEarly };
       case 'tagline_top': case 'tagline_bottom':
         return { opacity: fadeEarly };
       case 'outer':
@@ -388,20 +380,41 @@ export function LogoStage({
           className="absolute will-change-transform"
           style={{ left: pct(l.x), top: pct(l.y), width: pct(l.w), height: pct(l.h) }}
         >
-          <motion.div className="size-full" style={exitStyle(l.name)}>
-            <img
-              src={`/logo/${l.name}.webp`}
-              alt=""
-              draggable={false}
-              decoding="async"
-              fetchPriority={l.name === 'disc' || l.name === 'outer' ? 'high' : 'auto'}
-              className="l-anim block size-full"
-              style={from(l)}
-            />
-          </motion.div>
+          {LETTERS.includes(l.name) ? (
+            <LetterExit box={l} exit={exit} fade={fadeEarly}>
+              {img(l)}
+            </LetterExit>
+          ) : (
+            <motion.div className="size-full" style={exitStyle(l.name)}>
+              {img(l)}
+            </motion.div>
+          )}
         </div>
       ))}
-      <ConvergenceSpark ref={spark} x={CONVERGE.x / SIZE} y={CONVERGE.y / SIZE} />
     </div>
+  );
+
+  function img(l: Layer) {
+    return (
+      <img
+        src={`/logo/${l.name}.webp`}
+        alt=""
+        draggable={false}
+        decoding="async"
+        fetchPriority={l.name === 'disc' || l.name === 'outer' ? 'high' : 'auto'}
+        className="l-anim block size-full"
+        style={from(l)}
+      />
+    );
+  }
+}
+
+// every letter lifts the same logo-pixel distance as the hero scrolls away
+function LetterExit({ box, exit, fade, children }: { box: Layer; exit: MotionValue<number>; fade: MotionValue<number>; children: React.ReactNode }) {
+  const y = useTransform(exit, [0, 1], ['0%', ofBox(-LIFT, box)]);
+  return (
+    <motion.div className="size-full" style={{ y, opacity: fade }}>
+      {children}
+    </motion.div>
   );
 }

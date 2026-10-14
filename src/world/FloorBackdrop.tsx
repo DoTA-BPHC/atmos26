@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Backdrop } from './backdrop';
+import type { Backdrop } from './backdrop';
 import type { FloorId } from './chambers';
 import { guessTier, type Tier } from './quality';
 
@@ -14,8 +14,16 @@ export default function FloorBackdrop({ floor }: { floor: FloorId }) {
   useEffect(() => {
     const el = host.current;
     if (!el || tier === 'still') return;
-    const b = new Backdrop(el, floor, tier);
-    return () => b.dispose();
+    // three.js comes with the backdrop, so the still tier never downloads it
+    let b: Backdrop | undefined;
+    let gone = false;
+    import('./backdrop').then((m) => {
+      if (!gone) b = new m.Backdrop(el, floor, tier);
+    });
+    return () => {
+      gone = true;
+      b?.dispose();
+    };
   }, [floor, tier]);
 
   if (tier === 'still') {

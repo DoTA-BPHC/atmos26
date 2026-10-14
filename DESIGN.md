@@ -140,7 +140,7 @@ components:
 
 **Creative North Star: "The Ascension: The Countdown Reel, Then a Climb Through the Eras"**
 
-The site is the fest's Instagram campaign made navigable. It opens on one centred, formal column: the official artwork builds itself layer by layer, the title sponsor (Synchrony) sits under it with a "Title sponsor" label, then the dates and venue and the two actions. The first scroll reaches a band of its own: a live days : hours : minutes : seconds clock in the reel's stencil, digits rolling like a mechanical counter, with a red glitch. Below that, the page becomes a shaft you rise through: a dive down past brass collars to the 1700s, then five lit machines, each on its own floor: a tower-clock movement, a locomotive's running gear, a circuit board grown into a skyline, the 1953 double-helix model, and a string-art network. Every machine is first perceived as dots, then drawn as a blueprint, then cast in metal from the bottom up, and it leaves as dust streaming to the next floor. At the summit the dust gathers into the logo's ring while "This time the tool reaches back." plays; the empty ring then holds the title sponsor (Synchrony, large, with a "Title sponsor" label) before the untouched artwork lands in it. A loupe under the pointer shows each machine the way a machine sees it. Everything sits in lit darkness: black ground, light that falls from above, and a single brass-lit phrase per statement.
+The site is the fest's Instagram campaign made navigable. It opens on one centred, formal column: the official artwork builds itself layer by layer, the title sponsor (Synchrony) sits under it with a "Title sponsor" label, then the dates and venue and the two actions. The first scroll reaches a band of its own: a live days : hours : minutes : seconds clock in the reel's stencil, digits rolling like a mechanical counter, with a red glitch. Below that, the page becomes a shaft you rise through: a dive down past brass collars to the 1700s, then five lit machines, each on its own floor: a tower-clock movement, a locomotive's running gear, a circuit board grown into a skyline, the 1953 double-helix model, and a brain cast in brass, threaded with nerve tracts. Every machine is first perceived as dots, then drawn as a blueprint, then cast in metal from the bottom up, and it leaves as dust streaming to the next floor. At the summit the dust gathers into the logo's ring while "This time the tool reaches back." plays; the empty ring then holds the title sponsor (Synchrony, large, with a "Title sponsor" label) before the untouched artwork lands in it. A loupe under the pointer shows each machine the way a machine sees it. Everything sits in lit darkness: black ground, light that falls from above, and a single brass-lit phrase per statement.
 
 Density is low and scale is high. Statements are set in condensed stencil caps (Big Shoulders Stencil) at confident but measured sizes; only page titles run poster-scale. Lists are full-width hairline rows, not grids of cards. Photos rest in a black-to-brass duotone and get their colour back only when you point at them. The surface is analogue film rather than a HUD: static grain over everything, and projector-gate scratches over the hero and page headers. The world is built to refuse the dark sci-fi HUD kit (mono micro-labels, notched buttons, corner brackets, glow orbs) and the generic fest template (video hero and neon cards).
 
@@ -183,7 +183,7 @@ A black void with brass as the structural ink, stone for reading, teal light hel
 ### Named Rules
 **The One Lit Phrase Rule.** Each statement gets exactly one brass-hi phrase, and the rest stays stone. If two phrases are lit, neither is.
 
-**The Teal Lives Inside Rings Rule.** Teal only appears in the dust, inside a ring (the loupe, the preloader dial, the mobile menu), or as signal on the network's wires. A teal glow floating on its own is an orb, and orbs are outside this world.
+**The Teal Lives Inside Rings Rule.** Teal only appears in the dust, inside a ring (the loupe, the preloader dial, the mobile menu), or as signal on the brain's nerve tracts. A teal glow floating on its own is an orb, and orbs are outside this world.
 
 **The Red Is a Glitch Rule.** Glitch red only shows for the few frames of a channel split or on the preloader's second hand. It is never a fill, a border or a status colour.
 
@@ -193,7 +193,7 @@ A black void with brass as the structural ink, stone for reading, teal light hel
 **Stencil Font:** Stardos Stencil 700 (with Archivo Variable)
 **Body Font:** Archivo Variable at normal width
 **Label Font:** Archivo Variable condensed to 70% width (not a mono face)
-**Logo Font:** Cinzel Variable, used only for the preloader dial numerals, where it echoes the logo's lettering
+**Logo Font:** Cinzel Variable, the face of the logo's taglines: the preloader dial numerals, the nav wordmark and the nav links
 
 **Character:** The stencil comes straight from the countdown reel and speaks for time and names. Big Shoulders Stencil caps, condensed and cut like crate markings, carry statements; they sit a step down from poster scale so the page never shouts. Plain Archivo handles reading and every control, in sentence case.
 
@@ -205,23 +205,24 @@ A black void with brass as the structural ink, stone for reading, teal light hel
 - **Title** (display voice, clamp(1.5rem, 2vw, 1.9rem)): event card titles and similar in-list headings.
 - **Lead** (Archivo 400, clamp(1.05rem, 1.4vw, 1.3rem), 1.625): the one plain sentence under a page title, era copy and section intros. Stone-dim, limited to 28–52ch.
 - **Body** (Archivo 400, 1rem, width 100%): card summaries, captions, footer text. Measure up to 60ch.
-- **Control** (Archivo 500–600, 0.95rem, sentence case): buttons, nav links, filter tabs.
+- **Control** (Archivo 500–600, 0.95rem, sentence case): buttons and filter tabs.
+- **Nav** (Cinzel 600, 0.82rem caps, 0.2em tracking, like the logo's "Augmented Ascension" line): the header's links and the Sound toggle. The mobile menu sets the same links large.
 - **Label** (Archivo 650, 0.82rem, width 70%, 0.04em, tabular figures): the era index under the progress bars and the skip link. The uppercase transform is optional (the era index turns it off).
 
 ### Named Rules
-**The Three Voices Rule.** Stencil is for time and names, condensed stencil caps are for statements, and plain Archivo is for reading and controls. Cinzel belongs to the logo and the preloader dial, and nowhere else.
+**The Three Voices Rule.** Stencil is for time and names, condensed stencil caps are for statements, and plain Archivo is for reading and controls. Cinzel belongs to the logo's world: the preloader dial, the wordmark and the nav, and nowhere else.
 
 **The Condensed Clock Rule.** The countdown is always the stencil compressed horizontally to 74% on one line, centred in its own band below the hero. Its unit words are counter-scaled so they read at normal proportions.
 
-**The Sentence-Case Controls Rule.** Nav links, buttons and tabs are in sentence case at normal width. Caps are for statements only.
+**The Sentence-Case Controls Rule.** Buttons and tabs are in sentence case at normal width. Caps are for statements and the nav's Cinzel links only.
 
 ## Layout
 
 The container is 1440px wide and centred, with 16px gutters on phones and 32px from 640px. Sections breathe in viewport units (14svh, 16svh and 18svh of vertical padding) instead of a fixed spacing scale. Section heads sit on a flex row with the statement on the left and a plain underlined text link ("All N events", "Full gallery") on the right, wrapping on phones.
 
-Content is set as full-width rows separated by stone/12 hairlines: stats, event categories, proshow nights, contact routes. Each row has 24px of vertical padding (32px from 768px). The heading sits at left, supporting text sits right-aligned, and the whole row is one link. Events use a 1/2/3-column grid with 24px column gaps and 56px row gaps. The footer uses a 12-column grid with three 4-column cards.
+Content is set as full-width rows separated by stone/12 hairlines: stats, event categories, proshow nights, contact routes. Each row has 24px of vertical padding (32px from 768px). The heading sits at left, supporting text sits right-aligned, and the whole row is one link. Events are a 1/2/3-column grid of whole-card links divided by stone/12 hairlines, under a sticky bar (category tabs, search, sort) that sits beneath the nav. The footer uses a 12-column grid with three 4-column cards.
 
-Pinned storytelling is the other structure. Eras and the closing manifesto use sticky full-screen stages over scroll runways (110svh per era, 200svh for the close). The copy sits in the left 58%, and the dot shape takes the right side on desktop or a low band on phones. The hero fits in one phone screen: logo at full width, countdown, facts, then full-width stacked buttons. On desktop, the facts sit left and the buttons right, within min(92vw, 68rem).
+Pinned storytelling is the other structure. The ascent is one sticky full-screen stage over a scroll runway set in `src/world/timeline.ts`: on desktop 0.9 screens of hero, 1.0 of dive, 1.4 per era and 1.8 for the summit (10.7 in all); on phones about half that (0.5, 0.4, 0.7, 1.0: 5.4). Era copy sits in the left 38% on desktop and in a low band on phones. The hero is the first segment of that stage, over the shaft: logo centred, title sponsor under it, and an info dock along the bottom (dates and venue, the live countdown, Explore events and Passes) that fits one phone screen with everything on it. After the summit, desktop gets one viewport-high hub (#hub): the arenas across the full width (Proshows reads TBA until the line-up is announced), the past-edition numbers and the two actions along the bottom. It fits 1280×720 and up.
 
 Breakpoints are Tailwind defaults (640, 768, 1024px). The nav switches to its full link row at 1024px.
 
@@ -246,7 +247,7 @@ Plain, heavy rectangles that read like a title card rather than an interface.
 - **Shape:** square corners (0px), 48px tall, 24px side padding (28px on the closing pair).
 - **Primary:** a solid stone fill with void text, weight 600, 0.95rem, sentence case ("Explore events"). In the hero it carries a thin 20px drawn right-arrow.
 - **Hover / Focus:** the fill changes to brass-hi over 300ms. Focus is the global 1px signal-cyan outline at a 4px offset.
-- **Secondary:** a 1px stone/35 outline with stone text. On hover, the border turns brass and the text brass-hi. While registration is closed, the secondary is the passes button: it reads "Passes: opening soon", and when clicked it says where passes will drop instead of linking nowhere.
+- **Secondary:** a 1px stone/35 outline with stone text. On hover, the border turns brass and the text brass-hi. The secondary is usually the registration button: it reads "Register" and opens Flemmingo in a new tab. If registration is ever closed, it reads "Passes: opening soon" and when clicked says where passes will drop instead of linking nowhere.
 - **Pairing:** primary first, secondary second, 12px apart. On phones they stack at full width.
 
 ### Filter tabs
@@ -262,9 +263,10 @@ Cards are the exception here. Rows are the rule.
 
 ### Navigation
 - **Bar:** fixed, 64px tall. It is transparent at the top of the page. After 24px of scroll it gets a void/80 fill, a medium backdrop blur and a brass-line bottom border (500ms expo-out).
-- **Wordmark:** stencil at 1.35rem, "ATMOS" in stone and "'26" in brass.
+- **Wordmark:** Cinzel bold at 1.3rem, "ATMOS" in stone and "'26" in brass. It is type beside the logo, never a stand-in for it.
 - **Links:** sentence case, 0.95rem medium, stone-dim, turning stone on hover. A 1px brass underline scales in from the left over 500ms. The active link is brass-hi and keeps its underline.
 - **Mobile:** below 1024px, a 44px circular brass-line toggle with two offset hairlines opens a full-screen menu. The menu has a 140vmin brass ring with teal light inside it and stencil links at clamp(2.6rem, 12vw, 4.5rem).
+- **Thumb bar:** below 1024px, a fixed 56px bar on void/95 with a brass-line top border: Home, Events, Gallery and Sponsors (1.5px-stroke icons over 0.72rem labels, brass-hi when active), then Passes as a solid stone block. It slides away on the home hero, whose dock carries the same actions, and while the menu is open.
 
 ### Photos (duotone)
 Every photo passes through one SVG filter that maps luminance from black to brass to stone. The colour returns only on hover or focus of the containing group, with a 700ms expo-out filter transition. Images never scale on hover. Background photos (proshow bands) stay duotone at 25–40% opacity under a black gradient.
@@ -273,7 +275,7 @@ Every photo passes through one SVG filter that maps luminance from black to bras
 Full-width rows with the category name in display caps at clamp(1.9rem, 8vw, 7.5rem) on the left, and a stencil count plus a blurb on the right. Hovering a row turns it brass-hi and shifts it 12px right, dims every other row to stone/25, and brings up that category's 4:5 duotone photo. The photo enters with an iris-like vertical clip, a small rotation and a scale from 0.9. Colour goes to whatever is active.
 
 ### The Ascension (signature)
-One fixed WebGL world behind the home page, driven by a single scroll timeline (`src/world/timeline.ts`). A dive down a shaft of machined brass collars, then five floors, one per era, then the summit. Every floor plays the same beats on its own slice of the scroll: **arrive** (the machine's points rise into place), **draw** (its blueprint is drawn part by part: round parts swept by a compass, the rest along their length, lower parts first), **cast** (metal pours into the drawing from the bottom up behind a thin molten front), **stand** (the machine runs; copy is readable), **exit** (it breaks into dust that streams up to the next floor). The camera moves like a loupe, not a roller coaster: small, deliberate moves per floor, rising through a collar between floors. Phones scroll by native momentum, not a wheel, so they get a shorter ascent (1.2 screens a floor instead of 2.4), the world eases after each swipe instead of jumping, and the page ends at the summit: under the ring sit the date, Explore events, Passes, and links to Proshows and Gallery. The sections after the ascent are laptop-only. Scrolling is never snapped or taken over.
+One fixed WebGL world behind the home page, driven by a single scroll timeline (`src/world/timeline.ts`). A dive down a shaft of machined brass collars, then five floors, one per era, then the summit. Every floor plays the same beats on its own slice of the scroll: **arrive** (the machine's points rise into place), **draw** (its blueprint is drawn part by part: round parts swept by a compass, the rest along their length, lower parts first), **cast** (metal pours into the drawing from the bottom up behind a thin molten front), **stand** (the machine runs; copy is readable), **exit** (it breaks into dust that streams up to the next floor). The camera moves like a loupe, not a roller coaster: small, deliberate moves per floor, rising through a collar between floors. The ascent opens on the hero: the camera rests above the top collar, its brass ring framing the logo, and a still of that frame (`public/world/stills/top*.webp`) shows until the live world fades up over 1.2 s. Scrolling parts the hands and dives. A "Skip to events" link rides the stage from the dive to the last era. Phones scroll by native momentum, not a wheel, so they get a shorter ascent (0.7 screens a floor instead of 1.4), the world eases after each swipe instead of jumping, and the page ends at the summit: under the ring sit the date, Explore events, Passes, and a link to the Gallery. The sections after the ascent are laptop-only. Scrolling is never snapped or taken over.
 
 Machines are modelled in Blender with real mechanics: a clock train with true ratios running on live seconds; a locomotive whose rods and Walschaerts valve gear are solved from the crank angle and turn faster while you scroll; a board whose copper carries signal packets; the double helix, spelling ATMOS'26, rewriting one base pair at a time; a network that carries a thought to its apex on click or tap. At the summit the dust forms the logo's ring (sampled from the ring layer only) and the official JPEG is laid over it, aligned to the ring the engine projects.
 
@@ -287,7 +289,9 @@ A lift indicator on the right edge of wide screens: a hairline shaft with a stop
 Inner pages stand on a floor: Events on the circuit board, Proshows under the network, Gallery by the clockwork, Sponsors beside the locomotive, Contact at the double helix. The floor is perceived, drawn and cast as the page arrives (about five seconds), then runs behind the title with the loupe, fading into the page at the bottom. Without WebGL, the header shows the floor's rendered still.
 
 ### Sound
-Synthesised in the browser, never recorded, and off until the visitor turns it on (the choice is remembered). A drone that opens up as you rise, tick and tock on the escapement's seconds, a chuff on every quarter turn of the drivers, blips over a mains hum, a struck bell for each rewritten base pair, a swell and chime for a thought, and a chord as the artwork lands. The toggle is a plain text control in the nav, on the home page only.
+Synthesised in the browser, never recorded, and off on every visit until the visitor turns it on. A drone that opens up as you rise, tick and tock on the escapement's seconds, a chuff on every quarter turn of the drivers, blips over a mains hum, a struck bell for each rewritten base pair, a swell and chime for a thought, and a chord as the artwork lands.
+
+Under the effects runs the score, on every page. It keeps 60 bpm on the wall clock's seconds, so each beat falls on the escapement's tick, and one progression at a time sits over the drone's D. The eras climb from minor to major and from plucked strings to synthesis: a harpsichord in Alberti figures (clockwork, D minor), chugging strings with a brass swell (steam), a square-wave arpeggiator through a sweeping filter (silicon), glass plucks three against four (genome), and a wide supersaw with a choir on the top line (intelligence, D major). It resolves on D when the artwork lands. The hero and pages without a floor rest on a pad and a music box. Inner pages play their own floor. Textures cross-fade as you climb, but chords only change on a bar line, and the music carries on through route changes. The toggle is a plain text control in the nav on every page.
 
 ### Countdown (signature)
 The reel's title card, live to the second. It counts days, hours, minutes and seconds to opening (09:00 IST on day one) and switches to "Day N is live" during the fest and "See you in '27" after it. It is the stencil at 74% width. Each digit sits in a fixed 0.6em slot and rolls up to its new value (0.55 s, expo-out, 4px blur to sharp); with reduced motion the digits swap in place. Screen readers get one sentence that changes once a day ("27 days to go until ATMOS 2026."), not the ticking digits. A red and cyan channel split fires 0.9 s after the hero lands, then every 5–12 s. Each split runs 0.42 s in two steps, with clipped slices offset by 2–4px. The same split runs on hover over proshow codenames and once on the 404 title.
@@ -329,5 +333,5 @@ A canvas overlay that redraws at 12 fps and pauses when off screen. Each frame d
 - **Don't** add box shadows or glow orbs; the only shadow is the text depth token. Teal glows only inside a ring.
 - **Don't** use glitch red outside the channel-split reveal and the preloader's second hand.
 - **Don't** light more than one phrase per statement in brass-hi.
-- **Don't** use Cinzel outside the logo and the preloader dial.
+- **Don't** use Cinzel outside the logo, the preloader dial, the wordmark and the nav.
 - **Don't** set statements in wide or extended grotesk caps. It is the stock AI-landing-page look this site replaced.
