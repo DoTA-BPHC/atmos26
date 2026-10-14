@@ -7,10 +7,13 @@ stem running down into a turned brass cradle. An iron base and a steel column
 carry the cradle, and two thin steel arms rise from it to touch the underside
 of the temporal lobes, the way a mount would hold a specimen.
 
-The folds are real geometry: every sulcus is a sharp V and every crown stays
-round, so the blueprint pass draws the folds as ink lines. The site reads three
+The folds are real geometry. The gyri are grown as a Turing pattern over each
+hemisphere, a maze of bands that all share one width; every boundary between
+two bands is a sharp V sulcus and every crown stays round, so the blueprint
+pass draws the folds as ink lines. Each hemisphere is folded on a dense mesh
+and then decimated, which keeps the creases straight. The site reads two
 things from the root's extras. "nodes" is a flat list with stride 7, x, y, z,
-nx, ny, nz, region: about 680 neurons sitting on gyrus crowns, spread at least
+nx, ny, nz, region: about 670 neurons sitting on gyrus crowns, spread at least
 0.35 apart and lifted 0.04 off the surface (region 0 left hemisphere, 1 right,
 2 cerebellum). "spark" is the point just in front of the brain stem, halfway
 down, where a thought starts. The thousands of connections between neurons are
@@ -19,22 +22,27 @@ drawn by the site, so signals can travel along them.
 import math
 import random
 import os
-DBG = os.environ.get('DBG','')
 
 import bmesh
+import bpy
 import numpy as np
 from mathutils import Vector, noise
 
 from common import empty, lathe, mesh_obj, rod, tube_along
 
+DBG = os.environ.get("DBG", "")
 JOIN_STATIC = True
 
 GAP = 0.12            # width of the longitudinal fissure
-RES = 80              # cube-sphere cells along one edge, per hemisphere (even)
-FOLD = 0.2           # gyrus depth
-FREQ = 1.15           # fold frequency
-SOFT = 0.07
-WALL = 0.34           # rounds the bottom of each sulcus; WALL is the width of its sides
+RES = 180             # cube-sphere cells along one edge, per hemisphere, before decimation (even)
+KEEP = 0.22           # share of the hemisphere's triangles kept by the decimation
+FOLD = 0.19           # gyrus depth
+FREQ = 1.8            # frequency of the noise the pattern grows from
+WARP = 0.55           # how far the folds meander
+WAVE = 1.05           # crown to crown across two neighbouring gyri
+ROUNDS = 12           # rounds of the pattern growth
+STRETCH = 0.72        # folds run longer front to back than across
+SOFT = 0.35           # rounds the very bottom of each sulcus (share of the gyrus height)
 SPACING = 0.35        # minimum distance between neurons
 
 STEM_TOP = Vector((0.0, 1.05, -0.3))
@@ -62,6 +70,27 @@ def cube_sphere(n):
                 y * math.sqrt(max(0.0, 1 - z * z / 2 - x * x / 2 + z * z * x * x / 3)),
                 z * math.sqrt(max(0.0, 1 - x * x / 2 - y * y / 2 + x * x * y * y / 3)))
     return bm
+
+
+def decimate(bm, keep):
+    """Reduce a dense mesh to `keep` of its triangles. Collapsing by error
+    keeps edges along the creases and spends few triangles on the crowns, so
+    the sulci stay clean sharp lines instead of stair-stepping."""
+    me = bpy.data.meshes.new("dense")
+    bm.to_mesh(me)
+    bm.free()
+    ob = bpy.data.objects.new("dense", me)
+    bpy.context.scene.collection.objects.link(ob)
+    mod = ob.modifiers.new("decimate", "DECIMATE")
+    mod.ratio = keep
+    mod.use_collapse_triangulate = True
+    low = bpy.data.meshes.new_from_object(ob.evaluated_get(bpy.context.evaluated_depsgraph_get()))
+    bpy.data.objects.remove(ob)
+    bpy.data.meshes.remove(me)
+    out = bmesh.new()
+    out.from_mesh(low)
+    bpy.data.meshes.remove(low)
+    return out
 
 
 def seg_dist(p, a, b):
@@ -98,16 +127,56 @@ def cerebrum_shape(ux, uy, uz):
 
 SYLVIAN = [Vector(p) for p in ((-3.3, 0.0), (-1.9, 0.4), (0.0, 0.9), (1.8, 1.5), (3.2, 2.3))]
 CENTRAL = [Vector(p) for p in ((0.35, -0.2, 4.1), (1.4, -0.05, 3.7), (2.6, 0.25, 2.8), (3.3, 0.55, 1.9))]
+W1, W2, W3 = Vector((11.0, 3.0, 7.0)), Vector((-5.0, 19.0, 2.0)), Vector((3.0, -8.0, 23.0))
 
 
-def fold_field(p, off):
-    """Domain-warped noise: its zero set meanders over the surface."""
-    q = Vector((p.x, p.y, p.z)) + off
-    warp = Vector((noise.noise(q * 0.6 + Vector((11.0, 3.0, 7.0))), noise.noise(q * 0.6 + Vector((-5.0, 19.0, 2.0))),
-                   noise.noise(q * 0.6 + Vector((3.0, -8.0, 23.0)))))
-    r = q + warp * 1.5
-    n = noise.noise(r * FREQ) + 0.22 * noise.noise(r * FREQ * 2.1 + Vector((7.0, 7.0, 7.0)))
-    return n
+def fold_field(q):
+    """One band of domain-warped noise: its zero set meanders over the
+    surface and becomes the sulci. Squeezed along y so most gyri run front
+    to back, as the frontal and temporal ones do."""
+    q = Vector((q.x, q.y * STRETCH, q.z))
+    a = q * 0.42
+    r = q + Vector((noise.noise(a + W1), noise.noise(a + W2), noise.noise(a + W3))) * WARP
+    return noise.noise(r * FREQ)
+
+
+def labyrinth(bm, seed):
+    """Grow a Turing pattern over the surface: blur the field at two widths,
+    keep the difference, push it back to +-1, repeat. It settles into a maze
+    of bands that all share one width, the way gyri do. Each band becomes a
+    gyrus and every boundary between two bands a sulcus. Returns the field,
+    0 on a sulcus and +-1 across a crown."""
+    bm.verts.index_update()
+    n = len(bm.verts)
+    pts = np.array([v.co[:] for v in bm.verts])
+    ends = np.array([(e.verts[0].index, e.verts[1].index) for e in bm.edges])
+    a, b = ends[:, 0], ends[:, 1]
+    w = 1.0 / np.maximum(((pts[a] - pts[b]) ** 2).sum(1), 0.02 ** 2)
+    dt = 0.9 / (np.bincount(a, w, n) + np.bincount(b, w, n)).max()
+
+    def blur(u, t):
+        for _ in range(int(math.ceil(t / dt))):
+            f = w * (u[b] - u[a])
+            u = u + dt * (np.bincount(a, f, n) - np.bincount(b, f, n))
+        return u
+
+    s1 = WAVE / 6.54          # a difference of Gaussians at s1 and 2 * s1 favours bands of WAVE / 2
+    t1, t2 = s1 * s1 / 2, 2 * s1 * s1
+    u = np.array(seed)
+    for _ in range(ROUNDS):
+        g1 = blur(u, t1)
+        d = g1 - blur(g1, t2 - t1)
+        d -= d.mean()
+        u = np.tanh(1.6 * d / d.std())
+    u = blur(u, t1)
+    return u / np.percentile(np.abs(u), 90)
+
+
+def fold_height(f):
+    """0 on a sulcus, rising to 1 on the crown of a gyrus: the walls meet in a
+    V with a slightly rounded bottom, the crown is a round arch."""
+    g = min(1.0, (math.hypot(f, SOFT) - SOFT) / (math.hypot(1.0, SOFT) - SOFT))
+    return 1.0 - (1.0 - g) ** 1.6
 
 
 def hemisphere(sign):
@@ -115,7 +184,7 @@ def hemisphere(sign):
     bm = cube_sphere(RES)
     gone = [f for f in bm.faces if f.calc_center_median().x < 0]
     bmesh.ops.delete(bm, geom=gone, context="FACES")
-    off = Vector((0.0, 0.0, 0.0)) if sign > 0 else Vector((0.41, 0.23, -0.31))
+    off = Vector((0.0, 0.0, 0.0)) if sign > 0 else Vector((17.41, 5.23, -9.31))
     for v in bm.verts:
         u = v.co.normalized()
         v.co = cerebrum_shape(max(u.x, 0.0), u.y, u.z)
@@ -123,45 +192,37 @@ def hemisphere(sign):
     verts = list(bm.verts)
     base = [v.co.copy() for v in verts]
     norm = [v.normal.copy() for v in verts]
+    field = labyrinth(bm, [fold_field(p + off) for p in base])
     crown = []
-    for v, p, nrm in zip(verts, base, norm):
-        n = fold_field(p, off)
-        h = 0.04
-        grad = Vector(((fold_field(p + Vector((h, 0, 0)), off) - n) / h, (fold_field(p + Vector((0, h, 0)), off) - n) / h,
-                       (fold_field(p + Vector((0, 0, h)), off) - n) / h))
-        grad -= nrm * grad.dot(nrm)
-        # distance over the surface to the nearest sulcus line, so every wall is as wide as the next
-        dist = abs(n) / math.hypot(grad.length, 0.3)
-        a = math.hypot(dist, SOFT) - SOFT
-        g = min(1.0, a / WALL)
-        g = g * (2.0 - g)
-        depth = FOLD * (g - 1.0)
-        if 'nofold' in DBG: depth = 0.0
+    for v, p, nrm, f in zip(verts, base, norm, field):
+        g = fold_height(f)
+        depth = 0.0 if "nofold" in DBG else FOLD * (g - 1.0)
         lateral = smooth(1.8, 2.8, p.x)
         d = poly_dist(Vector((p.y, p.z)), SYLVIAN)
-        carve = -0.5 * max(0.0, 1.0 - (math.hypot(d, 0.09) - 0.09) / 0.3) * lateral
+        carve = -0.62 * max(0.0, 1.0 - (math.hypot(d, 0.08) - 0.08) / 0.6) ** 2 * lateral
         dc = poly_dist(p, CENTRAL)
-        carve += -0.3 * max(0.0, 1.0 - (math.hypot(dc, 0.09) - 0.09) / 0.36) * smooth(0.0, 0.6, p.x)
+        carve += -0.3 * max(0.0, 1.0 - (math.hypot(dc, 0.08) - 0.08) / 0.48) ** 2 * smooth(0.0, 0.6, p.x)
         near = max(0.0, 1.0 - d / 0.5) * lateral
-        if 'nocarve' in DBG: carve = 0.0
-        v.co = p + nrm * (depth * (1.0 - 0.6 * near) + carve)
-        crown.append(g if near < 0.3 else 0.0)
+        v.co = p + nrm * (depth * (1.0 - 0.8 * near) + carve)
+        crown.append(g if near < 0.3 and dc > 0.4 else 0.0)
     for v in verts:
         v.co.x = max(v.co.x, 0.0) + GAP / 2
     bnd = [e for e in bm.edges if e.is_boundary]
     bmesh.ops.triangle_fill(bm, edges=bnd, use_beauty=True)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     if sign < 0:
+        # mirror, then turn the faces so they still face outward
         for v in bm.verts:
             v.co.x = -v.co.x
-    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+        bmesh.ops.reverse_faces(bm, faces=bm.faces)
     bm.normal_update()
     data = [(v.co.copy(), v.normal.copy(), crown[i]) for i, v in enumerate(verts)]
-    return bm, data
+    return decimate(bm, KEEP), data
 
 
 def cerebellum():
     """Two lobes with tight horizontal folia and a notch between them."""
-    bm = cube_sphere(36)
+    bm = cube_sphere(64)
     c = Vector((0.0, 2.1, -1.0))
     for v in bm.verts:
         u = v.co.normalized()
@@ -177,13 +238,13 @@ def cerebellum():
         ph = (p.z * 5.2 + 0.28 * noise.noise(Vector((p.x * 0.9, p.y * 0.9, p.z * 0.6)))
               + 0.12 * p.y)
         s = abs(math.sin(math.pi * ph))
-        depth = 0.075 * (s ** 0.5 - 1.0)
+        depth = 0.075 * (s * (2.0 - s) - 1.0)
         notch = -0.2 * max(0.0, 1.0 - abs(p.x) / 0.22) * smooth(-0.2, 0.8, p.y - c.y)
         v.co = p + nrm * (depth + notch)
         crown.append(s)
     bm.normal_update()
     data = [(v.co.copy(), v.normal.copy(), crown[i]) for i, v in enumerate(verts)]
-    return bm, data
+    return decimate(bm, 0.3), data
 
 
 # ---------------------------------------------------------------- neurons
@@ -240,7 +301,7 @@ def build():
         # lowest point on the outer underside: where the mount touches the temporal lobe
         low = min((d for d in data if 2.3 < abs(d[0].x) < 3.7 and abs(d[0].y) < 1.2), key=lambda d: d[0].z)
         contacts[sign] = (low[0].copy(), low[1].normalized())
-        mesh_obj(f"hemisphere_{name}", bm, "brass", brain, smooth_angle=32)
+        mesh_obj(f"hemisphere_{name}", bm, "brass", brain, smooth_angle=50)
 
     # ---------------------------------------------------------------- cerebellum
     bm, data = cerebellum()
