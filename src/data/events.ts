@@ -26,6 +26,7 @@ const CLUB_LIST = {
   'acm': { name: 'ACM', tagline: 'Student chapter of the global ACM organisation.', logo: '/clubs/acm.webp' },
   'acm-w': { name: 'ACM-W', tagline: "The women's chapter of ACM BPHC.", logo: '/clubs/acm-w.webp' },
   'ad-astra': { name: 'Ad Astra', tagline: 'Astronomy and astrophysics on campus.', logo: '/clubs/ad-astra.webp' },
+  'aeolus': { name: 'Aeolus', tagline: 'Aerial robotics and unmanned aerial systems.', logo: '/clubs/aeolus.webp' },
   'alchemy': { name: 'Alchemy', tagline: 'The branch association for Chemistry.' },
   'arc': { name: 'Automation and Robotics Club', tagline: 'Electronics, mechanics and programming, combined.', logo: '/clubs/arc.webp' },
   'axiom': { name: 'Axiom', tagline: 'The branch association for Mathematics.', logo: '/clubs/axiom.webp' },
@@ -250,6 +251,10 @@ const LIST: FestEvent[] = [
   {
     id: 'prompt-lab', title: 'Beyond the Prompt', category: 'workshops', prize: 10000, fee: '₹749', note: 'Prompt Lab: AI workshop and hackathon', clubs: ['ace'], image: '/events/prompt-lab.webp', when: 'Sun 25 Oct, 10:00', venue: 'G101',
     about: 'Building trustworthy AI agents: test AI on real engineering problems and learn to catch its errors and verify results.',
+  },
+  {
+    id: 'drone-counter-strike', title: 'Drone Counter Strike', category: 'workshops', prize: 10000, fee: '₹369 per person', team: '3–6', note: 'Workshop and hackathon · ₹5,000 / ₹3,000 / ₹2,000', clubs: ['aeolus'], image: '/events/drone-counter-strike.webp', when: 'Fri 23 – Sun 25 Oct', venue: 'D313 and the Embedded Systems Lab',
+    about: 'Join S.H.I.E.L.D. @BPHC in securing Earth’s airspace: deploy a Raspberry Pi to detect incoming drones, then lock onto and track them in real time with YOLO-based detection and a gimbal. Workshops run on 23 Oct (14:00–16:00) and 24 Oct (13:00–15:00). The hackathon on 25 Oct is a two-hour slot plus a 15-minute finals slot of your choice, and one registration covers both.',
   },
   {
     id: 'card-counting', title: 'Card Counting Workshop & Showdown', category: 'workshops', prize: 5000, fee: '₹150', note: 'One-day event', clubs: ['axiom'],
