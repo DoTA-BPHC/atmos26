@@ -36,6 +36,7 @@ Shaft-top stills `top.webp` (1280x800, from a 1600x1000 capture) and `top-portra
 - `public/gallery/*`: past-edition photos supplied by the team. `ad_astra.jpg` and `dota_events.jpg` were re-encoded once (Pillow, JPEG q82, progressive, same pixel size, EXIF/XMP/ICC and origin comment kept) because they shipped at 1.5 MB and 505 KB.
 - `public/gallery/*-960.jpg`: 960 px wide copies of the photos wider than 1200 px, for phones and the masonry grid (Pillow, Lanczos, JPEG q80, metadata kept). Listed as `small` in `GALLERY` (`src/data/fest.ts`); a new photo wider than 1200 px should get one too.
 - `public/clubs/*.webp`: organising-club logos from SU Connect's public `club-logos` bucket (as shown on su-connect-bphc.vercel.app/clubs), centre-cropped to 96 px squares on black in PIL. Alchemy is left out because SU Connect shows E-Cell's logo in its place, and SAE because SU Connect has none.
+- `public/events/*.webp` added 20 Oct: posters from the fest's and clubs' Instagram posts (@atmos_bitshyd and its collab posts, Oct 2026), with the organisers' names and phone numbers cropped off the bottom, 900 px wide, WebP q80. Club logos for E-Cell, Designers Anonymous and E-Sports come from SU Connect's `club-logos` bucket like the rest.
 - Every file in `public/` carries its origin in embedded metadata (`impeccable embed-prompt --scan public`).
 
 ## Local toolkit
