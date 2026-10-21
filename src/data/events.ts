@@ -83,7 +83,7 @@ export interface FestEvent {
 const LIST: FestEvent[] = [
   // competitions
   {
-    id: 'break-the-case', title: 'Break The Case', category: 'competitions', prize: 400000, fee: 'Free', note: 'Consulting case competition', team: '1–4', clubs: ['bhcg'], image: '/events/break-the-case.webp',
+    id: 'break-the-case', title: 'Break The Case', category: 'competitions', prize: 600000, fee: 'Free', note: 'Consulting case competition', team: '1–4', clubs: ['bhcg'], image: '/events/break-the-case.webp',
     about: 'One of India’s premier case competitions, with KPMG as knowledge partner. Three rounds of real-world business problems end with a pitch to a panel of industry leaders.',
   },
   {
@@ -107,7 +107,7 @@ const LIST: FestEvent[] = [
     about: 'Space science meets machine learning. Train models on real astronomical datasets and go head-to-head on an unseen test set.',
   },
   {
-    id: 'analytics-datathon', title: 'Datathon: Traffic Data to Smart Routes', category: 'competitions', prize: 50000, fee: '₹150', note: 'With Wall Street Mojo', clubs: ['bhcg'],
+    id: 'analytics-datathon', title: 'Data Tacticx', category: 'competitions', prize: 75000, fee: '₹150', note: 'With Wall Street Mojo', clubs: ['bhcg'],
     about: 'An industry speaker session and an analytics workshop, then a 24-hour challenge: derive insights from traffic data, build predictive models and optimise routes.',
   },
   {
