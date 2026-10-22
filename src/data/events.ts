@@ -1,6 +1,6 @@
 // The ATMOS '26 line-up, from the events on the Flemmingo registration page and
 // the DEPP club sheet (14 Oct), plus days, venues, posters and prize pools from the fest's and clubs' Instagram posts
-// (up to 20 Oct; a poster's prize beats the sheet's). Flemmingo's ticket prices are final; events it
+// (up to 23 Oct; a poster's prize beats the sheet's). Flemmingo's ticket prices are final; events it
 // doesn't list keep the sheet's outside-participant price. Where these disagree
 // with the printed brochure, they win: it was set from an older sheet. Days and team sizes stay "TBA" until the club
 // confirms them. Club names and taglines are from SU Connect; no contacts.
@@ -87,7 +87,7 @@ const LIST: FestEvent[] = [
     about: 'One of India’s premier case competitions, with KPMG as knowledge partner. Three rounds of real-world business problems end with a pitch to a panel of industry leaders.',
   },
   {
-    id: 'robowars', title: 'Robowars', category: 'competitions', prize: 195000, fee: '₹700', note: '15 kg, 8 kg and 1.5 kg classes', clubs: ['phoenix'], image: '/events/robowars.webp', when: 'Sat 24 – Sun 25 Oct',
+    id: 'robowars', title: 'Robowars', category: 'competitions', prize: 215000, fee: '₹700', note: '15 kg, 8 kg and 1.5 kg classes', clubs: ['phoenix'], image: '/events/robowars.webp', when: 'Sat 24 – Sun 25 Oct', venue: 'BITS Pilani, Hyderabad Campus',
     about: 'One-on-one combat between robots with active weapons, in a losers’-bracket format for each weight class. Winners take ₹57,500 (15 kg), ₹42,500 (8 kg) and ₹20,000 (1.5 kg).',
   },
   {
@@ -95,7 +95,7 @@ const LIST: FestEvent[] = [
     about: 'Robots play football: speed, precision and teamwork in a single-elimination bracket.',
   },
   {
-    id: 'robo-sumo', title: 'Robo Sumo', category: 'competitions', prize: 10000, fee: '₹200 per bot', note: '5 kg robots', clubs: ['phoenix'], when: 'Sat 24 – Sun 25 Oct',
+    id: 'robo-sumo', title: 'Robo Sumo', category: 'competitions', prize: 10000, fee: '₹200 per bot', note: '5 kg robots', clubs: ['phoenix'], when: 'Fri 23 – Sun 25 Oct', venue: 'BITS Pilani, Hyderabad Campus',
     about: 'Push your opponent out of the ring. A test of control, traction and smart manoeuvring, in a single-elimination bracket.',
   },
   {
@@ -103,11 +103,11 @@ const LIST: FestEvent[] = [
     about: 'A product case from a real fintech problem, set with Signal Studios, an AI-powered fintech platform. Teams present a business strategy and product proposal.',
   },
   {
-    id: 'astro-datathon', title: 'Ad Astra × CSA Datathon', category: 'competitions', prize: 50000, fee: '₹125', clubs: ['ad-astra', 'csa'],
+    id: 'astro-datathon', title: 'Ad Astra × CSA Datathon', category: 'competitions', prize: 50000, fee: '₹125', clubs: ['ad-astra', 'csa'], image: '/events/astro-datathon.webp', when: 'Sun 25 Oct, 15:00–18:00', venue: 'F104',
     about: 'Space science meets machine learning. Train models on real astronomical datasets and go head-to-head on an unseen test set.',
   },
   {
-    id: 'analytics-datathon', title: 'Data Tacticx', category: 'competitions', prize: 75000, fee: '₹150', note: 'With Wall Street Mojo', clubs: ['bhcg'],
+    id: 'analytics-datathon', title: 'Data Tacticx', category: 'competitions', prize: 75000, fee: '₹150', note: 'With Wall Street Mojo', team: '1–3', clubs: ['bhcg'], image: '/events/analytics-datathon.webp', when: 'Sat 24 Oct, 13:00', venue: 'F107',
     about: 'An industry speaker session and an analytics workshop, then a 24-hour challenge: derive insights from traffic data, build predictive models and optimise routes.',
   },
   {
@@ -127,23 +127,23 @@ const LIST: FestEvent[] = [
     about: 'A quant finance and algorithm design challenge. Analyse financial datasets, build models and trading strategies, and present your approach and results.',
   },
   {
-    id: 'anatomy-of-murder', title: 'Anatomy of Murder', category: 'competitions', prize: 35000, fee: 'Free', clubs: ['synapsis'],
+    id: 'anatomy-of-murder', title: 'Anatomy of Murder', category: 'competitions', prize: 30000, fee: 'Free', clubs: ['synapsis'], image: '/events/anatomy-of-murder.webp', when: 'Fri 23 Oct, 15:00', venue: 'F103',
     about: 'Solve biology-themed clues and follow them around the academic block to crack a murder.',
   },
   {
-    id: 'trick-of-trade', title: 'Trick of Trade', category: 'competitions', prize: 30000, fee: '₹49', note: 'Three winners', clubs: ['economics-association'],
+    id: 'trick-of-trade', title: 'Trick of Trade', category: 'competitions', prize: 30000, fee: '₹49', note: 'Three winners', clubs: ['economics-association'], image: '/events/trick-of-trade.webp', when: 'Sat 24 Oct, 16:00', venue: 'F103',
     about: 'Run a rich, middle-income or poor country with limited resources: produce, trade, bargain and bid to grow your wealth, with an arts-and-crafts twist each round.',
   },
   {
-    id: 'cruxipher', title: 'cruXipher', category: 'competitions', prize: 30000, fee: 'Free', team: 'Any size', note: 'Online jeopardy-style CTF', clubs: ['crux'], when: 'Sun 25 – Mon 26 Oct',
+    id: 'cruxipher', title: 'cruXipher', category: 'competitions', prize: 30000, fee: 'Free', team: 'Any size', note: 'Online jeopardy-style CTF', clubs: ['crux'], image: '/events/cruxipher.webp', when: 'Sun 25 – Mon 26 Oct',
     about: 'A cybersecurity tournament across web, crypto, reversing, pwn and forensics. Open online; prize money is for registrants only.',
   },
   {
-    id: 'coinquest', title: 'Coinquest', category: 'competitions', prize: 20000, fee: '₹99', clubs: ['blocksoc', 'traders'], when: 'Fri 23 – Sun 25 Oct',
+    id: 'coinquest', title: 'Coinquest', category: 'competitions', prize: 20000, fee: '₹99', clubs: ['blocksoc', 'traders'], image: '/events/coinquest.webp', when: 'Fri 23 – Sun 25 Oct',
     about: 'A beginner-friendly mock crypto trading competition with virtual funds, real market conditions and a live leaderboard.',
   },
   {
-    id: 'arthasastra', title: 'Arthasastra', category: 'competitions', prize: 25000, fee: '₹200', team: '1–3', clubs: ['economics-association'], image: '/events/arthasastra.webp', when: 'Wed 21 Oct, 19:00–23:00', venue: 'F103',
+    id: 'arthasastra', title: 'Arthashastra', category: 'competitions', prize: 25000, fee: '₹200', team: '1–3', clubs: ['economics-association'], image: '/events/arthasastra.webp', when: 'Wed 21 Oct, 19:00–23:00', venue: 'F103',
     about: 'The Economics Association’s flagship quiz on economics, finance and current affairs. Three elimination rounds, open to every discipline.',
   },
   {
@@ -159,7 +159,7 @@ const LIST: FestEvent[] = [
     about: 'Competitive programming at speed. The top 16 from the qualifiers advance to a lockout-style 1v1 bracket with winners’ and losers’ sides.',
   },
   {
-    id: 'velocity', title: 'Velocity', category: 'competitions', prize: 10000, fee: 'Free', note: 'Quiz', clubs: ['quiz-club', 'sae'],
+    id: 'velocity', title: 'Velocity', category: 'competitions', prize: 10000, fee: 'Free', note: 'Quiz', clubs: ['quiz-club', 'sae'], image: '/events/velocity.webp', when: 'Fri 23 Oct, 12:00', venue: 'F208',
     about: 'A quiz on everything engines: combustion and propulsion, iconic machines, motorsport history and the future of mobility.',
   },
   {
@@ -167,7 +167,7 @@ const LIST: FestEvent[] = [
     about: 'Predict flood risk for unseen locations from terrain, drainage, land-use and rainfall data, scored live on a Kaggle leaderboard.',
   },
   {
-    id: 'agent-competition', title: 'Agent Showdown', category: 'competitions', prize: 9000, fee: '₹100', clubs: ['crux'],
+    id: 'agent-competition', title: 'Agent Showdown', category: 'competitions', prize: 9000, fee: '₹100', clubs: ['crux'], image: '/events/agent-competition.webp', when: 'Fri 23 and Sun 25 Oct', venue: 'I114',
     about: 'Program an autonomous agent (rule-based, heuristic or minimax, no pre-trained LLMs) and pit it against others in a multi-round strategy game tournament.',
   },
   {
@@ -179,7 +179,7 @@ const LIST: FestEvent[] = [
     about: 'Enter a live FIFA player auction and build the best 5-a-side squad on a budget.',
   },
   {
-    id: 'defuse-the-bomb', title: 'Defuse the Bomb', category: 'competitions', prize: 7000, fee: '₹180 per team', team: '2–4', note: 'Maths-themed game room', clubs: ['axiom'],
+    id: 'defuse-the-bomb', title: 'Defuse the Bomb', category: 'competitions', prize: 8000, fee: '₹180 per team', team: '2–4', note: 'Maths-themed game room', clubs: ['axiom'], image: '/events/defuse-the-bomb.webp', when: 'Fri 23 – Sat 24 Oct, 11:00–18:00', venue: 'J218',
     about: 'Work together through maths puzzles to defuse the bomb.',
   },
   {
@@ -191,15 +191,15 @@ const LIST: FestEvent[] = [
     about: 'It’s 2030 and you’re trapped in a black site, with a corrupted AI sabotaging every move. Solve the ciphers and puzzles before the clock runs out.',
   },
   {
-    id: 'acm-escape-room', title: 'ACM Escape Room', category: 'competitions', prize: 5000, fee: '₹300 per team', team: '2', clubs: ['acm'],
+    id: 'acm-escape-room', title: 'ACM Escape Room', category: 'competitions', prize: 5000, fee: '₹300 per team', team: '1–2', clubs: ['acm'], image: '/events/acm-escape-room.webp', when: 'Sun 25 Oct, 13:00', venue: 'G102',
     about: 'A tech-based escape room for teams of two.',
   },
   {
-    id: 'ecosnap', title: 'EcoSnap Contest', category: 'competitions', prize: 5000, fee: '₹60', clubs: ['synapsis'],
+    id: 'ecosnap', title: 'EcoSnap Contest', category: 'competitions', prize: 5000, fee: '₹60', clubs: ['synapsis'], image: '/events/ecosnap.webp',
     about: 'A biology-themed photography competition.',
   },
   {
-    id: 'ai-slop-slayer', title: 'AI Slop Slayer', category: 'competitions', prize: 5000, fee: '₹400', clubs: ['acm'],
+    id: 'ai-slop-slayer', title: 'AI Slop Slayer', category: 'competitions', prize: 5000, fee: '₹400', clubs: ['acm'], image: '/events/ai-slop-slayer.webp', when: 'Fri 23 Oct, 16:00', venue: 'G102',
     about: 'You get AI-generated code full of bugs. Fix it.',
   },
   {
@@ -207,11 +207,11 @@ const LIST: FestEvent[] = [
     about: 'A murder scene, and a crime to solve.',
   },
   {
-    id: 'arg', title: 'ARG', category: 'competitions', prize: 5000, fee: '₹50 per person', team: '3', note: 'Alternate reality game', clubs: ['crux', 'acm-w'],
+    id: 'arg', title: 'Traceback', category: 'competitions', prize: 5000, fee: '₹50 per person', team: '2–3', note: 'Alternate reality game', clubs: ['crux', 'acm-w'], image: '/events/arg.webp', when: 'Sun 25 Oct, 16:00–18:00', venue: 'F105',
     about: 'A BITSian researcher has vanished, leaving encrypted files, deleted repos and hidden logs. Solve challenges across ML, web, app and design to find out what happened.',
   },
   {
-    id: 'martian-quiz', title: 'Are You Smarter Than a Martian?', category: 'competitions', prize: 2000, fee: 'Free', note: 'Space quiz', clubs: ['quiz-club', 'ad-astra'],
+    id: 'martian-quiz', title: 'Are You Smarter Than a Martian?', category: 'competitions', prize: 2000, fee: 'Free', note: 'Space quiz', clubs: ['quiz-club', 'ad-astra'], image: '/events/martian-quiz.webp', when: 'Fri 23 Oct, 16:00', venue: 'F104',
     about: 'Rocket launches, planetary missions, black holes, exoplanets and the strange corners of cosmology.',
   },
   {
@@ -223,7 +223,7 @@ const LIST: FestEvent[] = [
     about: 'The headliner: 100+ cubers from BITS and around the city compete across speedcubing categories over two days, under the World Cube Association.',
   },
   {
-    id: 'deal-with-the-devil', title: 'Deal With The Devil', category: 'competitions', prize: 25000, fee: 'TBA', note: 'Coding competition', clubs: ['csa'], image: '/events/deal-with-the-devil.webp', when: 'Sat 24 Oct, 14:00–17:00', venue: 'D313 (CC lab)',
+    id: 'deal-with-the-devil', title: 'Deal With The Devil', category: 'competitions', prize: 25000, fee: 'TBA', note: 'Coding competition', clubs: ['csa'], image: '/events/deal-with-the-devil.webp', when: 'Sat 24 Oct, 15:30–18:30', venue: 'D313 (CC lab)',
     about: 'Buy hints from an AI that gets more corrupted the deeper you go. Catch its confident nonsense, bid smart and debug harder.',
   },
   {
@@ -246,6 +246,14 @@ const LIST: FestEvent[] = [
   {
     id: 'smash-karts', title: 'Smash Karts Tournament', category: 'competitions', prize: 2000, fee: 'TBA', clubs: ['esports'], image: '/events/smash-karts.webp', when: 'Fri 23 Oct', venue: 'Online',
   },
+  {
+    id: 'hacksphere', title: 'Hacksphere 3.0', category: 'competitions', prize: 70000, fee: 'TBA', team: '1–4', clubs: ['csa'],
+    about: 'A hackathon powered by Catalyst by Zoho.',
+  },
+  {
+    id: 'midnight-av', title: 'Midnight AV', category: 'competitions', prize: null, fee: 'TBA', note: 'Winners get coupons worth up to ₹2,000', clubs: ['quiz-club'], when: 'Fri 23 Oct, 00:30 (or after inauguration)', venue: 'F105',
+    about: 'A quiz built entirely on audio and video clips.',
+  },
 
   // workshops
   {
@@ -253,19 +261,19 @@ const LIST: FestEvent[] = [
     about: 'Building trustworthy AI agents: test AI on real engineering problems and learn to catch its errors and verify results.',
   },
   {
-    id: 'drone-counter-strike', title: 'Drone Counter Strike', category: 'workshops', prize: 10000, fee: '₹369 per person', team: '3–6', note: 'Workshop and hackathon · ₹5,000 / ₹3,000 / ₹2,000', clubs: ['aeolus'], image: '/events/drone-counter-strike.webp', when: 'Fri 23 – Sun 25 Oct', venue: 'D313 and the Embedded Systems Lab',
+    id: 'drone-counter-strike', title: 'Drone Counter Strike', category: 'workshops', prize: 10000, fee: '₹369 per person', team: '3–6', note: 'Workshop and hackathon · ₹5,000 / ₹3,000 / ₹2,000', clubs: ['aeolus'], image: '/events/drone-counter-strike.webp', when: 'Fri 23 – Sun 25 Oct', venue: 'Embedded Systems Lab (23 Oct), D313 (24 Oct), I213 (25 Oct)',
     about: 'Join S.H.I.E.L.D. @BPHC in securing Earth’s airspace: deploy a Raspberry Pi to detect incoming drones, then lock onto and track them in real time with YOLO-based detection and a gimbal. Workshops run on 23 Oct (14:00–16:00) and 24 Oct (13:00–15:00). The hackathon on 25 Oct is a two-hour slot plus a 15-minute finals slot of your choice, and one registration covers both.',
   },
   {
-    id: 'card-counting', title: 'Card Counting Workshop & Showdown', category: 'workshops', prize: 5000, fee: '₹150', note: 'One-day event', clubs: ['axiom'],
+    id: 'card-counting', title: 'Card Counting Workshop & Showdown', category: 'workshops', prize: 5000, fee: '₹150', note: 'Two-day event', clubs: ['axiom'], image: '/events/card-counting.webp', when: 'Fri 23 – Sat 24 Oct, 16:00', venue: 'J214',
     about: 'Learn the probability behind winning at poker, then play it out in a showdown.',
   },
   {
-    id: 'ti-workshop', title: 'Texas Instruments Workshop', category: 'workshops', prize: null, fee: '₹1499', note: 'Two days, on the MSPM0 microcontroller', clubs: ['seds'],
+    id: 'ti-workshop', title: 'Texas Instruments Workshop', category: 'workshops', prize: null, fee: '₹1499', note: 'Two days, on the MSPM0 microcontroller', clubs: ['seds'], image: '/events/ti-workshop.webp',
     about: 'Day one: meet TI professionals and get introduced to the MSPM0. Day two: shortlisted students solve a problem statement with it, hands-on.',
   },
   {
-    id: 'model-rocketry', title: 'Model Rocketry Workshop', category: 'workshops', prize: null, fee: '₹1499', clubs: ['seds'],
+    id: 'model-rocketry', title: 'Model Rocketry Workshop', category: 'workshops', prize: null, fee: '₹1499', clubs: ['seds'], image: '/events/model-rocketry.webp', when: 'Fri 23 – Sun 25 Oct, 15:00–18:00',
     about: 'Learn the ins and outs of rocketry and build your own model rocket, with motors and DAQ systems.',
   },
   {
@@ -285,15 +293,15 @@ const LIST: FestEvent[] = [
     about: 'Wire up an Arduino and build a device that draws on a display. All resources provided.',
   },
   {
-    id: 'quantum-computing', title: 'QuantumVerse 2026', category: 'workshops', prize: null, fee: '₹399', note: 'Quantum workshop and hackathon, with IBM', clubs: ['ieee'],
+    id: 'quantum-computing', title: 'QuantumVerse 2026', category: 'workshops', prize: 25000, fee: '₹399', note: 'Quantum workshop and hackathon, with IBM', clubs: ['ieee'], image: '/events/quantum-computing.webp', when: 'Fri 23 – Sun 25 Oct, 09:00–18:00', venue: 'F102 (in-person and virtual)',
     about: 'A three-day hybrid event with IBM speakers: quantum computing fundamentals, programming, entanglement and error correction, then a hackathon.',
   },
   {
-    id: 'machine-learning', title: 'Chatbot from Scratch', category: 'workshops', prize: null, fee: '₹399', note: 'Machine learning workshop', clubs: ['ieee'],
+    id: 'machine-learning', title: 'Chatbot from Scratch', category: 'workshops', prize: null, fee: '₹399', note: 'Machine learning workshop', clubs: ['ieee'], image: '/events/machine-learning.webp', when: 'Fri 23 Oct, 09:00–12:00', venue: 'G106',
     about: 'Build a chatbot that answers questions about your own documents with a retrieval-augmented generation pipeline. Mostly hands-on, 2.5–3 hours.',
   },
   {
-    id: 'analog-electronics', title: 'Op-Amp Workshop', category: 'workshops', prize: null, fee: '₹399', note: 'Analog electronics', clubs: ['ieee'],
+    id: 'analog-electronics', title: 'CircuitCraft', category: 'workshops', prize: null, fee: '₹399', note: 'Analog electronics', clubs: ['ieee'], image: '/events/analog-electronics.webp', when: 'Fri 23 Oct, 14:00–17:00', venue: 'G101',
     about: 'A hands-on workshop on operational amplifiers. Participants keep all the hardware used in the session.',
   },
   {
@@ -301,7 +309,7 @@ const LIST: FestEvent[] = [
     about: 'Learn how scents work and make your own candles and perfumes.',
   },
   {
-    id: 'digital-design', title: 'GPU Workshop', category: 'workshops', prize: null, fee: '₹299', note: 'Digital design', clubs: ['ieee'],
+    id: 'digital-design', title: 'GPU Workshop', category: 'workshops', prize: null, fee: '₹299', note: 'Digital design', clubs: ['ieee'], image: '/events/digital-design.webp', when: 'Sun 25 Oct, 14:00–17:00', venue: 'G101',
     about: 'An introduction to GPU architecture and NVIDIA’s CUDA platform. No prior experience needed.',
   },
   {
@@ -331,11 +339,11 @@ const LIST: FestEvent[] = [
     about: 'Poker, blackjack and roulette with a pinch of chemistry. Buy in for chips; the best balance after three days takes the prize pool.',
   },
   {
-    id: 'stargazing', title: 'Stargazing', category: 'experiences', prize: null, fee: '₹149', clubs: ['ad-astra'], image: '/events/stargazing.webp', when: 'Fri 23 Oct, 22:00',
+    id: 'stargazing', title: 'Stargazing', category: 'experiences', prize: null, fee: '₹149', clubs: ['ad-astra'], image: '/events/stargazing.webp', when: 'Fri 23 Oct, 23:00', venue: 'NFG',
     about: 'Saturn’s rings, Jupiter’s moons, lunar craters and distant star clusters through a Celestron Schmidt-Cassegrain and an 8-inch Dobsonian.',
   },
   {
-    id: 'solar-gazing', title: 'Solaris Surge', category: 'experiences', prize: null, fee: '₹99', note: 'Solar gazing', clubs: ['ad-astra'], image: '/events/solar-gazing.webp', when: 'Sat 24 Oct, 10:00–13:00',
+    id: 'solar-gazing', title: 'Solaris Surge', category: 'experiences', prize: null, fee: '₹99', note: 'Solar gazing', clubs: ['ad-astra'], image: '/events/solar-gazing.webp', when: 'Sat 24 Oct, 10:00–13:00', venue: 'NFG',
     about: 'Observe the Sun safely through filtered telescopes and track sunspot clusters.',
   },
   {
@@ -351,14 +359,14 @@ const LIST: FestEvent[] = [
     about: 'Golden-era games on arcade machines built by ARC, with tactile buttons and old-style displays.',
   },
   {
-    id: 'period-pain-simulator', title: 'Period Pain Simulator', category: 'experiences', prize: null, fee: '₹100', clubs: ['synapsis'],
+    id: 'period-pain-simulator', title: 'Period Pain Simulator', category: 'experiences', prize: null, fee: '₹100', clubs: ['synapsis'], image: '/events/period-pain-simulator.webp',
     about: 'A TENS machine simulates period cramps with mild electrical stimulation.',
   },
   {
     id: 'tech-tiranga', title: 'Tech Tiranga', category: 'experiences', prize: null, fee: 'Free', note: 'Space panel talk', clubs: ['seds', 'embryo', 'ad-astra'],
   },
   {
-    id: 'auto-expo', title: 'Auto Expo', category: 'experiences', prize: null, fee: 'Free', clubs: ['mea'],
+    id: 'auto-expo', title: 'Auto Expo', category: 'experiences', prize: null, fee: 'Free', clubs: ['mea'], when: 'Fri 23 Oct, 12:00', venue: 'Upper Old Football Ground (OFG)',
     about: 'A showcase of vehicles from modified cars to supercars. Walk through, see the machines up close and meet the drivers.',
   },
   {
