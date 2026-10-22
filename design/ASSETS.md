@@ -26,7 +26,31 @@ Shaft-top stills `top.webp` (1280x800, from a 1600x1000 capture) and `top-portra
 ## Event images — `public/events/*.webp`
 - Only the events' own posters (WebP ≤ 300 KB, 900 px wide, any height), set per event as `image` in `src/data/events.ts`. An event without one shows no picture.
 - The first eleven (14 Oct) come from the fest's Instagram posts (`instagram.com/p/<code>/media/?size=l`; Finding the Next Signal from @eco_assoc.bphc's collab post). The bottom strip with organisers' names and phone numbers is cropped off (AGENTS.md rule 3), then resized to 900 px wide at WebP quality 80. Chemistry Casino's post is visible only when logged in, so it was saved from the logged-in post page (1350 px original).
+- Added 23 Oct from the CDN `img` URLs in `.ai/ref/atmos-instagram-posts.json`, downloaded with curl. Converted with the existing Pillow approach: RGB, Lanczos resize to at most 900 px wide (no upscaling), WebP quality 80, method 6; each is under 300 KB. Contact strips are cropped off as listed below. Reel frames are used only when the first frame is a poster. The listed retained-height percentages describe the crop before resizing.
+- `astro-datathon.webp`: https://www.instagram.com/bphc.ad.astra/reel/Det3d30p7Az/ — poster frame; retained middle 75% to remove black letterboxing; no contacts.
+- `analytics-datathon.webp`: https://www.instagram.com/bhcg.bitshyd/p/DexWEVdEoM0/ — retained top 86%; bottom contact details removed.
+- `anatomy-of-murder.webp`: https://www.instagram.com/synapsis_bitshyd/p/Det_hgxz93X/ — full poster; no contacts.
+- `trick-of-trade.webp`: https://www.instagram.com/eco_assoc.bphc/p/Deuat3NT3ZZ/ — retained top 90%; bottom contact strip removed.
+- `cruxipher.webp`: https://www.instagram.com/cruxbphc/p/DexGtK_DLep/ — retained top 88%; bottom contact details removed.
+- `coinquest.webp`: https://www.instagram.com/blocksoc.bphc/reel/DemYt-WJDou/ — poster frame; retained top 94%; bottom contact strip removed.
+- `velocity.webp`: https://www.instagram.com/quizclubbphc/p/Devtg5GRMNr/ — retained top 94.4%; bottom contact strip removed.
+- `agent-competition.webp`: https://www.instagram.com/cruxbphc/p/DexJt6oDDIy/ — retained top 95.5%; bottom contact strip removed.
+- `defuse-the-bomb.webp`: https://www.instagram.com/axiom_bphc/p/DevwlE6gjs-/ — full poster; no contacts.
+- `acm-escape-room.webp`: https://www.instagram.com/acm_bphc/p/DewiH3NEpmQ/ — full poster; no contacts.
+- `ecosnap.webp`: https://www.instagram.com/synapsis_bitshyd/p/DeuJg0Az07L/ — full poster; no contacts.
+- `ai-slop-slayer.webp`: https://www.instagram.com/acm_bphc/p/DewhhhZklYk/ — full poster; no contacts.
+- `arg.webp`: https://www.instagram.com/cruxbphc/p/DexKEcDDOC8/ — retained top 94%; bottom contact strip removed.
+- `martian-quiz.webp`: https://www.instagram.com/quizclubbphc/p/Devs0xpR-Ev/ — retained top 76%; lower-right contact details removed along with the bottom logistics.
+- `card-counting.webp`: https://www.instagram.com/axiom_bphc/p/DewKifBgkJS/ — full poster; no contacts.
+- `ti-workshop.webp`: https://www.instagram.com/seds.bitshyd/p/DexiaAwo_pg/ — retained top 91%; bottom contact details removed.
+- `model-rocketry.webp`: https://www.instagram.com/seds.bitshyd/p/Dexj7_3zU3I/ — retained top 85%; lower-right contact details removed along with the bottom logistics.
+- `quantum-computing.webp`: https://www.instagram.com/ieee.bphc/p/DevlO3spva3/ — retained top 91%; bottom contact details removed.
+- `machine-learning.webp`: https://www.instagram.com/ieee.bphc/p/DevkrgFJEkq/ — retained top 92%; bottom contact details removed.
+- `analog-electronics.webp`: https://www.instagram.com/ieee.bphc/p/DevkWj5pPK8/ — retained top 92%; lower-right contact details removed along with the bottom logistics.
+- `digital-design.webp`: https://www.instagram.com/ieee.bphc/p/Devk3PNJyNM/ — retained top 85%; bottom contact details removed.
+- `period-pain-simulator.webp`: https://www.instagram.com/synapsis_bitshyd/p/DeuHeHXzilx/ — full poster; no contacts.
 - Generated stand-ins were made once (Z-Image-Turbo, `scripts/events/`) but never shipped; the site no longer falls back to them.
+- `public/events/card/*.webp`: the events grid's card pictures, cut from each poster by `python scripts/event_cards.py` (Pillow): the same 4:3 top-anchored crop the card's CSS shows, at 900 × 675 and 600 × 450 (`-600`), WebP quality 80. The script lists the posters that have cards in `src/data/eventCards.json`; a poster without cards still shows at full size. Run it after adding a poster.
 
 ## Sponsor logos — `public/sponsors/*.webp`
 - `synchrony.webp`: the title sponsor's logo as the team supplied it (dark wordmark and yellow bars on white, `design/source/synchrony.jpg`), reversed for the black ground by `python scripts/sponsor_logo.py` (Pillow + numpy): white keyed out, wordmark turned white, bars keep their own yellow, cropped, lossless WebP with alpha and its origin in XMP. Replace it with Synchrony's official reversed file if they send one.
