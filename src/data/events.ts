@@ -41,11 +41,13 @@ const CLUB_LIST = {
   'embryo': { name: 'Embryo', tagline: 'Hosts distinguished speakers at campus events.', logo: '/clubs/embryo.webp' },
   'esports': { name: 'E-Sports', tagline: 'Campus-wide tournaments for Valorant, BGMI, FIFA and more.', logo: '/clubs/esports.webp' },
   'ieee': { name: 'IEEE', tagline: 'Student branch of the global IEEE organization.', logo: '/clubs/ieee.webp' },
+  'lights-and-sounds': { name: 'Lights and Sounds', tagline: 'Lighting and sound for campus events.' },
   'mea': { name: 'Mechanical Engineering Association', tagline: 'The branch association for Mechanical Engineering.', logo: '/clubs/mea.webp' },
   'panacea': { name: 'Panacea', tagline: 'The branch association for Pharmacy.', logo: '/clubs/panacea.webp' },
   'phoenix': { name: 'PHoEnix Association', tagline: 'The branch association for EnI, EEE and ECE.', logo: '/clubs/phoenix.webp' },
   'quiz-club': { name: 'Quiz Club', tagline: 'The _ _ _ _ _ _ _ _ Club has a Quizzing Problem', logo: '/clubs/quiz-club.webp' },
   'sae': { name: 'SAE', tagline: 'Automotive engineering and vehicle design competitions.' },
+  'sarc': { name: 'SARC', tagline: 'The Student-Alumni Relations Cell.' },
   'seds': { name: 'SEDS', tagline: 'The aerospace club of BPHC.', logo: '/clubs/seds.webp' },
   'spectrum': { name: 'Spectrum', tagline: 'The branch association for Physics.', logo: '/clubs/spectrum.webp' },
   'synapsis': { name: 'Synapsis', tagline: 'The branch association for Biology.', logo: '/clubs/synapsis.webp' },
@@ -127,7 +129,7 @@ const LIST: FestEvent[] = [
     about: 'A quant finance and algorithm design challenge. Analyse financial datasets, build models and trading strategies, and present your approach and results.',
   },
   {
-    id: 'anatomy-of-murder', title: 'Anatomy of Murder', category: 'competitions', prize: 30000, fee: 'Free', clubs: ['synapsis'], image: '/events/anatomy-of-murder.webp', when: 'Fri 23 Oct, 15:00', venue: 'F103',
+    id: 'anatomy-of-murder', title: 'Anatomy of Murder', category: 'competitions', prize: 30000, fee: 'Free', team: '4', clubs: ['synapsis'], image: '/events/anatomy-of-murder.webp', when: 'Fri 23 Oct, 15:00', venue: 'F103',
     about: 'Solve biology-themed clues and follow them around the academic block to crack a murder.',
   },
   {
@@ -167,7 +169,7 @@ const LIST: FestEvent[] = [
     about: 'Predict flood risk for unseen locations from terrain, drainage, land-use and rainfall data, scored live on a Kaggle leaderboard.',
   },
   {
-    id: 'agent-competition', title: 'Agent Showdown', category: 'competitions', prize: 9000, fee: '₹100', clubs: ['crux'], image: '/events/agent-competition.webp', when: 'Fri 23 and Sun 25 Oct', venue: 'I114',
+    id: 'agent-competition', title: 'Agent Showdown', category: 'competitions', prize: 9000, fee: '₹100', clubs: ['crux'], image: '/events/agent-competition.webp', when: 'Fri 23 Oct, 13:00–14:00 · Sun 25 Oct, 13:00–16:00', venue: 'I114',
     about: 'Program an autonomous agent (rule-based, heuristic or minimax, no pre-trained LLMs) and pit it against others in a multi-round strategy game tournament.',
   },
   {
@@ -185,6 +187,10 @@ const LIST: FestEvent[] = [
   {
     id: 'concrete-bowling', title: 'Concrete Bowling', category: 'competitions', prize: 6000, fee: '₹200', note: 'At the Central Workshop', clubs: ['cea'], image: '/events/concrete-bowling.webp', when: 'Fri 23 – Sun 25 Oct', venue: 'Central Workshop',
     about: 'Standard bowling rules with cast concrete balls and pins. Scores are ranked through the fest; the highest win.',
+  },
+  {
+    id: 'operation-epoch', title: 'Escape Room: Operation Epoch', category: 'competitions', prize: 20000, fee: 'TBA', clubs: ['csa'], when: 'Fri 23 – Sun 25 Oct, 10:00–19:00', venue: 'J115',
+    about: 'Ancient secrets meet futuristic mysteries in an escape room. Decode clues and crack codes before time runs out.',
   },
   {
     id: 'escape-room', title: 'Escape Room: All Eyes on You', category: 'competitions', prize: 5000, fee: '₹100 per head', team: '4–7', clubs: ['spectrum'], image: '/events/escape-room.webp', when: 'Fri 23 – Sun 25 Oct, 10:00–20:00', venue: 'J107',
@@ -227,7 +233,7 @@ const LIST: FestEvent[] = [
     about: 'Buy hints from an AI that gets more corrupted the deeper you go. Catch its confident nonsense, bid smart and debug harder.',
   },
   {
-    id: 'speedcad', title: 'SpeedCAD', category: 'competitions', prize: 15000, fee: 'TBA', note: '1v1 knockout CAD competition', clubs: ['sae'], image: '/events/speedcad.webp', when: 'Sun 25 Oct, 14:00–17:00', venue: 'F107',
+    id: 'speedcad', title: 'SpeedCAD', category: 'competitions', prize: 15000, fee: 'TBA', team: '1v1', note: '1v1 knockout CAD competition', clubs: ['sae'], image: '/events/speedcad.webp', when: 'Sun 25 Oct, 14:00–17:00', venue: 'F107',
     about: 'Two designers get the same drawing and race to recreate it in CAD (SolidWorks or Fusion). Accuracy and speed decide who advances. Bring a laptop or use one provided.',
   },
   {
@@ -261,7 +267,7 @@ const LIST: FestEvent[] = [
     about: 'Building trustworthy AI agents: test AI on real engineering problems and learn to catch its errors and verify results.',
   },
   {
-    id: 'drone-counter-strike', title: 'Drone Counter Strike', category: 'workshops', prize: 10000, fee: '₹369 per person', team: '3–6', note: 'Workshop and hackathon · ₹5,000 / ₹3,000 / ₹2,000', clubs: ['aeolus'], image: '/events/drone-counter-strike.webp', when: 'Fri 23 – Sun 25 Oct', venue: 'Embedded Systems Lab (23 Oct), D313 (24 Oct), I213 (25 Oct)',
+    id: 'drone-counter-strike', title: 'Drone Counter Strike', category: 'workshops', prize: 10000, fee: '₹369 per person', team: '3–6', note: 'Workshop and hackathon · ₹5,000 / ₹3,000 / ₹2,000', clubs: ['aeolus'], image: '/events/drone-counter-strike.webp', when: 'Fri 23 Oct, 14:00–16:00 · Sat 24 Oct, 13:00–15:00', venue: 'Embedded Systems Lab (23 Oct), D313 (24 Oct), I213 (25 Oct)',
     about: 'Join S.H.I.E.L.D. @BPHC in securing Earth’s airspace: deploy a Raspberry Pi to detect incoming drones, then lock onto and track them in real time with YOLO-based detection and a gimbal. Workshops run on 23 Oct (14:00–16:00) and 24 Oct (13:00–15:00). The hackathon on 25 Oct is a two-hour slot plus a 15-minute finals slot of your choice, and one registration covers both.',
   },
   {
@@ -269,7 +275,7 @@ const LIST: FestEvent[] = [
     about: 'Learn the probability behind winning at poker, then play it out in a showdown.',
   },
   {
-    id: 'ti-workshop', title: 'Texas Instruments Workshop', category: 'workshops', prize: null, fee: '₹1499', note: 'Two days, on the MSPM0 microcontroller', clubs: ['seds'], image: '/events/ti-workshop.webp',
+    id: 'ti-workshop', title: 'Texas Instruments Workshop', category: 'workshops', prize: null, fee: '₹1499', note: 'Two days, on the MSPM0 microcontroller', clubs: ['seds'], image: '/events/ti-workshop.webp', when: 'Fri 23 – Sat 24 Oct, 10:00–16:00',
     about: 'Day one: meet TI professionals and get introduced to the MSPM0. Day two: shortlisted students solve a problem statement with it, hands-on.',
   },
   {
@@ -359,7 +365,7 @@ const LIST: FestEvent[] = [
     about: 'Golden-era games on arcade machines built by ARC, with tactile buttons and old-style displays.',
   },
   {
-    id: 'period-pain-simulator', title: 'Period Pain Simulator', category: 'experiences', prize: null, fee: '₹100', clubs: ['synapsis'], image: '/events/period-pain-simulator.webp',
+    id: 'period-pain-simulator', title: 'Period Pain Simulator', category: 'experiences', prize: null, fee: '₹100', clubs: ['synapsis'], image: '/events/period-pain-simulator.webp', when: 'Fri 23 – Sun 25 Oct, 13:00', venue: 'D-block entrance',
     about: 'A TENS machine simulates period cramps with mild electrical stimulation.',
   },
   {
@@ -384,6 +390,18 @@ const LIST: FestEvent[] = [
   {
     id: 'space-talk', title: 'Talk: Awais Ahmed', category: 'experiences', prize: null, fee: 'TBA', note: 'Co-founder and CEO of Pixxel', clubs: ['embryo', 'seds'], image: '/events/space-talk.webp', when: 'Sat 24 Oct, 13:30', venue: 'F103',
     about: 'A masterclass from BITS alumnus Awais Ahmed, whose company Pixxel builds high-resolution hyperspectral Earth-imaging satellites, on scaling a global space company.',
+  },
+  {
+    id: 'nishant-suri', title: 'Nishant Suri live', category: 'experiences', prize: null, fee: 'TBA', note: 'Comedy night', image: '/events/nishant-suri.webp', when: 'Fri 23 Oct, 19:00', venue: 'Audi',
+    about: 'A live stand-up comedy show by Nishant Suri at ATMOS ’26.',
+  },
+  {
+    id: 'lumina', title: 'LUMINA', category: 'experiences', prize: null, fee: 'TBA', clubs: ['lights-and-sounds'], when: 'Fri 23 Oct', venue: 'Chess Courtyard',
+    about: 'A laser and lights night by Lights and Sounds BPHC.',
+  },
+  {
+    id: 'alumni-talks', title: 'Alumni Talks', category: 'experiences', prize: null, fee: 'TBA', clubs: ['sarc'], when: 'Fri 23 – Sun 25 Oct', venue: 'Online and on campus',
+    about: 'Aryan Trivedi, Pavan Pochu, Dr. Nilay Yajnik and Joyneel A on building startups, scaling and acquisitions, with online and offline sessions.',
   },
 ];
 

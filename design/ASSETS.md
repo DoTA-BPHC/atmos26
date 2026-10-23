@@ -49,6 +49,7 @@ Shaft-top stills `top.webp` (1280x800, from a 1600x1000 capture) and `top-portra
 - `analog-electronics.webp`: https://www.instagram.com/ieee.bphc/p/DevkWj5pPK8/ — retained top 92%; lower-right contact details removed along with the bottom logistics.
 - `digital-design.webp`: https://www.instagram.com/ieee.bphc/p/Devk3PNJyNM/ — retained top 85%; bottom contact details removed.
 - `period-pain-simulator.webp`: https://www.instagram.com/synapsis_bitshyd/p/DeuHeHXzilx/ — full poster; no contacts.
+- `nishant-suri.webp`: https://www.instagram.com/atmos_bitshyd/p/De0jOgIJa97/ — supplied WebP from `.ai/ref/ig-new/ig-De0jOgIJa97.jpg`; full poster; no contacts.
 - Generated stand-ins were made once (Z-Image-Turbo, `scripts/events/`) but never shipped; the site no longer falls back to them.
 - `public/events/card/*.webp`: the events grid's card pictures, cut from each poster by `python scripts/event_cards.py` (Pillow): the same 4:3 top-anchored crop the card's CSS shows, at 900 × 675 and 600 × 450 (`-600`), WebP quality 80. The script lists the posters that have cards in `src/data/eventCards.json`; a poster without cards still shows at full size. Run it after adding a poster.
 
