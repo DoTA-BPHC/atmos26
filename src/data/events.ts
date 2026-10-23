@@ -41,11 +41,13 @@ const CLUB_LIST = {
   'embryo': { name: 'Embryo', tagline: 'Hosts distinguished speakers at campus events.', logo: '/clubs/embryo.webp' },
   'esports': { name: 'E-Sports', tagline: 'Campus-wide tournaments for Valorant, BGMI, FIFA and more.', logo: '/clubs/esports.webp' },
   'ieee': { name: 'IEEE', tagline: 'Student branch of the global IEEE organization.', logo: '/clubs/ieee.webp' },
+  'lights-and-sounds': { name: 'Lights and Sounds', tagline: 'Lighting and sound for campus events.' },
   'mea': { name: 'Mechanical Engineering Association', tagline: 'The branch association for Mechanical Engineering.', logo: '/clubs/mea.webp' },
   'panacea': { name: 'Panacea', tagline: 'The branch association for Pharmacy.', logo: '/clubs/panacea.webp' },
   'phoenix': { name: 'PHoEnix Association', tagline: 'The branch association for EnI, EEE and ECE.', logo: '/clubs/phoenix.webp' },
   'quiz-club': { name: 'Quiz Club', tagline: 'The _ _ _ _ _ _ _ _ Club has a Quizzing Problem', logo: '/clubs/quiz-club.webp' },
   'sae': { name: 'SAE', tagline: 'Automotive engineering and vehicle design competitions.' },
+  'sarc': { name: 'SARC', tagline: 'The Student-Alumni Relations Cell.' },
   'seds': { name: 'SEDS', tagline: 'The aerospace club of BPHC.', logo: '/clubs/seds.webp' },
   'spectrum': { name: 'Spectrum', tagline: 'The branch association for Physics.', logo: '/clubs/spectrum.webp' },
   'synapsis': { name: 'Synapsis', tagline: 'The branch association for Biology.', logo: '/clubs/synapsis.webp' },
@@ -185,6 +187,10 @@ const LIST: FestEvent[] = [
   {
     id: 'concrete-bowling', title: 'Concrete Bowling', category: 'competitions', prize: 6000, fee: '₹200', note: 'At the Central Workshop', clubs: ['cea'], image: '/events/concrete-bowling.webp', when: 'Fri 23 – Sun 25 Oct', venue: 'Central Workshop',
     about: 'Standard bowling rules with cast concrete balls and pins. Scores are ranked through the fest; the highest win.',
+  },
+  {
+    id: 'operation-epoch', title: 'Escape Room: Operation Epoch', category: 'competitions', prize: 20000, fee: 'TBA', clubs: ['csa'], when: 'Fri 23 – Sun 25 Oct, 10:00–19:00', venue: 'J115',
+    about: 'Ancient secrets meet futuristic mysteries in an escape room. Decode clues and crack codes before time runs out.',
   },
   {
     id: 'escape-room', title: 'Escape Room: All Eyes on You', category: 'competitions', prize: 5000, fee: '₹100 per head', team: '4–7', clubs: ['spectrum'], image: '/events/escape-room.webp', when: 'Fri 23 – Sun 25 Oct, 10:00–20:00', venue: 'J107',
@@ -384,6 +390,18 @@ const LIST: FestEvent[] = [
   {
     id: 'space-talk', title: 'Talk: Awais Ahmed', category: 'experiences', prize: null, fee: 'TBA', note: 'Co-founder and CEO of Pixxel', clubs: ['embryo', 'seds'], image: '/events/space-talk.webp', when: 'Sat 24 Oct, 13:30', venue: 'F103',
     about: 'A masterclass from BITS alumnus Awais Ahmed, whose company Pixxel builds high-resolution hyperspectral Earth-imaging satellites, on scaling a global space company.',
+  },
+  {
+    id: 'nishant-suri', title: 'Nishant Suri live', category: 'experiences', prize: null, fee: 'TBA', note: 'Comedy night', image: '/events/nishant-suri.webp', when: 'Fri 23 Oct, 19:00', venue: 'Audi',
+    about: 'A live stand-up comedy show by Nishant Suri at ATMOS ’26.',
+  },
+  {
+    id: 'lumina', title: 'LUMINA', category: 'experiences', prize: null, fee: 'TBA', clubs: ['lights-and-sounds'], when: 'Fri 23 Oct', venue: 'Chess Courtyard',
+    about: 'A laser and lights night by Lights and Sounds BPHC.',
+  },
+  {
+    id: 'alumni-talks', title: 'Alumni Talks', category: 'experiences', prize: null, fee: 'TBA', clubs: ['sarc'], when: 'Fri 23 – Sun 25 Oct', venue: 'Online and on campus',
+    about: 'Aryan Trivedi, Pavan Pochu, Dr. Nilay Yajnik and Joyneel A on building startups, scaling and acquisitions, with online and offline sessions.',
   },
 ];
 
