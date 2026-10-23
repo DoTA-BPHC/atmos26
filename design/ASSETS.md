@@ -56,6 +56,47 @@ Shaft-top stills `top.webp` (1280x800, from a 1600x1000 capture) and `top-portra
 ## Sponsor logos — `public/sponsors/*.webp`
 - `synchrony.webp`: the title sponsor's logo as the team supplied it (dark wordmark and yellow bars on white, `design/source/synchrony.jpg`), reversed for the black ground by `python scripts/sponsor_logo.py` (Pillow + numpy): white keyed out, wordmark turned white, bars keep their own yellow, cropped, lossless WebP with alpha and its origin in XMP. Replace it with Synchrony's official reversed file if they send one.
 
+### Announced 2026 partners (23 October)
+
+New logos were fetched with curl from the official sites below (including their linked asset CDNs), converted with the existing Sharp dependency to lossless WebP with alpha and source URL in XMP, fitted within 600 × 200 px without enlarging rasters, cropped and given an 8 px transparent margin. As in `scripts/sponsor_logo.py`, white backgrounds were keyed out and dark neutral wordmarks reversed to white; Date Bites and Unstop's dark blue wordmarks were also reversed for the black ground. Brand colours otherwise remain intact. Every new file is below 50 KB. Synchrony's existing file is unchanged.
+
+| File | Official logo source |
+| --- | --- |
+| `coca-cola.webp` | https://www.coca-cola.com/content/dam/onexp/in/en/home-page-test-img/brands/coca-cola/Coca-Cola-Logo.svg |
+| `wonderla.webp` | https://d22pimhl2qmbj7.cloudfront.net/public/wonderla_logo_9d520a1eac.webp (linked by https://www.wonderla.com) |
+| `white-heaven-entertainments.webp` | https://whiteheavenentertainments.in/logoWhiteHeaven.png |
+| `ibm.webp` | https://www.ibm.com/content/dam/worldwide-content/creative-assets/s-migr/ul/g/18/f9/ibm_logo_pos_blue60_rgb.png/_jcr_content/renditions/cq5dam.web.1280.1280.jpeg |
+| `catalyst-by-zoho.webp` | https://www.zohowebstatic.com/sites/zweb/images/ogimage/catalyst-logo.png (linked by https://www.zoho.com/catalyst/) |
+| `wall-street-mojo.webp` | https://www.wallstreetmojo.com/wp-content/uploads/2026/05/wallstreet-logo.png |
+| `date-bites-by-farmley.webp` | https://www.farmley.com/cdn/shop/files/d912dede-9fed-4da1-a94a-6875de688cde.png?v=1787225059 (Date Bites wordmark in Farmley's brand navigation) |
+| `techobytes.webp` | https://techobytes.com/wp-content/uploads/2026/07/LOGO-TECHOBYTES-TECHNOLOGIES.png |
+| `german-gears-india.webp` | https://germangearsindia.com/logo-2.jpg |
+| `kpmg.webp` | https://kpmg.com/content/experience-fragments/kpmgpublic/in/en/site/footer/master/_jcr_content/root/footer/logo.coreimg.svg/1732258099331/logo-white.svg |
+| `unstop.webp` | https://d8it4huxumps7.cloudfront.net/uploads/images/unstop/svg/unstop-logo.svg (linked by https://unstop.com) |
+
+Texas Instruments uses a text fallback: curl to https://www.ti.com yielded no logo, and `/assets/images/ti-logo.svg`, `/assets/images/ti-logo.png`, `/assets/js/headerfooter/ti-logo.svg` and `/content/dam/ticom/images/icons/ti-logo.svg` returned 404. Signal1 also uses text: no matching official logo was verified; `signal1.ai` is a healthcare company and `signal1.in` identifies itself as Signal Studio, so neither was substituted for the financial research sponsor. Its sponsor link goes to the confirming event announcement.
+
+Sponsor credits are limited to the supplied 2026 announcements in `.ai/ref/atmos-instagram-posts.json`, the current posters and the task's team-confirmed Wall Street Mojo credit:
+
+| Sponsor | Confirmed credit | Announcement / poster |
+| --- | --- | --- |
+| Synchrony | Title Sponsor | https://www.instagram.com/atmos_bitshyd/p/De08JqiJBoh/ |
+| Coca-Cola | Proshow, Comedy Night and Exclusive Beverages Partner (page uses the requested shorter wording) | https://www.instagram.com/atmos_bitshyd/p/De09mZSFHcE/ |
+| Wonderla; White Heaven Entertainments | Partner (poster gives no more specific role) | `.ai/ref/ig-new/ig-De0jOgIJa97.jpg`; https://www.instagram.com/atmos_bitshyd/p/De0jOgIJa97/ |
+| IBM | QuantumVerse | https://www.instagram.com/ieee.bphc/p/DevlO3spva3/; `public/events/quantum-computing.webp` |
+| Catalyst by Zoho | Powered by · Hacksphere 3.0 | https://www.instagram.com/csa.bitshyd/p/DewBFRjRuz5/ |
+| Texas Instruments | Embedded Systems Workshop | https://www.instagram.com/seds.bitshyd/p/DexiaAwo_pg/; `public/events/ti-workshop.webp` |
+| Wall Street Mojo | Data Tacticx | Team-confirmed in this task; existing `src/data/events.ts` credit (`analytics-datathon`). The supplied Data Tacticx poster does not show this partner, and no matching 2026 caption was found in the supplied archive. |
+| Date Bites by Farmley | Pixel Palette; Concrete Bowling | `public/events/pixel-palette.webp`; https://www.instagram.com/ceabphc/p/DexFjRpTvIB/ |
+| Signal1 | Finding the Next Signal | https://www.instagram.com/eco_assoc.bphc/p/Deb02CQRUpZ/; `public/events/next-signal.webp` |
+| Techobytes Technologies | Agentic AI and Claude Workshop | https://www.instagram.com/csa.bitshyd/p/DewOBDGzEYf/ |
+| German Gears India | Auto Expo 2026 | https://www.instagram.com/mea_bphc/reel/DeuIkYdT6d0/ |
+| KPMG | Title Partner · Break the Case (event-level credit) | `public/events/break-the-case.webp` (registration deadline explicitly says October 2026) |
+| Unstop | Powered by · Break the Case | `public/events/break-the-case.webp` |
+| CREST | Semiconductor Workshop collaborator; text fallback (no distinct clean logo verified on https://crest.bits-pilani.ac.in/) | https://www.instagram.com/atmos_bitshyd/p/Dedh3RhE_xH/ |
+
+Student organising clubs, their project teams (including JANUS) and speakers' employers are not treated as sponsors. CREST is included as the explicitly announced Semiconductor Workshop collaborator. No credits were carried over from 2024/2025 posts.
+
 ## Other rasters
 - `public/og.jpg`, `public/favicon.png`, `public/apple-touch-icon.png`: made in PIL from the official artwork (+ Stardos Stencil / Archivo for the share card).
 - `public/gallery/*`: past-edition photos supplied by the team. `ad_astra.jpg` and `dota_events.jpg` were re-encoded once (Pillow, JPEG q82, progressive, same pixel size, EXIF/XMP/ICC and origin comment kept) because they shipped at 1.5 MB and 505 KB.

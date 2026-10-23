@@ -33,24 +33,25 @@ export default function Sponsors() {
           {SPONSOR_TIERS.map((t) => (
             <div key={t.tier}>
               <h2 className="display text-[clamp(1.5rem,2vw,1.9rem)] text-stone">{t.tier}</h2>
-              <ul className={`mt-6 grid gap-3 ${t.slots === 1 ? '' : t.slots <= 3 ? 'sm:grid-cols-3' : 'grid-cols-2 sm:grid-cols-4'}`}>
-                {Array.from({ length: t.slots }).map((_, i) => {
-                  const s = t.sponsors[i];
-                  return (
-                    <li
-                      key={i}
-                      className={`flex items-center justify-center border border-dashed border-stone/20 ${t.slots === 1 ? 'h-44' : 'h-32'}`}
-                    >
-                      {s ? (
-                        <a href={s.href} target="_blank" rel="noreferrer">
-                          <img src={s.logo} alt={s.name} className="max-h-16" />
-                        </a>
-                      ) : (
-                        <span className="text-stone-mute">Open slot</span>
-                      )}
-                    </li>
-                  );
-                })}
+              <ul className={`mt-6 grid gap-3 ${t.slots === 1 ? '' : t.slots <= 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-2 lg:grid-cols-4'}`}>
+                {t.sponsors.map((s) => (
+                  <li
+                    key={s.name}
+                    className={`min-w-0 border border-dashed border-stone/20 ${t.slots === 1 ? 'min-h-44' : 'min-h-48'}`}
+                  >
+                    <a href={s.href} target="_blank" rel="noreferrer" className="flex h-full min-w-0 flex-col items-center justify-center gap-3 p-6 text-center">
+                      <div className="flex h-16 w-full min-w-0 items-center justify-center">
+                        {s.logo ? (
+                          <img src={s.logo} alt={s.name} loading="lazy" className="max-h-16 max-w-full object-contain" />
+                        ) : (
+                          <span className="display max-w-full break-words text-[clamp(1.5rem,2vw,1.9rem)] text-stone">{s.name}</span>
+                        )}
+                      </div>
+                      {s.logo && <p className="break-words font-semibold text-stone">{s.name}</p>}
+                      {s.role && <p className="max-w-full break-words text-sm text-stone-dim">{s.role}</p>}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
           ))}
