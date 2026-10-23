@@ -408,6 +408,14 @@ const LIST: FestEvent[] = [
     about: 'A laser and lights night by Lights and Sounds BPHC.',
   },
   {
+    id: 'amit-mishra', title: 'Amit Mishra live', category: 'experiences', prize: null, fee: 'TBA', note: 'Pro show', when: 'Sat 24 Oct',
+    about: 'A live music night with Amit Mishra at ATMOS ’26.',
+  },
+  {
+    id: 'dual-vibez', title: 'DUAL VIBEZ', category: 'experiences', prize: null, fee: 'TBA', note: 'DJ night', when: 'Sat 24 Oct',
+    about: 'A DJ night with DUAL VIBEZ at ATMOS ’26.',
+  },
+  {
     id: 'alumni-talks', title: 'Alumni Talks', category: 'experiences', prize: null, fee: 'TBA', clubs: ['sarc'], image: '/events/alumni-talks.webp', when: 'Fri 23 Oct, 15:00 (online), time TBA (on campus) · Sat 24 Oct, 11:00 (online) · Sun 25 Oct, 16:00 (on campus)', venue: 'Online and on campus',
     about: 'Aryan Trivedi, Pavan Pochu, Dr. Nilay Yajnik and Joyneel A on building startups, scaling and acquisitions, with online and offline sessions.',
   },
