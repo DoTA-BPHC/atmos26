@@ -1,12 +1,18 @@
-import { useMemo } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { cardSrcSet, posterFallback } from '../data/eventEdits';
 import { CATEGORIES, CLUBS, formatPrize, type FestEvent as Event } from '../data/events';
-import { dayKey, startsAt, timeLabel } from '../data/eventTime';
+import { endsAt, isLive, nextOccurrence, startsAt, timeLabel } from '../data/eventTime';
 
 const EXPO = [0.16, 1, 0.3, 1] as const;
+const DAY_MS = 24 * 60 * 60 * 1000;
+const IST_OFFSET_MS = (5 * 60 + 30) * 60 * 1000;
+
+function dateKey(ms: number): string {
+  return new Date(ms + IST_OFFSET_MS).toISOString().slice(0, 10);
+}
 
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const MONTH_NAMES = [
@@ -65,34 +71,58 @@ function TimelinePosterFallback({ title, category }: { title: string; category: 
 interface DayGroup {
   key: string;
   heading: string;
-  events: Event[];
+  events: { event: Event; start: number | null; time: string | null }[];
 }
 
 export default function EventTimeline({ events }: { events: Event[] }) {
   const still = useReducedMotion();
+  const [now, setNow] = useState(Date.now);
+  const [showEarlier, setShowEarlier] = useState(false);
+  const earlierId = useId();
+
+  useEffect(() => {
+    const interval = window.setInterval(() => setNow(Date.now()), 60_000);
+    return () => window.clearInterval(interval);
+  }, []);
 
   const groups = useMemo(() => {
-    const map = new Map<string, Event[]>();
+    const map = new Map<string, DayGroup['events']>();
+    const live: DayGroup['events'] = [];
+    const earlier: DayGroup['events'] = [];
+    const today = dateKey(now);
+    const tomorrow = dateKey(now + DAY_MS);
+
     for (const event of events) {
-      const key = dayKey(event.when) ?? 'tba';
+      const end = endsAt(event.when);
+      const item = { event, start: startsAt(event.when), time: timeLabel(event.when) };
+      if (end !== null && end <= now) {
+        earlier.push(item);
+        continue;
+      }
+      if (isLive(event.when, now)) {
+        live.push(item);
+        continue;
+      }
+
+      const next = nextOccurrence(event.when, now);
+      const key = next ? dateKey(Math.max(next.start, now)) : 'tba';
+      const upcoming = next ? { event, start: next.start, time: timeLabel(next.when) } : item;
       const list = map.get(key);
       if (list) {
-        list.push(event);
+        list.push(upcoming);
       } else {
-        map.set(key, [event]);
+        map.set(key, [upcoming]);
       }
     }
 
-    // all-day and multi-day events (no time of day) go after the timed ones
-    const byStartsAtThenTitle = (a: Event, b: Event) => {
-      const allDay = Number(!timeLabel(a.when)) - Number(!timeLabel(b.when));
+    const byStartThenTitle = (a: DayGroup['events'][number], b: DayGroup['events'][number]) =>
+      (a.start ?? Infinity) - (b.start ?? Infinity) || a.event.title.localeCompare(b.event.title);
+
+    // All-day events go after timed sessions within each upcoming day.
+    const byStartsAtThenTitle = (a: DayGroup['events'][number], b: DayGroup['events'][number]) => {
+      const allDay = Number(!a.time) - Number(!b.time);
       if (allDay) return allDay;
-      const ta = startsAt(a.when);
-      const tb = startsAt(b.when);
-      if (ta === null && tb === null) return a.title.localeCompare(b.title);
-      if (ta === null) return 1;
-      if (tb === null) return -1;
-      return ta - tb || a.title.localeCompare(b.title);
+      return byStartThenTitle(a, b);
     };
 
     const dateKeys = Array.from(map.keys())
@@ -101,11 +131,15 @@ export default function EventTimeline({ events }: { events: Event[] }) {
 
     const result: DayGroup[] = [];
 
+    if (live.length) {
+      result.push({ key: 'live', heading: 'Happening now', events: live.sort(byStartThenTitle) });
+    }
+
     for (const key of dateKeys) {
       const items = map.get(key)!;
       result.push({
         key,
-        heading: formatDayHeading(key),
+        heading: `${key === today ? 'Today · ' : key === tomorrow ? 'Tomorrow · ' : ''}${formatDayHeading(key)}`,
         events: [...items].sort(byStartsAtThenTitle),
       });
     }
@@ -119,23 +153,49 @@ export default function EventTimeline({ events }: { events: Event[] }) {
       });
     }
 
+    if (earlier.length) {
+      result.push({
+        key: 'earlier',
+        heading: `Earlier events (${earlier.length})`,
+        events: earlier.sort((a, b) =>
+          (endsAt(b.event.when) ?? 0) - (endsAt(a.event.when) ?? 0) || byStartThenTitle(b, a),
+        ),
+      });
+    }
+
     return result;
-  }, [events]);
+  }, [events, now]);
 
   return (
     <div className="mt-6 w-full space-y-10" aria-label="Timeline of events">
       {groups.map((group) => (
         <section key={group.key} aria-label={group.heading} className="w-full">
           <div className="mb-4">
-            <h3 className="display text-[clamp(1.5rem,2.4vw,2.2rem)] text-stone">
-              {group.heading} <span className="text-stone-mute">{group.events.length}</span>
-            </h3>
+            {group.key === 'earlier' ? (
+              <button
+                type="button"
+                aria-expanded={showEarlier}
+                aria-controls={earlierId}
+                onClick={() => setShowEarlier((shown) => !shown)}
+                className="min-h-11 text-sm text-stone-mute underline decoration-stone/25 underline-offset-4 transition-colors duration-500 ease-out-expo hover:text-stone motion-reduce:transition-none"
+              >
+                {group.heading}
+              </button>
+            ) : (
+              <h3 className="display text-[clamp(1.5rem,2.4vw,2.2rem)] text-stone">
+                {group.heading} <span className="text-stone-mute">{group.events.length}</span>
+              </h3>
+            )}
           </div>
 
-          <ol className="relative flex flex-col">
-            {group.events.map((e, idx) => {
+          <ol
+            id={group.key === 'earlier' ? earlierId : undefined}
+            className={group.key === 'earlier' && !showEarlier ? 'hidden' : 'relative flex flex-col'}
+          >
+            {group.events.map(({ event: e, time: sessionTime }, idx) => {
               const isTba = group.key === 'tba';
-              const time = isTba ? 'TBA' : (timeLabel(e.when) ?? 'All day');
+              const live = group.key === 'live';
+              const time = live ? 'Now' : isTba ? 'TBA' : (sessionTime ?? 'All day');
               const multi = isMultiDay(e.when);
               const categoryLabel = CATEGORIES.find((c) => c.id === e.category)?.label ?? e.category;
               const fallback = <TimelinePosterFallback title={e.title} category={categoryLabel} />;
@@ -145,12 +205,12 @@ export default function EventTimeline({ events }: { events: Event[] }) {
                   key={e.id}
                   className="relative flex items-stretch"
                   initial={still ? { opacity: 0 } : { opacity: 0, y: 16, filter: 'blur(6px)' }}
-                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  animate={{ opacity: group.key === 'earlier' ? 0.6 : 1, y: 0, filter: 'blur(0px)' }}
                   transition={{ duration: 0.6, ease: EXPO, delay: Math.min(idx, 8) * 0.03 }}
                 >
                   {/* Time label column on the left */}
                   <div className="w-[56px] shrink-0 pr-2.5 pt-3.5 text-right sm:w-28 sm:pr-4">
-                    <span className="block break-words text-[0.72rem] font-medium leading-tight text-stone-dim sm:text-[0.85rem]">
+                    <span className={`block break-words text-[0.72rem] font-medium leading-tight sm:text-[0.85rem] ${live ? 'text-brass-hi' : 'text-stone-dim'}`}>
                       {time}
                     </span>
                   </div>
@@ -208,8 +268,13 @@ export default function EventTimeline({ events }: { events: Event[] }) {
                       {/* Details */}
                       <div className="min-w-0 flex-1">
                         <div className="flex items-start justify-between gap-2">
-                          <h4 className="display break-words text-[clamp(1.15rem,1.5vw,1.4rem)] leading-tight text-stone transition-colors duration-500 ease-out-expo group-hover:text-brass-hi">
+                          <h4 className="display min-w-0 break-words text-[clamp(1.15rem,1.5vw,1.4rem)] leading-tight text-stone transition-colors duration-500 ease-out-expo group-hover:text-brass-hi">
                             {e.title}
+                            {live && (
+                              <span className="ml-2 inline-block rounded-full border border-brass px-1.5 py-0.5 align-middle font-sans text-[0.6rem] font-medium uppercase leading-none text-brass-hi">
+                                Live
+                              </span>
+                            )}
                           </h4>
                           <ArrowUpRight
                             className="size-4 shrink-0 text-stone-mute transition-[color,transform] duration-500 ease-out-expo group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brass-hi"

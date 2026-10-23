@@ -1,4 +1,5 @@
 const IST_OFFSET_MS = (5 * 60 + 30) * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
 
 const MONTHS: Record<string, number> = {
   jan: 0,
@@ -93,6 +94,72 @@ export function startsAt(when: string | null | undefined): number | null {
   }
 
   return Date.UTC(2026, month, day, hour, minute) - IST_OFFSET_MS;
+}
+
+interface EventOccurrence {
+  start: number;
+  end: number;
+  when: string;
+}
+
+/** Separate sessions and daily ranges share the same IST windows throughout the timeline. */
+function occurrences(when: string | null | undefined): EventOccurrence[] {
+  if (!when || startsAt(when) === null) return [];
+
+  return when.split('·').flatMap((session) => {
+    const start = startsAt(session);
+    if (start === null) return [];
+
+    const date = new Date(start + IST_OFFSET_MS);
+    const firstDay = date.getUTCDate();
+    const mentionedDays = Array.from(
+      session.matchAll(/\b(\d{1,2})(?:st|nd|rd|th)?\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b/gi),
+      (match) => Number(match[1]),
+    ).filter((day) => day >= 1 && day <= 31);
+    const lastDay = Math.max(firstDay, ...mentionedDays);
+    const firstMidnight = Date.UTC(2026, date.getUTCMonth(), firstDay) - IST_OFFSET_MS;
+    const lastMidnight = firstMidnight + (lastDay - firstDay) * DAY_MS;
+    const rangeEnd = timeLabel(session)?.split('–')[1];
+    const hasTime = /\b(?:[01]?\d|2[0-3]):[0-5]\d\b|\b(?:[1-9]|1[0-2])\s*(?:am|pm)\b/i.test(session);
+    let end: number;
+
+    if (rangeEnd) {
+      const [hour, minute] = rangeEnd.split(':').map(Number);
+      end = lastMidnight + (hour * 60 + minute) * 60 * 1000;
+    } else {
+      end = hasTime
+        ? start + (lastDay - firstDay) * DAY_MS + 2 * 60 * 60 * 1000
+        : lastMidnight + DAY_MS - 1000;
+    }
+
+    if (rangeEnd && lastDay > firstDay) {
+      return Array.from({ length: lastDay - firstDay + 1 }, (_, index) => ({
+        start: start + index * DAY_MS,
+        end: end - (lastDay - firstDay - index) * DAY_MS,
+        when: session,
+      }));
+    }
+
+    return [{ start, end, when: session }];
+  });
+}
+
+/** Returns the final end in epoch ms (IST, 2026), or null for TBA. */
+export function endsAt(when: string | null | undefined): number | null {
+  const sessions = occurrences(when);
+  return sessions.length ? Math.max(...sessions.map((session) => session.end)) : null;
+}
+
+/** Daily ranges and separate sessions are live only during their own hours. */
+export function isLive(when: string | null | undefined, now: number): boolean {
+  return occurrences(when).some((session) => session.start <= now && now < session.end);
+}
+
+/** The next unfinished session supplies both the day and its own time label. */
+export function nextOccurrence(when: string | null | undefined, now: number): EventOccurrence | null {
+  return occurrences(when)
+    .filter((session) => session.end > now)
+    .sort((a, b) => a.start - b.start)[0] ?? null;
 }
 
 /**
