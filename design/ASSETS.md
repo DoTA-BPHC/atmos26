@@ -50,6 +50,11 @@ Shaft-top stills `top.webp` (1280x800, from a 1600x1000 capture) and `top-portra
 - `digital-design.webp`: https://www.instagram.com/ieee.bphc/p/Devk3PNJyNM/ — retained top 85%; bottom contact details removed.
 - `period-pain-simulator.webp`: https://www.instagram.com/synapsis_bitshyd/p/DeuHeHXzilx/ — full poster; no contacts.
 - `nishant-suri.webp`: https://www.instagram.com/atmos_bitshyd/p/De0jOgIJa97/ — supplied WebP from `.ai/ref/ig-new/ig-De0jOgIJa97.jpg`; full poster; no contacts.
+- Converted with Sharp (RGB, Lanczos, WebP quality 80): the posters below, using the existing RGB/Lanczos/WebP quality 80 approach above, at most 900 px wide without upscaling and below 300 KB, after the specified crops. No phone numbers, emails or personal names may remain in the output or its metadata.
+- `catch-the-fraudster.webp`: `.ai/ref/wa-posters/03.jpg`, BPHC Freshers 2026 WhatsApp group, message 04:14, 23 Oct 2026 — new Synchrony workshop poster; retain top 88% to exclude the bottom contact strip (time and venue remain in event data).
+- `vibe-coding.webp`: `.ai/ref/wa-posters/27.jpg`, BPHC Freshers 2026 WhatsApp group, message 14:35, 21 Oct 2026 — new DoTA competition poster; retain top 77% to exclude the bottom information and contact blocks without cutting through their text (prize and fee remain in event data).
+- `pay-and-play.webp`: `.ai/ref/ig-carousel/DetiFl6ksJg_4.jpg`, https://www.instagram.com/esportsclub_bphc/p/DetiFl6ksJg/, posted 20 Oct 2026 — previously unillustrated event; full poster, no contacts or personal names.
+- `alumni-talks.webp`: `.ai/ref/wa-posters/35.jpg`, BPHC Freshers 2026 WhatsApp group, message 00:27, 23 Oct 2026 — representative Inside PennyWise session artwork for the existing SARC series; retain top 60% to exclude all personal names and contacts (session schedules remain in event data).
 - Generated stand-ins were made once (Z-Image-Turbo, `scripts/events/`) but never shipped; the site no longer falls back to them.
 - `public/events/card/*.webp`: the events grid's card pictures, cut from each poster by `python scripts/event_cards.py` (Pillow): the same 4:3 top-anchored crop the card's CSS shows, at 900 × 675 and 600 × 450 (`-600`), WebP quality 80. The script lists the posters that have cards in `src/data/eventCards.json`; a poster without cards still shows at full size. Run it after adding a poster.
 

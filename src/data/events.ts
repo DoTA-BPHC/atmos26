@@ -260,8 +260,16 @@ const LIST: FestEvent[] = [
     id: 'midnight-av', title: 'Midnight AV', category: 'competitions', prize: null, fee: 'TBA', note: 'Winners get coupons worth up to ₹2,000', clubs: ['quiz-club'], when: 'Fri 23 Oct, 00:30 (or after inauguration)', venue: 'F105',
     about: 'A quiz built entirely on audio and video clips.',
   },
+  {
+    id: 'vibe-coding', title: 'Vibe Coding Landing Page Design Competition', category: 'competitions', prize: 10000, fee: '₹150 per person', team: '1–2', note: 'By DoTA · BITSians only · Both members register individually', image: '/events/vibe-coding.webp', when: 'Sun 25 Oct, 13:00 – Mon 26 Oct, 13:00', venue: 'Online',
+    about: 'Build an engaging, responsive landing page in 24 hours, individually or with a partner.',
+  },
 
   // workshops
+  {
+    id: 'catch-the-fraudster', title: 'Catch the Fraudster: AI vs Financial Fraud', category: 'workshops', prize: null, fee: 'Free', note: 'Presented by Synchrony · Limited seats, first come, first served', image: '/events/catch-the-fraudster.webp', when: 'Fri 23 Oct, 13:30', venue: 'G103',
+    about: 'Learn how AI detects and prevents financial fraud. Students registered for the Synchrony Analytics Hackathon cannot participate in this workshop.',
+  },
   {
     id: 'prompt-lab', title: 'Beyond the Prompt', category: 'workshops', prize: 10000, fee: '₹749', note: 'Prompt Lab: AI workshop and hackathon', clubs: ['ace'], image: '/events/prompt-lab.webp', when: 'Sun 25 Oct, 10:00', venue: 'G101',
     about: 'Building trustworthy AI agents: test AI on real engineering problems and learn to catch its errors and verify results.',
@@ -279,7 +287,7 @@ const LIST: FestEvent[] = [
     about: 'Day one: meet TI professionals and get introduced to the MSPM0. Day two: shortlisted students solve a problem statement with it, hands-on.',
   },
   {
-    id: 'model-rocketry', title: 'Model Rocketry Workshop', category: 'workshops', prize: null, fee: '₹1499', clubs: ['seds'], image: '/events/model-rocketry.webp', when: 'Fri 23 – Sun 25 Oct, 15:00–18:00',
+    id: 'model-rocketry', title: 'Model Rocketry Workshop', category: 'workshops', prize: null, fee: '₹1499', clubs: ['seds'], image: '/events/model-rocketry.webp', when: 'Fri 23 – Sun 25 Oct, 15:00–18:00', venue: 'F103 and F104',
     about: 'Learn the ins and outs of rocketry and build your own model rocket, with motors and DAQ systems.',
   },
   {
@@ -357,7 +365,7 @@ const LIST: FestEvent[] = [
     about: 'A 4D race car simulator built from scratch by ARC and SAE engineers, with VR and haptic feedback you feel through every drift and crash.',
   },
   {
-    id: 'rage-room', title: 'Rage Room', category: 'experiences', prize: null, fee: '₹250', clubs: ['cea'], image: '/events/rage-room.webp', when: 'Fri 23 – Sun 25 Oct', venue: 'D123',
+    id: 'rage-room', title: 'Rage Room', category: 'experiences', prize: null, fee: '₹250', team: '1', clubs: ['cea'], image: '/events/rage-room.webp', when: 'Fri 23 – Sun 25 Oct', venue: 'D123',
     about: 'Smash concrete and construction materials with real tools, safely and under supervision.',
   },
   {
@@ -380,7 +388,7 @@ const LIST: FestEvent[] = [
     about: 'Make your own pixel art, whether you are a seasoned artist or have never touched a pixel.',
   },
   {
-    id: 'pay-and-play', title: 'Pay and Play', category: 'experiences', prize: null, fee: 'TBA', note: 'Gaming room', clubs: ['esports'], when: 'Fri 23 – Sun 25 Oct',
+    id: 'pay-and-play', title: 'Pay and Play', category: 'experiences', prize: null, fee: 'TBA', note: 'Gaming room', clubs: ['esports'], image: '/events/pay-and-play.webp', when: 'Fri 23 – Sun 25 Oct', venue: 'F108 and F109',
     about: 'Your ultimate gaming room: pick up a controller or get on the sim rig and game away.',
   },
   {
@@ -400,7 +408,15 @@ const LIST: FestEvent[] = [
     about: 'A laser and lights night by Lights and Sounds BPHC.',
   },
   {
-    id: 'alumni-talks', title: 'Alumni Talks', category: 'experiences', prize: null, fee: 'TBA', clubs: ['sarc'], when: 'Fri 23 – Sun 25 Oct', venue: 'Online and on campus',
+    id: 'amit-mishra', title: 'Amit Mishra live', category: 'experiences', prize: null, fee: 'TBA', note: 'Pro show', when: 'Sat 24 Oct',
+    about: 'A live music night with Amit Mishra at ATMOS ’26.',
+  },
+  {
+    id: 'dual-vibez', title: 'DUAL VIBEZ', category: 'experiences', prize: null, fee: 'TBA', note: 'DJ night', when: 'Sat 24 Oct',
+    about: 'A DJ night with DUAL VIBEZ at ATMOS ’26.',
+  },
+  {
+    id: 'alumni-talks', title: 'Alumni Talks', category: 'experiences', prize: null, fee: 'TBA', clubs: ['sarc'], image: '/events/alumni-talks.webp', when: 'Fri 23 Oct, 15:00 (online), time TBA (on campus) · Sat 24 Oct, 11:00 (online) · Sun 25 Oct, 16:00 (on campus)', venue: 'Online and on campus',
     about: 'Aryan Trivedi, Pavan Pochu, Dr. Nilay Yajnik and Joyneel A on building startups, scaling and acquisitions, with online and offline sessions.',
   },
 ];
