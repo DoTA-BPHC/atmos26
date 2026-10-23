@@ -94,3 +94,46 @@ export function startsAt(when: string | null | undefined): number | null {
 
   return Date.UTC(2026, month, day, hour, minute) - IST_OFFSET_MS;
 }
+
+/**
+ * Returns the IST date `YYYY-MM-DD` of `startsAt(when)`, or null for TBA.
+ */
+export function dayKey(when: string | null | undefined): string | null {
+  const ms = startsAt(when);
+  if (ms === null) return null;
+  const ist = new Date(ms + IST_OFFSET_MS);
+  const y = ist.getUTCFullYear();
+  const m = String(ist.getUTCMonth() + 1).padStart(2, '0');
+  const d = String(ist.getUTCDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+/**
+ * Returns the first `HH:MM` or `HH:MM–HH:MM` range found in the string, else null.
+ */
+export function timeLabel(when: string | null | undefined): string | null {
+  if (!when || typeof when !== 'string') return null;
+  const clean = when.trim();
+  if (!clean || clean.toUpperCase() === 'TBA') return null;
+
+  // 1. Time range: e.g. "15:00–18:00", "15:00-18:00", "09:00–12:00"
+  const rangeMatch = clean.match(/\b([01]?\d|2[0-3]):([0-5]\d)\s*[-–—]\s*([01]?\d|2[0-3]):([0-5]\d)\b/);
+  if (rangeMatch) {
+    const h1 = rangeMatch[1].padStart(2, '0');
+    const m1 = rangeMatch[2];
+    const h2 = rangeMatch[3].padStart(2, '0');
+    const m2 = rangeMatch[4];
+    return `${h1}:${m1}–${h2}:${m2}`;
+  }
+
+  // 2. Single time: e.g. "13:00", "00:30"
+  const singleMatch = clean.match(/\b([01]?\d|2[0-3]):([0-5]\d)\b/);
+  if (singleMatch) {
+    const h = singleMatch[1].padStart(2, '0');
+    const m = singleMatch[2];
+    return `${h}:${m}`;
+  }
+
+  return null;
+}
+

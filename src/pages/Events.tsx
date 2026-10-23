@@ -5,6 +5,7 @@ import { ArrowUpRight, Search } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { PassesButton } from '../components/PassesButton';
 import PosterPlaceholder from '../components/PosterPlaceholder';
+import EventTimeline from '../components/EventTimeline';
 import { cardSrcSet, posterFallback, useEvents } from '../data/eventEdits';
 import { CATEGORIES, CLUBS, feeValue, formatPrize, isCategory, type Category } from '../data/events';
 import { startsAt } from '../data/eventTime';
@@ -116,7 +117,7 @@ export default function Events() {
                   onChange={(ev) => update('s', ev.target.value, 'time')}
                   className="h-11 shrink-0 border border-stone/20 bg-void px-3 text-[0.95rem] text-stone focus:border-brass"
                 >
-                  <option value="time">Soonest first</option>
+                  <option value="time">Timeline</option>
                   <option value="prize">Biggest prize</option>
                   <option value="az">A–Z</option>
                   <option value="fee">Lowest entry</option>
@@ -146,6 +147,8 @@ export default function Events() {
                 Clear search
               </button>
             </div>
+          ) : sort === 'time' ? (
+            <EventTimeline key={`${active}-${sort}`} events={list} />
           ) : (
             // re-mounted per category and sort only: typing in the search must not replay every card
             <ul key={`${active}-${sort}`} className="mt-6 grid border-l border-t border-stone/12 sm:grid-cols-2 xl:grid-cols-3">
