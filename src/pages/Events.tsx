@@ -5,15 +5,13 @@ import { ArrowUpRight, Search } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { PassesButton } from '../components/PassesButton';
 import PosterPlaceholder from '../components/PosterPlaceholder';
-import EventTimeline from '../components/EventTimeline';
 import { cardSrcSet, posterFallback, useEvents } from '../data/eventEdits';
 import { CATEGORIES, CLUBS, feeValue, formatPrize, isCategory, type Category } from '../data/events';
-import { startsAt } from '../data/eventTime';
 
 const EXPO = [0.16, 1, 0.3, 1] as const;
 
-type Sort = 'time' | 'prize' | 'az' | 'fee';
-const isSort = (v: string | null): v is Sort => v === 'time' || v === 'prize' || v === 'az' || v === 'fee';
+type Sort = 'prize' | 'az' | 'fee';
+const isSort = (v: string | null): v is Sort => v === 'prize' || v === 'az' || v === 'fee';
 
 export default function Events() {
   const events = useEvents();
@@ -22,7 +20,7 @@ export default function Events() {
   const active: Category | 'all' = isCategory(raw) ? raw : 'all';
   const q = params.get('q') ?? '';
   const rawSort = params.get('s');
-  const sort: Sort = isSort(rawSort) ? rawSort : 'time';
+  const sort: Sort = isSort(rawSort) ? rawSort : 'prize';
   const blurb = CATEGORIES.find((c) => c.id === active)?.blurb;
   const still = useReducedMotion();
 
@@ -37,14 +35,6 @@ export default function Events() {
         (e.clubs?.some((slug) => CLUBS[slug].name.toLowerCase().includes(needle)) ?? false),
     );
     return [...found].sort((a, b) => {
-      if (sort === 'time') {
-        const ta = startsAt(a.when);
-        const tb = startsAt(b.when);
-        if (ta === null && tb === null) return byTitle(a, b);
-        if (ta === null) return 1;
-        if (tb === null) return -1;
-        return ta - tb || byTitle(a, b);
-      }
       if (sort === 'az') return byTitle(a, b);
       if (sort === 'prize') return (b.prize ?? -1) - (a.prize ?? -1) || byTitle(a, b);
       const fa = feeValue(a.fee);
@@ -114,10 +104,9 @@ export default function Events() {
                 <select
                   id="evt-sort"
                   value={sort}
-                  onChange={(ev) => update('s', ev.target.value, 'time')}
+                  onChange={(ev) => update('s', ev.target.value, 'prize')}
                   className="h-11 shrink-0 border border-stone/20 bg-void px-3 text-[0.95rem] text-stone focus:border-brass"
                 >
-                  <option value="time">Timeline</option>
                   <option value="prize">Biggest prize</option>
                   <option value="az">A–Z</option>
                   <option value="fee">Lowest entry</option>
@@ -147,8 +136,6 @@ export default function Events() {
                 Clear search
               </button>
             </div>
-          ) : sort === 'time' ? (
-            <EventTimeline key={`${active}-${sort}`} events={list} />
           ) : (
             // re-mounted per category and sort only: typing in the search must not replay every card
             <ul key={`${active}-${sort}`} className="mt-6 grid border-l border-t border-stone/12 sm:grid-cols-2 xl:grid-cols-3">
