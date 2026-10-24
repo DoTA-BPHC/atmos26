@@ -81,12 +81,15 @@ New logos were fetched with curl from the official sites below (including their 
 
 Texas Instruments uses a text fallback: curl to https://www.ti.com yielded no logo, and `/assets/images/ti-logo.svg`, `/assets/images/ti-logo.png`, `/assets/js/headerfooter/ti-logo.svg` and `/content/dam/ticom/images/icons/ti-logo.svg` returned 404. Signal1 also uses text: no matching official logo was verified; `signal1.ai` is a healthcare company and `signal1.in` identifies itself as Signal Studio, so neither was substituted for the financial research sponsor. Its sponsor link goes to the confirming event announcement.
 
+realme logo pending. The 24 October announcement in `.ai/ref/atmos-instagram-posts.json` confirms realme (realme 16 Pro 5G Harry Potter Edition) as Pronite Partner; the page uses the name in text until a logo is added.
+
 Sponsor credits are limited to the supplied 2026 announcements in `.ai/ref/atmos-instagram-posts.json`, the current posters and the task's team-confirmed Wall Street Mojo credit:
 
 | Sponsor | Confirmed credit | Announcement / poster |
 | --- | --- | --- |
 | Synchrony | Title Sponsor | https://www.instagram.com/atmos_bitshyd/p/De08JqiJBoh/ |
 | Coca-Cola | Proshow, Comedy Night and Exclusive Beverages Partner (page uses the requested shorter wording) | https://www.instagram.com/atmos_bitshyd/p/De09mZSFHcE/ |
+| realme | Pronite Partner | https://www.instagram.com/atmos_bitshyd/p/De2Tt0CTOEM/ |
 | Wonderla; White Heaven Entertainments | Partner (poster gives no more specific role) | `.ai/ref/ig-new/ig-De0jOgIJa97.jpg`; https://www.instagram.com/atmos_bitshyd/p/De0jOgIJa97/ |
 | IBM | QuantumVerse | https://www.instagram.com/ieee.bphc/p/DevlO3spva3/; `public/events/quantum-computing.webp` |
 | Catalyst by Zoho | Powered by · Hacksphere 3.0 | https://www.instagram.com/csa.bitshyd/p/DewBFRjRuz5/ |
