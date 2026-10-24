@@ -7,26 +7,27 @@ import { EVENTS } from '../data/events';
 // Kept alive for shared links; announced nights use the event catalogue's details.
 const NIGHTS = [
   ['nishant-suri', 'lumina'],
-  ['amit-mishra', 'dual-vibez'],
+  ['amit-mishra', 'mysore-xpress', 'dual-vibez'],
+  ['dulquer-salmaan'],
 ].map((ids) => ids.map((id) => EVENTS.find((event) => event.id === id)).filter((event) => event !== undefined));
 
 export default function Proshows() {
   return (
     <>
       <PageHeader floor="intelligence" title="Proshows">
-        The nights of ATMOS ’26. Follow{' '}
+        The line-up at ATMOS ’26. Follow{' '}
         <a href={CONTACT.instagramHref} target="_blank" rel="noreferrer" className="text-stone underline decoration-brass/60">
           {CONTACT.instagram}
         </a>{' '}
         for updates.
       </PageHeader>
 
-      <section className="px-4 pb-24 sm:px-8" aria-label="Line-up by night">
+      <section className="px-4 pb-24 sm:px-8" aria-label="Line-up by day">
         <div className="mx-auto max-w-[1440px] space-y-16">
           {NIGHTS.map((night) => (
             <div key={night[0]?.id}>
               <h2 className="display text-[clamp(2rem,3.6vw,3.4rem)] text-brass-hi">
-                {night[0]?.when?.split(',')[0].replace(/^Fri /, 'Friday ').replace(/^Sat /, 'Saturday ')}
+                {night[0]?.when?.split(',')[0].replace(/^Fri /, 'Friday ').replace(/^Sat /, 'Saturday ').replace(/^Sun /, 'Sunday ')}
               </h2>
               <ul className="mt-6 divide-y divide-stone/15 border-y border-stone/15">
                 {night.map((event) => (

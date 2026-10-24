@@ -1,6 +1,6 @@
 // The ATMOS '26 line-up, from the events on the Flemmingo registration page and
 // the DEPP club sheet (14 Oct), plus days, venues, posters and prize pools from the fest's and clubs' Instagram posts
-// (up to 23 Oct; a poster's prize beats the sheet's). Flemmingo's ticket prices are final; events it
+// (up to 24 Oct; a poster's prize beats the sheet's). Flemmingo's ticket prices are final; events it
 // doesn't list keep the sheet's outside-participant price. Where these disagree
 // with the printed brochure, they win: it was set from an older sheet. Days and team sizes stay "TBA" until the club
 // confirms them. Club names and taglines are from SU Connect; no contacts.
@@ -408,12 +408,20 @@ const LIST: FestEvent[] = [
     about: 'A laser and lights night by Lights and Sounds BPHC.',
   },
   {
-    id: 'amit-mishra', title: 'Amit Mishra live', category: 'experiences', prize: null, fee: 'TBA', note: 'Pro show', when: 'Sat 24 Oct',
+    id: 'amit-mishra', title: 'Amit Mishra live', category: 'experiences', prize: null, fee: 'TBA', note: 'Pro show', when: 'Sat 24 Oct', venue: 'Library Lawns',
     about: 'A live music night with Amit Mishra at ATMOS ’26.',
+  },
+  {
+    id: 'mysore-xpress', title: 'Mysore Xpress live', category: 'experiences', prize: null, fee: 'TBA', note: 'Pro show', when: 'Sat 24 Oct', venue: 'Library Lawns',
+    about: 'A live band night with Mysore Xpress at ATMOS ’26.',
   },
   {
     id: 'dual-vibez', title: 'DUAL VIBEZ', category: 'experiences', prize: null, fee: 'TBA', note: 'DJ night', when: 'Sat 24 Oct',
     about: 'A DJ night with DUAL VIBEZ at ATMOS ’26.',
+  },
+  {
+    id: 'dulquer-salmaan', title: 'Dulquer Salmaan at ATMOS', category: 'experiences', prize: null, fee: 'TBA', note: 'Celebrity session', when: 'Sun 25 Oct, 13:00', venue: 'Audi',
+    about: 'A session on stories and cinema with actor Dulquer Salmaan, ahead of his film Aakasamlo Oka Tara.',
   },
   {
     id: 'alumni-talks', title: 'Alumni Talks', category: 'experiences', prize: null, fee: 'TBA', clubs: ['sarc'], image: '/events/alumni-talks.webp', when: 'Fri 23 Oct, 15:00 (online), time TBA (on campus) · Sat 24 Oct, 11:00 (online) · Sun 25 Oct, 16:00 (on campus)', venue: 'Online and on campus',
